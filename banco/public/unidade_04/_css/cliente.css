@@ -1,0 +1,53 @@
+main div#listagem_cliente {
+    width:860px;
+    margin:0 auto;
+
+}
+
+#listagem_cliente input  {
+  margin-top: 10px;
+  background-color: gold;
+  border-radius: 8px;
+}
+
+main div#listagem_cliente ul {
+    float:left;
+    margin:5px 10px 5px;
+    padding:0;
+    width:400px;
+    height: 80px;
+  
+
+ 
+}
+
+main div#listagem_cliente li {
+    font-family: sans-serif;
+    font-size: 12px;
+    list-style: none;
+   
+   
+   
+}
+
+main div#listagem_cliente a {
+  text-decoration: none;
+  color: black;
+   
+   
+}
+
+
+main div#listagem_cliente li.imagem {
+    float:left;
+    margin-right: 10px;
+    
+}
+
+main div#listagem_cliente li h3 {
+    margin:0;   
+}
+
+main div#listagem_cliente li img {
+    border:1px solid #ddd;   
+}
