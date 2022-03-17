@@ -7,8 +7,7 @@ include("conexao/sessao.php");
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Curso PHP Integração com MySQL</title>
-        
+
         <!-- estilo -->
         <link href="_css/estilo.css" rel="stylesheet">
         <link href="_css/inicial.css" rel="stylesheet">

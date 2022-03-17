@@ -3,7 +3,7 @@ require_once("../conexao/conexao.php");
 
 include("../conexao/sessao.php");
 
-
+include '../_incluir/funcaojavascript.jar'; 
 
 include ("../_incluir/funcoes.php");
 
@@ -81,7 +81,25 @@ $select = "SELECT formapagamentoID, nome, statuspagamento from forma_pagamento";
 $lista_formapagamemto = mysqli_query($conecta,$select);
 if(!$lista_formapagamemto){
     die("Falaha no banco de dados || select formapagma");
+    
 }
+
+//consultar status do pedido
+$select = "SELECT statuspedidoID, nome from status_pedido";
+$lista_statuspedido = mysqli_query($conecta,$select);
+if(!$lista_statuspedido){
+    die("Falaha no banco de dados || select statuspedido");
+}
+
+//consultar status da compra
+$select = "SELECT statuscompraID, nome from status_compra";
+$lista_statuscompra = mysqli_query($conecta,$select);
+if(!$lista_statuscompra){
+    die("Falaha no banco de dados || select statuscompra");
+}
+
+
+
 //pegar o id do pedido de compra
 $consulta = "SELECT * FROM pedido_compra ";
 if (isset($_GET["codigo"])){
@@ -96,19 +114,32 @@ $detalhe = mysqli_query($conecta, $consulta);
 if(!$detalhe){
     die("Falha na consulta ao banco de dados");
 }else{
- /*
     $dados_detalhe = mysqli_fetch_assoc($detalhe);
-    $BpedidoID=  utf8_encode($dados_detalhe['produtoID']);
-    $Bnome_produdo =  utf8_encode($dados_detalhe["nomeproduto"]);
-    $Bpreco_venda = utf8_encode($dados_detalhe["precovenda"]);
-    $Bpreco_compra = utf8_encode($dados_detalhe["precocompra"]);
-    $Bestoque = utf8_encode($dados_detalhe["estoque"]);
-    $Bunidade_medida = $dados_detalhe["unidade_medida"];
-    $Bcategoria = utf8_encode($dados_detalhe["nome_categoria"]);
-    $Bativo = utf8_encode($dados_detalhe["nome_ativo"]);
+    $BpedidoID=  utf8_encode($dados_detalhe['pedidoID']);
+    $BnumeroOrcamento   =  utf8_encode($dados_detalhe["numero_orcamento"]);
+    $BnumeroPedidoCompra = utf8_encode($dados_detalhe["numero_pedido_compra"]);
+    $BnumeroNfe = utf8_encode($dados_detalhe["numero_nf"]);
+    $BformaPagamento = utf8_encode($dados_detalhe["forma_pagamento"]);
+    $Bcliente = utf8_encode($dados_detalhe["cliente"]);
+    $Bproduto =  utf8_encode($dados_detalhe["produto"]);
+    $BstatusCompra = utf8_encode($dados_detalhe["status_da_compra"]);
+    $BstatusPedido = utf8_encode($dados_detalhe["status_do_pedido"]);
+    $BprecoVenda = utf8_encode($dados_detalhe["valor_venda"]);
+    $BprecoCompra = utf8_encode($dados_detalhe["valor_compra"]);
+    $Bunidade = utf8_encode($dados_detalhe["unidade_medida"]);
+    $Bquantidade = utf8_encode($dados_detalhe["quantidade"]);
+    $Bmargem = utf8_encode($dados_detalhe["margem"]);
+    $Bdesconto = utf8_encode($dados_detalhe["desconto"]);
     $Bobservacao = utf8_encode($dados_detalhe["observacao"]);
-    */
-
+    $BentregaPrevista = utf8_encode($dados_detalhe["entrega_prevista"]);
+    $Bobservacao = utf8_encode($dados_detalhe["observacao"]);
+    $BentregaPrevista = utf8_encode($dados_detalhe["entrega_prevista"]);
+    $BdataPagamento = utf8_encode($dados_detalhe["data_pagamento"]);
+    $BdataCompra = utf8_encode($dados_detalhe["data_compra"]);
+    $BentregaRealizada = utf8_encode($dados_detalhe["entrega_realizada"]);
+    $BdataChegada = utf8_encode($dados_detalhe["data_chegada"]);
+    
+    
 }
 ?>
 
@@ -130,7 +161,7 @@ if(!$detalhe){
 <body>
 
     <main>
-    <form action="cadastro_pdcompra.php" method="post">
+        <form action="editar_pdcompra.php" method="post">
             <div id="titulo">
                 </p>Editar Pedido de Compra</p>
             </div>
@@ -142,33 +173,32 @@ if(!$detalhe){
                 <tr>
                     <td>Código:</td>
                     <td align=left><input readonly type="text" size="10" id="cammpoPedidoID" name="cammpoPedidoID"
-                            value=""> </td>
+                            value="<?php echo $BpedidoID ?>"> </td>
                 </tr>
 
                 <tr>
                     <td align=left><b>Nº Pedido:</b></td>
                     <td align=left><input type="text" size=20 name="campoNpdCompra"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($numeroPedidoCompra);}?>"
-                            td><b>Nº Orçamento:</b>
-                        <input type="text" size=20 id="campoOrcamento" name="campoOrcamento" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($numeroOrcamento);}?>">
+                            value="<?php echo $BnumeroPedidoCompra ?>" td>
+
+                        <b>Nº Orçamento:</b>
+                        <input type="text" size=20 id="campoOrcamento" name="campoOrcamento"
+                            value="<?php echo $BnumeroOrcamento?>">
+
 
                     <td><b>Nº NFE:</b></td>
                     <td><input type="text" size=20 id="campoNnfe" name="campoNnfe"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($numeroNfe);}?>"><b>Data
+                            value="<?php echo $BnumeroNfe?>"><b>Data
                             Pagamento:</b>
                         <input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento"
-                            value="<?php if(isset($_POST['enviar'])){ 
-                                echo ($dataPagamento);}?>"
-
-                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
-
+                            value="<?php echo formatardataB($BdataPagamento);?>" OnKeyUp="mascaraData(this);"
+                            maxlength="10" autocomplete="off">
 
                 </tr>
 
                 <tr>
                     <td align=left><b>Cliente:</b></td>
-                    <td align=left><input type="text" size=57 name="campoCliente"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($cliente);}?>"><i
+                    <td align=left><input type="text" size=57 name="campoCliente" value="<?php echo $Bcliente?>"><i
                             id="botaoPesquisar" class="fa-solid fa-magnifying-glass-plus"
                             onclick="abrepopupcliente();"></i></td>
 
@@ -176,13 +206,28 @@ if(!$detalhe){
                     <td><b>Forma do pagamento:</b></td>
                     <td><select id="campoFormaPagamento" name="campoFormaPagamento">
                             <?php 
+
+                             $meuFomraPagmaneto =  $BformaPagamento ;
                            while($linha_formapagamento = mysqli_fetch_assoc($lista_formapagamemto)){
-                        ?>
-                            <option value="<?php echo utf8_encode($linha_formapagamento["nome"]);?>">
+                               $formaPagamentoPrincipal = utf8_encode($linha_formapagamento["nome"]);
+
+                               if($meuFomraPagmaneto==$formaPagamentoPrincipal){
+                                   ?>
+
+                            <option value="<?php echo utf8_encode($linha_formapagamento["nome"]);?>" selected>
                                 <?php echo utf8_encode($linha_formapagamento["nome"]);?>
                             </option>
 
                             <?php
+                                   }else{
+                                       ?>
+                            <option value="<?php echo utf8_encode($linha_formapagamento["nome"]);?>">
+                                <?php echo utf8_encode($linha_formapagamento["nome"]);?>
+                            </option>
+                            <?php
+
+                                   }
+                                   
 
                          }
                          
@@ -196,8 +241,8 @@ if(!$detalhe){
                 <tr>
                     <td align=left><b>Produto:</b></td>
                     <td align=left><input type="text" size=57 name="campoProduto" id="campoProduto"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($produto);}?>"><i
-                            id="botaoPesquisar" class="fa-solid fa-magnifying-glass-plus"></i> </td>
+                            value="<?php echo $Bproduto?>"><i id="botaoPesquisar"
+                            class="fa-solid fa-magnifying-glass-plus"></i> </td>
 
                     <td>
                         <b>Status da compra:</b>
@@ -205,16 +250,38 @@ if(!$detalhe){
                     <td>
 
                         <select id="campoStatusCompra" name="campoStatusCompra">
-                            <option value="Selecione">Selecione</option>
-                            <option value="realizada">Realizada</option>
-                            <option value="naoRealizada">Não realizada</option>
-                            <option value="realizadaParcialmente">Realizada Parcialmente</option>
+                            <?php 
+
+                                $meuStatusCompra = $BstatusCompra;
+                                while($linha_statusCompra = mysqli_fetch_assoc($lista_statuscompra )){
+                                $statusCompraPrincipal = utf8_encode($linha_statusCompra["nome"]);
+
+                                if($meuStatusCompra == $statusCompraPrincipal){
+
+                        ?>
+                            <option value="<?php echo utf8_encode($linha_statusCompra["nome"]);?>" selected>
+                                <?php echo utf8_encode($linha_statusCompra["nome"]);?>
+                            </option>
+
+                            <?php
+
+                         }else{
+                             ?>
+                            <option value="<?php echo utf8_encode($linha_statusCompra["nome"]);?>">
+                                <?php echo utf8_encode($linha_statusCompra["nome"]);?>
+                            </option>
+                            <?php
+                         }
+                        }
+                         
+                         ?>
+
                         </select>
 
                         <b>Data Compra:</b>
                         <input type="text" size=20 id="campoDataCompra" name="campoDataCompra"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($dataCompra);}?>"
-                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
+                            value="<?php echo  formatardataB($BdataCompra)?>" OnKeyUp="mascaraData(this);"
+                            maxlength="10" autocomplete="off">
 
                     </td>
 
@@ -224,20 +291,20 @@ if(!$detalhe){
                 <tr>
                     <td align=left><b>Unidade:</b></td>
                     <td align=left><input type="text" size=18 name="CampoUnidade" id="CampoUnidade"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($unidade);}?>"><b>Quantidade:</b>
+                            value="<?php echo $Bunidade ?>"><b>Quantidade:</b>
                         <input type="text" size=19 name="CampoQuantidade" id="CampoQuantidade"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($quantidade);}?>">
+                            value="<?php echo $Bquantidade?>">
                     </td>
 
 
                     <td align=left><b>Data chegada:</b></td>
                     <td align=left><input type="text" size=20 name="CampoDataChegada" id="CampoDataChegada"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($dataChegada);}?>"
-                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off"><b>Entrega Prevista:</b>
+                            value="<?php echo formatardataB($BdataChegada)?>" OnKeyUp="mascaraData(this);"
+                            maxlength="10" autocomplete="off"><b>Entrega Prevista:</b>
 
                         <input type="text" size=20 id="CampoEntregaPrevista" name="CampoEntregaPrevista"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($entregaPrevista);}?>"
-                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
+                            value="<?php echo formatardataB($BentregaPrevista)?>" OnKeyUp="mascaraData(this);"
+                            maxlength="10" autocomplete="off">
                     </td>
 
 
@@ -247,25 +314,45 @@ if(!$detalhe){
                 <tr>
                     <td align=left><b>Preço Venda:</b></td>
                     <td align=left><input type="text" size=18 name="campoPrecoVenda" id="campoPrecoVenda"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($precoVenda);}?>"><b>Preço
+                            value="<?php echo $BprecoVenda?>"><b>Preço
                             Compra:</b>
-                        <input type="text" size=16 id="campoPrecoCompra" name="campoPrecoCompra" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($precoCompra);}?>">
+                        <input type="text" size=16 id="campoPrecoCompra" name="campoPrecoCompra"
+                            value="<?php echo $BprecoCompra ?>">
                     </td>
 
 
                     <td><b>Status do pedido:</b></td>
                     <td>
-
                         <select id="campoStatusPedido" name="campoStatusPedido">
-                            <option value="Não definido">Não definido</option>
-                            <option value="Entrega antes do prazo">Entrega antes do prazo</option>
-                            <option value="Entrega no prazo">Entrega no prazo</option>
-                            <option value="Entrega fora do prazo">Entrega fora do prazo</option>
+                            <?php 
+                            $meuStatusPedido = $BstatusPedido;
+                           while($linha_statusPedido= mysqli_fetch_assoc($lista_statuspedido)){
+                               $statusPrinciapl = utf8_encode($linha_statusPedido["nome"]);
+
+                               if($meuStatusPedido== $statusPrinciapl){
+
+                        ?>
+                            <option value="<?php echo utf8_encode($linha_statusPedido["nome"]);?>" selected>
+                                <?php echo utf8_encode($linha_statusPedido["nome"]);?>
+                            </option>
+
+                            <?php
+                               }else{
+                                   ?>
+                            <option value="<?php echo utf8_encode($linha_statusPedido["nome"]);?>" selected>
+                                <?php echo utf8_encode($linha_statusPedido["nome"]);?>
+                            </option>
+                            <?php
+                         }
+                        }
+                         ?>
+
                         </select>
 
                         <b>Entrega Realizada:</b>
-                        <input type="text" size=20 id="CampoEntregaRealizada" name="CampoEntregaRealizada" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($entregaRealizada);}?>"
-                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
+                        <input type="text" size=20 id="CampoEntregaRealizada" name="CampoEntregaRealizada"
+                            value="<?php echo  formatardataB($BentregaRealizada)?>" OnKeyUp="mascaraData(this);"
+                            maxlength="10" autocomplete="off">
 
                     </td>
 
@@ -275,8 +362,9 @@ if(!$detalhe){
 
                     <td align=left><b>Margem:</b></td>
                     <td align=left><input type="text" size=18 name="campoMargem" id="campoMargem"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($margem);}?>"><b>Desconto:</b>
-                        <input type="text" size=16 id="campoDesconto" name="campoDesconto" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($desconto);}?>">
+                            value="<?php echo $Bmargem?>"><b>Desconto:</b>
+                        <input type="text" size=16 id="campoDesconto" name="campoDesconto"
+                            value="<?php echo $Bdesconto?>">
                     </td>
 
                 </tr>
@@ -284,14 +372,14 @@ if(!$detalhe){
 
                 <tr>
                     <td align=left><b>Observação:<b></td>
-                    <td><textarea rows=4 cols=60 name="observacao" id="observacao"><?php if(isset($_POST['enviar'])){ echo utf8_encode($observacao);}?></textarea>
+                    <td><textarea rows=4 cols=60 name="observacao" id="observacao"><?php echo $Bobservacao?></textarea>
 
 
                     </td>
                 </tr>
 
 
-            
+
 
 
                 <table width=100%>

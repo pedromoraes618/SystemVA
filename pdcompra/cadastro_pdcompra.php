@@ -5,20 +5,33 @@ include("../conexao/sessao.php");
 
 include ("../_incluir/funcoes.php");
 
-//variaveis
+//variaveis texto obrigatorio e sucesso!
 $campo_obrigatorio_RazacaoS ="Número do pedido não informado";
 $msgcadastrado = "Pedido de compra lançado com sucesso!";
 
 
 
-//consultar categoria do produto
+//consultar forma de pagamento
 $select = "SELECT formapagamentoID, nome, statuspagamento from forma_pagamento";
 $lista_formapagamemto = mysqli_query($conecta,$select);
 if(!$lista_formapagamemto){
     die("Falaha no banco de dados || select formapagma");
 }
 
-//consultar Situação ativo
+
+//consultar status do pedido
+$select = "SELECT statuspedidoID, nome from status_pedido";
+$lista_statuspedido = mysqli_query($conecta,$select);
+if(!$lista_statuspedido){
+    die("Falaha no banco de dados || select statuspedido");
+}
+
+//consultar status da compra
+$select = "SELECT statuscompraID, nome from status_compra";
+$lista_statuscompra = mysqli_query($conecta,$select);
+if(!$lista_statuscompra){
+    die("Falaha no banco de dados || select statuscompra");
+}
 
 
 //variaveis 
@@ -47,8 +60,7 @@ if(isset($_POST["enviar"])){
     $entregaRealizada = utf8_decode($_POST["CampoEntregaRealizada"]);
     $dataChegada = utf8_decode($_POST["CampoDataChegada"]);
     
-    //formatar a data para o banco de dados(Y-m-d)
- 
+//formatar a data para o banco de dados(Y-m-d)
   if(isset($_POST['enviar']))
   {
       if($formaPagamento=="Selecione"){
@@ -76,7 +88,7 @@ if(isset($_POST["enviar"])){
              ?>
 <?php
 
-     
+//condição obrigatorio 
     if(!$numeroPedidoCompra == ""){
 
         if($entregaPrevista==""){
@@ -259,12 +271,20 @@ if(isset($_POST["enviar"])){
                         <b>Status da compra:</b>
                     </td>
                     <td>
+                    <select id="campoStatusCompra" name="campoStatusCompra">
+                            <?php 
+                           while($linha_statusCompra = mysqli_fetch_assoc($lista_statuscompra )){
+                        ?>
+                            <option value="<?php echo utf8_encode($linha_statusCompra["nome"]);?>">
+                                <?php echo utf8_encode($linha_statusCompra["nome"]);?>
+                            </option>
 
-                        <select id="campoStatusCompra" name="campoStatusCompra">
-                            <option value="Selecione">Selecione</option>
-                            <option value="realizada">Realizada</option>
-                            <option value="naoRealizada">Não realizada</option>
-                            <option value="realizadaParcialmente">Realizada Parcialmente</option>
+                            <?php
+
+                         }
+                         
+                         ?>
+
                         </select>
 
                         <b>Data Compra:</b>
@@ -311,14 +331,21 @@ if(isset($_POST["enviar"])){
 
                     <td><b>Status do pedido:</b></td>
                     <td>
+                    <select id="campoStatusPedido" name="campoStatusPedido">
+                            <?php 
+                           while($linha_statusPedido= mysqli_fetch_assoc($lista_statuspedido)){
+                        ?>
+                            <option value="<?php echo utf8_encode($linha_statusPedido["nome"]);?>">
+                                <?php echo utf8_encode($linha_statusPedido["nome"]);?>
+                            </option>
 
-                        <select id="campoStatusPedido" name="campoStatusPedido">
-                            <option value="Não definido">Não definido</option>
-                            <option value="Entrega antes do prazo">Entrega antes do prazo</option>
-                            <option value="Entrega no prazo">Entrega no prazo</option>
-                            <option value="Entrega fora do prazo">Entrega fora do prazo</option>
+                            <?php
+
+                         }
+                         
+                         ?>
+
                         </select>
-
                         <b>Entrega Realizada:</b>
                         <input type="text" size=20 id="CampoEntregaRealizada" name="CampoEntregaRealizada" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($entregaRealizada);}?>"
                             OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
