@@ -1,0 +1,128 @@
+*{
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    color:rgba(35, 35, 35, 0.7);
+}
+
+body {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+    background-color: #fff;
+}
+.tabela_pesquisa td {
+    display: table-cell;
+    vertical-align: inherit;
+    padding: 0 10px;
+
+}
+
+#linha_pesquisa {
+    display: table-row;
+    vertical-align: inherit;
+    box-shadow: 0px 0px 5px 0px #e2e2e2;
+    
+}
+
+.tabela_pesquisa P{
+   display: inline-block;
+ 
+
+}
+
+
+table {
+    border-collapse: collapse;
+    text-indent: initial;
+    border-spacing: 2px;
+    position: absolute;
+
+   
+}
+
+.tabela_pesquisa{
+  
+    margin-top: 200px;
+}
+.cabecalho_pesquisa{
+   
+
+    margin-top: 100px;
+ 
+   
+}
+
+tbody tr #botaoPesquisar{
+  
+  width: 20px;
+   
+}
+
+tbody tr #botaoAdicionar{
+    width: 500px;
+   
+  }
+
+
+tr input[type="image"] {
+    outline: none;
+    cursor: pointer;
+    float: left;
+    width: 40px;
+   
+}
+
+tr input[type="text"] {
+    width:50%;
+    padding:10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    float:right;
+    outline: none;
+}
+
+
+tr input[type="text"]:hover {
+border: 2px solid rgb(0, 83, 18);
+
+}
+
+tr input[type="submit"] {
+    width: 90px;
+    display: block;
+    height: 35px;
+    float: right;
+    color: white;
+    border-radius: 5px;
+    background-color: rgb(0, 83, 18);
+    cursor:pointer;
+    margin-right:70px;
+
+    
+}
+
+
+.tabela_pesquisa #botaoEditar{
+    width: 150px;
+    
+}
+
+.tabela_pesquisa button  {
+    width: 80px;
+    height: 30px;
+    float: right;
+    margin-right: 30px;
+    color: white;
+    border-radius: 5px;
+    background-color: rgb(0, 83, 18);
+    cursor:pointer;
+  }
+
+  tbody  #cabecalho_pesquisa_consulta{
+    background: rgba(14, 84, 82, 0.5);
+    box-shadow: 0px 0px 5px 0px #e2e2e2;
+    width: "";
+    font-weight: 600;
+  }

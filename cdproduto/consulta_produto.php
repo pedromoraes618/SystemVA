@@ -42,84 +42,131 @@ if(!$resultado){
 
     <!-- estilo -->
     <link href="../_css/estilo.css" rel="stylesheet">
-    <link href="../_css/tela_pesquisa.css" rel="stylesheet">
+    <link href="../_css/pesquisa_tela.css" rel="stylesheet">
 
     <a href="https://icons8.com/icon/59832/cardápio"></a>
 </head>
 
 <body>
-    <?php include_once("../_incluir/topo.php"); ?>
-    <?php include("../_incluir/body.php"); ?>
-    <?php include_once("../_incluir/funcoes.php"); ?>
+    
+ 
+<table width="100%">
+        <?php include_once("../_incluir/topo.php"); ?>
+     <?php include("../_incluir/body.php"); ?>
+        <?php include_once("../_incluir/funcoes.php"); ?>
+        </table>
+
+    <form action="consulta_produto.php" method="get">
+
+        <section class="body_pesquisa">
+
+            <table width="100%" border="0" class="cabecalho_pesquisa" cellspacing="0">
+                <tbody>
+                    <tr>
+
+                    <td></td>
+                        <td><input type="text" name="produto" placeholder="pesquisa"></td>
+                        <td id="botaoPesquisar"><input type="image" name="pesquisa"
+                                src="https://img.icons8.com/ios/50/000000/search-more.png" /></td>
+
+                        <td id="botaoAdicionar"><input type="submit" name="cadastrar_produto" value="Adicionar"
+                                onclick="return abrepopupcliente();">
+                        </td>
+                    </tr>
 
 
 
-    <main>
-        <div id="janela_pesquisa_Cliente">
+                </tbody>
+
+            </table>
+
+            <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
+                <tbody>
+                    <tr id="cabecalho_pesquisa_consulta">
+                        <td>
+                            <p>Descrição</p>
+                        </td>
+                        <td>
+                            <p>Preço venda</p>
+                        </td>
+                        <td>
+                            <p>Preço compra</p>
+                        </td>
+                        <td>
+                            <p>Estoque</p>
+                        </td>
 
 
-            <input type="submit" name="cadastrar_produto" value="Adicionar" onclick="return abrepopupcliente();">
+                        <td>
+                            <p>Categoria</p>
+                        </td>
+                        <td>
+                            <p>Ativo</p>
+                        </td>
+                        <td>
+                            <p>UND</p>
+                        </td>
 
-            <form action="consulta_produto.php" method="get">
+                        <td>
+                            <p></p>
+                        </td>
 
-                <input type="text" name="produto" placeholder="pesquisa">
-                <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
+                    </tr>
 
-
-            </form>
-
-
-        </div>
-
-        <div id="menu">
-            <ul>
-                <p>Descrição</p>
-                <li>Preço venda</li>
-                <li>Preço compra</li>
-                <li>Estoque</li>
-                <li>Categoria</li>
-                <li>Ativo</li>
-                <li>UND</li>
-
-            </ul>
-
-        </div>
-
-        <div id="listagem_cliente">
-            <?php
+                    <?php
 
 if(isset($_GET["produto"])){
-           
-           while($linha = mysqli_fetch_assoc($resultado)){
-           ?>
+
+      while($linha = mysqli_fetch_assoc($resultado)){
+    ?>
+
+                    <tr id="linha_pesquisa">
+                      
+                            <td>
+                              <p><font size="2"><?php echo utf8_encode($linha["nomeproduto"])?> </font></p> 
+                            </td>
+                            <td>
+                            <font size="2"><?php echo real_format($linha["precovenda"])?></font>
+                            </td>
+                            <td>
+                            <font size="2"><?php echo real_format($linha["precocompra"])?> </font>
+                            </td>
+
+                            <td>
+                            <font size="2"><?php echo utf8_encode($linha["estoque"])?> </font>
+                            </td>
+
+                            <td>
+                            <font size="2"> <?php echo utf8_encode($linha["nome_categoria"])?></font>
+                            </td>
+
+                            <td>
+                            <font size="2"><?php echo utf8_encode($linha["nome_ativo"])?> </font>
+                            </td>
+                            <td>
+                            <font size="2"><?php echo utf8_encode($linha["unidade_medida"])?> </font>
+                            </td>
+
+                            <td id="botaoEditar">
+                                <a href="editar_produto.php?codigo=<?php echo $linha["produtoID"]?>">
+                                    <button type="button" name="editar">Editar</button>
+                                </a>
+
+                            </td>
+
+                    
+                    </tr>
 
 
-            <ul>
 
-                <p> <?php echo utf8_encode($linha["nomeproduto"])?> </p>
-                <li> <?php echo real_format($linha["precovenda"])?></li>
-                <li> <?php echo real_format($linha["precocompra"])?></li>
-                <li><?php echo utf8_encode($linha["estoque"])?></li>
-                <li> <?php echo utf8_encode($linha["nome_categoria"])?> </li>
-                <li><?php echo utf8_encode($linha["nome_ativo"])?> </li>
-                <li> <?php echo utf8_encode($linha["unidade_medida"])?> </li>
-
-
-                <a href="editar_produto.php?codigo=<?php echo $linha["produtoID"]?>">
-                    <input type="submit" value="Editar" name="editar"> </input>
-                </a>
-
-            </ul>
-
-
-            <?php
+                    <?php
              }
             }
             ?>
-        </div>
-
-
-    </main>
+                </tbody>
+            </table>
+        </section>
+    </form>
 
 
 </body>

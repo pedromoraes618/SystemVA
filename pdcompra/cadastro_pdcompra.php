@@ -156,7 +156,9 @@ if(isset($_POST["enviar"])){
   $observacao = "";
   $entregaPrevista = "";
   $dataPagamento = "";
+  /*
   $dataCompra = "";
+  */
   $entregaRealizada = "";
   $dataChegada = "";
   
@@ -289,7 +291,7 @@ if(isset($_POST["enviar"])){
 
                         <b>Data Compra:</b>
                         <input type="text" size=20 id="campoDataCompra" name="campoDataCompra"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($dataCompra);}?>"
+                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode(formatardataB($dataCompra));}?>"
                             OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
 
                     </td>

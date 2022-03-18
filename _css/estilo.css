@@ -38,8 +38,8 @@ div#menulateral img:hover{
 
 div#menulateral nav{
     background: rgba(14, 84, 82, 1);
-    width: 1000px;
-    height:60px;
+    width:58%;
+    height:7%;
     margin-top: -250px;
     position: fixed;
     transition: all .6s;
@@ -57,11 +57,14 @@ div#menulateral nav ul{
     margin-top: 05px;
     margin-left: 90px;
     width: 100%;
+  
 
  }
 
  div#menulateral nav ul li{
     display: inline;
+   
+ 
  }
 
 
@@ -72,6 +75,8 @@ color: white;
 text-decoration: none;
 padding-left: 15px;
 padding-right: 15px;
+font-size: 14px;
+
 }
 
 div#menulateral a:hover{
@@ -101,9 +106,11 @@ div#menulateral label{
 
 div#header_central {
     position: relative;
-    width:1050px;
+    width:100%;
     height:67px;
     margin:0 auto;
+
+   
 }
 
 div#header_central img {
@@ -138,7 +145,7 @@ div#header_saudacao h5 a{
 
 
 main {
-    width:1500px;
+    width:100%;
     height: 100%;
     min-height: 500px;
     padding:100px 0;

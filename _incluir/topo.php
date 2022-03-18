@@ -1,6 +1,7 @@
 <header>
 
 
+   
     <div id="header_central">
         <?php if($_SESSION["user_portal"]){
 
@@ -24,5 +25,6 @@
       
       
     </div>
+    
 
 </header>

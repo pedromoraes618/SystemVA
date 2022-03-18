@@ -3,8 +3,6 @@ require_once("../conexao/conexao.php");
 
 include("../conexao/sessao.php");
 
-include '../_incluir/funcaojavascript.jar'; 
-
 include ("../_incluir/funcoes.php");
 
 
@@ -12,21 +10,79 @@ if(isset($_POST['btnsalvar'])){
 
      //inlcuir as varias do input
 
- $produtoID = utf8_decode($_POST["cammpoProdutoID"]);
- $nome_produdo = utf8_decode($_POST["campoNomeProduto"]);
- $preco_venda = utf8_decode($_POST["campoPrecoVenda"]);
- $preco_compra = utf8_decode($_POST["campoPrecoCompra"]);
- $estoque = utf8_decode($_POST["campoEstoque"]);
- $unidade_medida = utf8_decode($_POST["campoUnidadedeMedida"]);
- $categoria = utf8_decode($_POST["campoCategoria"]);
- $ativo = utf8_decode($_POST["campoAtivo"]);
- $observacao = utf8_decode($_POST["campoObservacao"]);
+     $pedidoID =  utf8_decode($_POST["cammpoPedidoID"]);
+     $numeroPedidoCompra =  utf8_decode($_POST["campoNpdCompra"]);
+     $numeroOrcamento =  utf8_decode($_POST["campoOrcamento"]);
+     $numeroNfe = utf8_decode($_POST["campoNnfe"]);
+     $formaPagamento = utf8_decode($_POST["campoFormaPagamento"]);
+     $cliente = utf8_decode($_POST["campoCliente"]);
+     $produto = utf8_decode($_POST["campoProduto"]);
+     $statusCompra = utf8_decode($_POST["campoStatusCompra"]);
+     $statusPedido = utf8_decode($_POST["campoStatusPedido"]);
+     $precoVenda = utf8_decode($_POST["campoPrecoVenda"]);
+     $precoCompra = utf8_decode($_POST["campoPrecoCompra"]);
+     $unidade = utf8_decode($_POST["CampoUnidade"]);
+     $quantidade = utf8_decode($_POST["CampoQuantidade"]);
+     $margem = utf8_decode($_POST["campoMargem"]);
+     $desconto = utf8_decode($_POST["campoDesconto"]);
+     $observacao = utf8_decode($_POST["observacao"]);
+ 
+     $entregaPrevista = utf8_decode($_POST["CampoEntregaPrevista"]);
+     $dataPagamento = utf8_decode($_POST["campoDataPagamento"]);
+     $dataCompra = utf8_decode($_POST["campoDataCompra"]);
+     $entregaRealizada = utf8_decode($_POST["CampoEntregaRealizada"]);
+     $dataChegada = utf8_decode($_POST["CampoDataChegada"]);
 
+//condição obrigatorio 
+if(!$numeroPedidoCompra == ""){
+
+    if($entregaPrevista==""){
+      
+    }else{
+        $div1 = explode("/",$_POST['CampoEntregaPrevista']);
+        $entregaPrevista = $div1[2]."-".$div1[1]."-".$div1[0];  
+       
+    }
+    if($dataPagamento==""){
+       
+    }else{
+        $div2 = explode("/",$_POST['campoDataPagamento']);
+    $dataPagamento = $div2[2]."-".$div2[1]."-".$div2[0];
+    }
+
+
+    if($dataCompra==""){
+    
+    }else{
+        
+    $div3 = explode("/",$_POST['campoDataCompra']);
+    $dataCompra = $div3[2]."-".$div3[1]."-".$div3[0];
+    }
+
+    
+    if($entregaRealizada==""){
+       
+    }else{
+        
+        $div4 = explode("/",$_POST['CampoEntregaRealizada']);
+        $entregaRealizada = $div4[2]."-".$div4[1]."-".$div4[0];
+    }
+
+    if($dataChegada==""){
+       
+    }else{
+        
+        $div5 = explode("/",$_POST['CampoDataChegada']);
+        $dataChegada = $div5[2]."-".$div5[1]."-".$div5[0];
+    }
+
+   
 
     
     //query para alterar o cliente no banco de dados
-    $alterar = "UPDATE produtos set nomeproduto = '{$nome_produdo}', precovenda = '{$preco_venda}', precocompra = '{$preco_compra}',  estoque = '{$estoque}', ";
-    $alterar .= " unidade_medida = '{$unidade_medida}', categoriaID = '{$categoria}', ativoID = '{$ativo}', observacao = '{$observacao}', nome_categoria = '{$categoria}', nome_ativo = '{$ativo}' WHERE produtoID = {$produtoID} ";
+    $alterar = "UPDATE pedido_compra set numero_pedido_compra = '{$numeroPedidoCompra}', numero_orcamento = '{$numeroOrcamento}', numero_nf = '{$numeroNfe}',  forma_pagamento = '{$formaPagamento}', ";
+    $alterar .= " cliente = '{$cliente}', produto = '{$produto}', status_da_compra = '{$statusCompra}', status_do_pedido = '{$statusPedido}', valor_venda = '{$precoVenda}', valor_compra = '{$precoCompra}' , ";
+    $alterar .= " unidade_medida = '{$unidade}', quantidade = '{$quantidade}', margem = '{$margem}', desconto = '{$desconto}', observacao = '{$observacao}', entrega_prevista = '{$entregaPrevista}', data_pagamento = '{$dataPagamento}', data_compra = '{$dataCompra}', entrega_realizada = '{$entregaRealizada}', data_chegada= '{$dataChegada}'  WHERE pedidoID = {$pedidoID} ";
 
       $operacao_alterar = mysqli_query($conecta, $alterar);
       if(!$operacao_alterar) {
@@ -41,32 +97,11 @@ if(isset($_POST['btnsalvar'])){
     
     }
 
-  ?>
-
-<?php
-  if(isset($_POST['btnremover'])){
-  
-     //inlcuir as varias do input
-     include("../_incluir/variaveis_input_produto.php");
-
-    //query para remover o produto no banco de dados
-    $remover = "DELETE FROM produtos WHERE produtoID = {$produtoID}";
-
-      $operacao_remover = mysqli_query($conecta, $remover);
-    
-      if(!$operacao_remover) {
-          die("Erro linha 44");   
-      } else {  ?>
-<p id="obrigatorio">Cliente removido</p>
-
-<?php
-          //header("location:listagem.php"); 
-           
-      }
-    
-    }
+}
 
   ?>
+
+
 
 <?php
 
@@ -132,8 +167,6 @@ if(!$detalhe){
     $Bdesconto = utf8_encode($dados_detalhe["desconto"]);
     $Bobservacao = utf8_encode($dados_detalhe["observacao"]);
     $BentregaPrevista = utf8_encode($dados_detalhe["entrega_prevista"]);
-    $Bobservacao = utf8_encode($dados_detalhe["observacao"]);
-    $BentregaPrevista = utf8_encode($dados_detalhe["entrega_prevista"]);
     $BdataPagamento = utf8_encode($dados_detalhe["data_pagamento"]);
     $BdataCompra = utf8_encode($dados_detalhe["data_compra"]);
     $BentregaRealizada = utf8_encode($dados_detalhe["entrega_realizada"]);
@@ -161,7 +194,7 @@ if(!$detalhe){
 <body>
 
     <main>
-        <form action="editar_pdcompra.php" method="post">
+        <form action="" method="post">
             <div id="titulo">
                 </p>Editar Pedido de Compra</p>
             </div>
@@ -280,7 +313,7 @@ if(!$detalhe){
 
                         <b>Data Compra:</b>
                         <input type="text" size=20 id="campoDataCompra" name="campoDataCompra"
-                            value="<?php echo  formatardataB($BdataCompra)?>" OnKeyUp="mascaraData(this);"
+                            value="<?php echo formatardataB($BdataCompra)?>" OnKeyUp="mascaraData(this);"
                             maxlength="10" autocomplete="off">
 
                     </td>
@@ -416,7 +449,9 @@ if(!$detalhe){
 
 
 </html>
-
+<?php 
+include '../_incluir/funcaojavascript.jar'; 
+?>
 
 <?php 
 mysqli_close($conecta);
