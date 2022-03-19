@@ -34,7 +34,7 @@ if(!$resultado){
 
     <!-- estilo -->
     <link href="../_css/estilo.css" rel="stylesheet">
-    <link href="../_css/tela_pesquisa.css" rel="stylesheet">
+    <link href="../_css/pesquisa_tela.css" rel="stylesheet">
 
     <a href="https://icons8.com/icon/59832/cardápio"></a>
 </head>
@@ -45,78 +45,115 @@ if(!$resultado){
     <?php include_once("../_incluir/funcoes.php"); ?>
 
 
-
     <main>
-        <div id="janela_pesquisa_Cliente">
+        <div id="janela_pesquisa">
+            <a href="cadastro_cliente.php">
 
+                <input type="submit" name="cadastar_cliente" value="Adicionar">
 
-            <input type="submit" name="cadastar_cliente" value="Adicionar" onclick="return abrepopupcliente();">
+            </a>
 
             <form action="consulta_cliente.php" method="get">
-
                 <input type="text" name="cliente" placeholder="pesquisa">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
-
-
             </form>
 
 
         </div>
 
-        <div id="menu">
-            <ul>
-                <p>Razão social</p>
-                <li>Cpf/Cnpj</li>
-                <li>Cidade</li>
-                <li>Bairro</li>
-                <li>Fornecedor/CLiente</li>
+        <form action="consulta_pdcompra.php" method="get">
 
-            </ul>
+            <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
+                <tbody>
+                    <tr id="cabecalho_pesquisa_consulta">
+                        <td>
+                            <p>Razão social</p>
+                        </td>
+                        <td>
+                            <p>Cpf/Cnpj</p>
+                        </td>
+                        <td>
+                            <p>Cidade</p>
+                        </td>
+                        <td>
+                            <p>Bairro</p>
+                        </td>
 
-        </div>
 
-        <div id="listagem_cliente">
-            <?php
+                        <td>
+                            <p>Fornecedor</p>
+                        </td>
+
+                        <td>
+                            <p></p>
+                        </td>
+
+                    </tr>
+
+                    <?php
            if(isset($_GET["cliente"])){
            while($linha = mysqli_fetch_assoc($resultado)){
            ?>
 
 
 
-            <ul>
+                    <tr id="linha_pesquisa">
 
-                <p> <?php echo utf8_encode($linha["razaosocial"])?> </p>
-                <li> <?php echo formatCnpjCpf($linha["cpfcnpj"])?></li>
-                <li><?php echo utf8_encode($linha["cidade"])?></li>
-                <li><?php echo utf8_encode($linha["bairro"])?></li>
-                <li> <?php if ($linha["clienteftID"] == 1){
-                    echo  "CLIENTES";
-                    }
-                    if ($linha["clienteftID"] == 2){
-                        echo  "FORNECEDOR";
-                        }
+                        <td>
+                            <p>
+                                <font size="3"><?php echo utf8_encode($linha["razaosocial"])?>
+                                </font>
+                            </p>
+                        </td>
 
-                        if ($linha["clienteftID"] == 3){
-                            echo "TRANSPORTADOR";
-                            }?></li>
+                        <td>
+                            <font size="2"><?php echo formatCnpjCpf($linha["cpfcnpj"])?></font>
+                        </td>
+                        <td>
+                            <font size="2"> <?php echo utf8_encode($linha["cidade"])?>
+                            </font>
+                        </td>
+
+                        <td>
+                            <font size="2"> <?php echo utf8_encode($linha["bairro"])?></font>
+                        </td>
+
+                        <td>
+                            <font size="2"><?php if ($linha["clienteftID"] == 1){
+                            echo  "CLIENTES";
+                            }
+                            if ($linha["clienteftID"] == 2){
+                                echo  "FORNECEDOR";
+                                }
+
+                                if ($linha["clienteftID"] == 3){
+                                    echo "TRANSPORTADOR";
+                                    }?> </font>
+                        </td>
 
 
-                <a href="editar_cliente.php?codigo=<?php echo $linha["clienteID"]?>">
-                    <input type="submit" value="Editar" name="editar"> </input>
-                </a>
 
-            </ul>
+                        <td id="botaoEditar">
+                            <a href="editar_cliente.php?codigo=<?php echo $linha["clienteID"]?>">
+
+                                <button type="button" name="Editar">Editar</button>
+
+                            </a>
+                        </td>
+                    </tr>
 
 
-            <?php
+
+                    <?php
              }
             }
             ?>
-        </div>
+                </tbody>
+            </table>
 
+        </form>
 
     </main>
-
 
 </body>
 

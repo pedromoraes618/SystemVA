@@ -42,15 +42,15 @@ if(isset($_POST["enviar"])){
         //campo obrigatorio 
               if($nome_produto == ""){
                   ?>
-        
-        
-                <p id="obrigatorio"><?php echo $campo_obrigatorio_RazacaoS;?> </p>
-                <?php 
+
+
+<p id="obrigatorio"><?php echo $campo_obrigatorio_RazacaoS;?> </p>
+<?php 
               }else{
         ?>
-        
-                <p id="confirmacao"><?php echo $msgcadastrado; ?> </p>
-                <?php
+
+<p id="confirmacao"><?php echo $msgcadastrado; ?> </p>
+<?php
 
 //inserindo as informações no banco de dados
   $inserir = "INSERT INTO produtos ";
@@ -201,15 +201,19 @@ if(isset($_POST["enviar"])){
                     <tr>
                         <div id="botoes">
                             <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
-                            <input type="submit" onClick="return fechar();" name="btnfechar" class="btn btn-secondary"
-                                value="Voltar"> </input>
+                            <a href="consulta_produto.php">
+                             
+                                <button type="button" name="btnfechar"  class="btn btn-secondary">Voltar</button>
+                            </a>
+
+                       
                         </div>
                     </tr>
 
         </form>
 
 
-      
+
     </main>
 </body>
 

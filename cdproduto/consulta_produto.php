@@ -48,37 +48,29 @@ if(!$resultado){
 </head>
 
 <body>
-    
- 
-<table width="100%">
-        <?php include_once("../_incluir/topo.php"); ?>
-     <?php include("../_incluir/body.php"); ?>
-        <?php include_once("../_incluir/funcoes.php"); ?>
-        </table>
 
-    <form action="consulta_produto.php" method="get">
-
-        <section class="body_pesquisa">
-
-            <table width="100%" border="0" class="cabecalho_pesquisa" cellspacing="0">
-                <tbody>
-                    <tr>
-
-                    <td></td>
-                        <td><input type="text" name="produto" placeholder="pesquisa"></td>
-                        <td id="botaoPesquisar"><input type="image" name="pesquisa"
-                                src="https://img.icons8.com/ios/50/000000/search-more.png" /></td>
-
-                        <td id="botaoAdicionar"><input type="submit" name="cadastrar_produto" value="Adicionar"
-                                onclick="return abrepopupcliente();">
-                        </td>
-                    </tr>
+    <?php include_once("../_incluir/topo.php"); ?>
+    <?php include("../_incluir/body.php"); ?>
+    <?php include_once("../_incluir/funcoes.php"); ?>
 
 
+    <main>
+        <div id="janela_pesquisa">
+            <a href="cadastro_produto.php">
+                <input type="submit" name="cadastrar_produto" value="Adicionar">
+            </a>
+            <form action="consulta_produto.php" method="get">
 
-                </tbody>
+                <input type="text" name="produto" placeholder="pesquisa">
+                <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
-            </table>
+
+            </form>
+
+
+        </div>
+
+        <form action="consulta_produto.php" method="get">
 
             <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
                 <tbody>
@@ -121,40 +113,42 @@ if(isset($_GET["produto"])){
     ?>
 
                     <tr id="linha_pesquisa">
-                      
-                            <td>
-                              <p><font size="2"><?php echo utf8_encode($linha["nomeproduto"])?> </font></p> 
-                            </td>
-                            <td>
+
+                        <td>
+                            <p>
+                                <font size="2"><?php echo utf8_encode($linha["nomeproduto"])?> </font>
+                            </p>
+                        </td>
+                        <td>
                             <font size="2"><?php echo real_format($linha["precovenda"])?></font>
-                            </td>
-                            <td>
+                        </td>
+                        <td>
                             <font size="2"><?php echo real_format($linha["precocompra"])?> </font>
-                            </td>
+                        </td>
 
-                            <td>
+                        <td>
                             <font size="2"><?php echo utf8_encode($linha["estoque"])?> </font>
-                            </td>
+                        </td>
 
-                            <td>
+                        <td>
                             <font size="2"> <?php echo utf8_encode($linha["nome_categoria"])?></font>
-                            </td>
+                        </td>
 
-                            <td>
+                        <td>
                             <font size="2"><?php echo utf8_encode($linha["nome_ativo"])?> </font>
-                            </td>
-                            <td>
+                        </td>
+                        <td>
                             <font size="2"><?php echo utf8_encode($linha["unidade_medida"])?> </font>
-                            </td>
+                        </td>
 
-                            <td id="botaoEditar">
-                                <a href="editar_produto.php?codigo=<?php echo $linha["produtoID"]?>">
-                                    <button type="button" name="editar">Editar</button>
-                                </a>
+                        <td id="botaoEditar">
+                            <a href="editar_produto.php?codigo=<?php echo $linha["produtoID"]?>">
+                                <button type="button" name="editar">Editar</button>
+                            </a>
 
-                            </td>
+                        </td>
 
-                    
+
                     </tr>
 
 
@@ -165,10 +159,10 @@ if(isset($_GET["produto"])){
             ?>
                 </tbody>
             </table>
-        </section>
-    </form>
 
+        </form>
 
+    </main>
 </body>
 
 <script>
