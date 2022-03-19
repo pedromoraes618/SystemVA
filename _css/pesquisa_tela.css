@@ -221,6 +221,17 @@ tr input[type="submit"] {
     
 }
 
+#linha_pesquisa #botaoSelecione{
+   background-color:rgb(79, 172, 226); 
+}
+
+#linha_pesquisa #botaoSelecione:hover{
+    letter-spacing: 0.5px;
+    
+    transition: all 0.2s ease;
+    
+}
+
 .tabela_pesquisa button  {
     width: 80px;
     height: 30px;

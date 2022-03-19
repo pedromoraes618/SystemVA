@@ -62,7 +62,8 @@ if(isset($_POST["enviar"])){
     
 //formatar a data para o banco de dados(Y-m-d)
   if(isset($_POST['enviar']))
-  {
+{
+
       if($formaPagamento=="Selecione"){
         ?>
 
@@ -223,7 +224,7 @@ if(isset($_POST["enviar"])){
                     <td><b>Nº NFE:</b></td>
                     <td><input type="text" size=20 id="campoNnfe" name="campoNnfe"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($numeroNfe);}?>"><b>Data
-                            Pagamento:</b>
+                            Pagamento*:</b>
                         <input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento"
                             value="<?php if(isset($_POST['enviar'])){ 
                                 echo ($dataPagamento);}?>"
@@ -235,7 +236,7 @@ if(isset($_POST["enviar"])){
 
                 <tr>
                     <td align=left><b>Cliente:</b></td>
-                    <td align=left><input type="text" size=57 name="campoCliente"
+                    <td align=left><input type="text" size=57 name="campoCliente" id="campoCliente"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($cliente);}?>"><i
                             id="botaoPesquisar" class="fa-solid fa-magnifying-glass-plus"
                             onclick="abrepopupcliente();"></i></td>
@@ -268,7 +269,7 @@ if(isset($_POST["enviar"])){
                             id="botaoPesquisar" class="fa-solid fa-magnifying-glass-plus"></i> </td>
 
                     <td>
-                        <b>Status da compra:</b>
+                        <b>Status da compra*:</b>
                     </td>
                     <td>
                     <select id="campoStatusCompra" name="campoStatusCompra">
@@ -290,6 +291,8 @@ if(isset($_POST["enviar"])){
                         <b>Data Compra:</b>
                         <input type="text" size=20 id="campoDataCompra" name="campoDataCompra"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($dataCompra);}?>"
+
+                            
                             OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
 
                     </td>
@@ -329,7 +332,7 @@ if(isset($_POST["enviar"])){
                     </td>
 
 
-                    <td><b>Status do pedido:</b></td>
+                    <td><b>Status do pedido*:</b></td>
                     <td>
                     <select id="campoStatusPedido" name="campoStatusPedido">
                             <?php 
@@ -381,9 +384,10 @@ if(isset($_POST["enviar"])){
                             <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
 
                             <a href="consulta_pdcompra.php">
-                                <button type="button" class="btn btn-secondary">Voltar</button>
+                                <button type="button" class="btn btn-secondary" onclick="fechar()">Voltar</button>
                             </a>
 
+                            
                         </div>
                     </tr>
 
@@ -408,9 +412,13 @@ function fechar() {
 <script>
 function abrepopupcliente() {
 
-    var janela = "../cdcliente/consulta_cliente.php";
+    var janela = "../buscar_cliente/consulta_cliente.php";
     window.open(janela, 'popuppage',
         'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');
+}
+
+function fechar() {
+    window.close();
 }
 </script>
 

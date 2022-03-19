@@ -101,6 +101,58 @@ if(!$numeroPedidoCompra == ""){
 
   ?>
 
+<?php
+  if(isset($_POST['btnremover'])){
+  
+     //inlcuir as varias do input
+  
+     $pedidoID =  utf8_decode($_POST["cammpoPedidoID"]);
+     $numeroPedidoCompra =  utf8_decode($_POST["campoNpdCompra"]);
+     $numeroOrcamento =  utf8_decode($_POST["campoOrcamento"]);
+     $numeroNfe = utf8_decode($_POST["campoNnfe"]);
+     $formaPagamento = utf8_decode($_POST["campoFormaPagamento"]);
+     $cliente = utf8_decode($_POST["campoCliente"]);
+     $produto = utf8_decode($_POST["campoProduto"]);
+     $statusCompra = utf8_decode($_POST["campoStatusCompra"]);
+     $statusPedido = utf8_decode($_POST["campoStatusPedido"]);
+     $precoVenda = utf8_decode($_POST["campoPrecoVenda"]);
+     $precoCompra = utf8_decode($_POST["campoPrecoCompra"]);
+     $unidade = utf8_decode($_POST["CampoUnidade"]);
+     $quantidade = utf8_decode($_POST["CampoQuantidade"]);
+     $margem = utf8_decode($_POST["campoMargem"]);
+     $desconto = utf8_decode($_POST["campoDesconto"]);
+     $observacao = utf8_decode($_POST["observacao"]);
+ 
+     $entregaPrevista = utf8_decode($_POST["CampoEntregaPrevista"]);
+     $dataPagamento = utf8_decode($_POST["campoDataPagamento"]);
+     $dataCompra = utf8_decode($_POST["campoDataCompra"]);
+     $entregaRealizada = utf8_decode($_POST["CampoEntregaRealizada"]);
+     $dataChegada = utf8_decode($_POST["CampoDataChegada"]);
+
+
+    //query para remover o cliente no banco de dados
+    $remover = "DELETE FROM pedido_compra WHERE pedidoID = {$pedidoID}";
+
+      $operacao_remover = mysqli_query($conecta, $remover);
+      if(!$operacao_remover) {
+          die("Erro linha 44");   
+      } else {  
+        
+
+    ?>
+<p id="obrigatorio">Pedido de compra removido</p>
+
+
+<?php
+          //header("location:listagem.php"); 
+           
+      }
+    
+    }
+
+  ?>
+
+
 
 
 <?php
@@ -223,9 +275,14 @@ if(!$detalhe){
                     <td><input type="text" size=20 id="campoNnfe" name="campoNnfe"
                             value="<?php echo $BnumeroNfe?>"><b>Data
                             Pagamento:</b>
-                        <input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento"
-                            value="<?php echo formatardataB($BdataPagamento);?>" OnKeyUp="mascaraData(this);"
-                            maxlength="10" autocomplete="off">
+                        <input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento" value="<?php
+                            if($BdataPagamento=="1970-01-01"){
+                                print_r("");
+                            }elseif($BdataPagamento=="0000-00-00"){
+                                print_r ("");
+                            }else{
+                                echo formatardataB($BdataPagamento);}?>" OnKeyUp="mascaraData(this);" maxlength="10"
+                            autocomplete="off">
 
                 </tr>
 
@@ -312,9 +369,15 @@ if(!$detalhe){
                         </select>
 
                         <b>Data Compra:</b>
-                        <input type="text" size=20 id="campoDataCompra" name="campoDataCompra"
-                            value="<?php echo formatardataB($BdataCompra)?>" OnKeyUp="mascaraData(this);"
-                            maxlength="10" autocomplete="off">
+                        <input type="text" size=20 id="campoDataCompra" name="campoDataCompra" value="<?php 
+                        
+                        
+                        if($BdataCompra=="1970-01-01"){
+                            print_r("");
+                        }elseif($BdataCompra=="0000-00-00"){
+                            print_r ("");
+                        }else{
+                            echo formatardataB($BdataCompra);}?>"  OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
 
                     </td>
 
@@ -331,13 +394,25 @@ if(!$detalhe){
 
 
                     <td align=left><b>Data chegada:</b></td>
-                    <td align=left><input type="text" size=20 name="CampoDataChegada" id="CampoDataChegada"
-                            value="<?php echo formatardataB($BdataChegada)?>" OnKeyUp="mascaraData(this);"
-                            maxlength="10" autocomplete="off"><b>Entrega Prevista:</b>
+                    <td align=left><input type="text" size=20 name="CampoDataChegada" id="CampoDataChegada" value="<?php
+                    
+                    if($BdataChegada=="1970-01-01"){
+                                print_r ("");
+                            }elseif($BdataChegada=="0000-00-00"){
+                                print_r ("");
+                            }else{
+                                echo formatardataB($BdataChegada);}
+                                ?>" OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off"><b>Entrega
+                            Prevista:</b>
 
-                        <input type="text" size=20 id="CampoEntregaPrevista" name="CampoEntregaPrevista"
-                            value="<?php echo formatardataB($BentregaPrevista)?>" OnKeyUp="mascaraData(this);"
-                            maxlength="10" autocomplete="off">
+                        <input type="text" size=20 id="CampoEntregaPrevista" name="CampoEntregaPrevista" value="<?php 
+                             if($BentregaPrevista=="1970-01-01"){
+                                print_r("");
+                            }elseif($BentregaPrevista=="0000-00-00"){
+                                print_r ("");
+                            }else{
+                                echo formatardataB($BentregaPrevista); }?>" OnKeyUp="mascaraData(this);" maxlength="10"
+                            autocomplete="off">
                     </td>
 
 
@@ -383,8 +458,13 @@ if(!$detalhe){
                         </select>
 
                         <b>Entrega Realizada:</b>
-                        <input type="text" size=20 id="CampoEntregaRealizada" name="CampoEntregaRealizada"
-                            value="<?php echo  formatardataB($BentregaRealizada)?>" OnKeyUp="mascaraData(this);"
+                        <input type="text" size=20 id="CampoEntregaRealizada" name="CampoEntregaRealizada" value="<?php
+                             if($BentregaRealizada=="1970-01-01"){
+                                print_r("");
+                            }elseif($BentregaRealizada=="0000-00-00"){
+                                print_r ("");
+                            }else{
+                                echo  formatardataB($BentregaRealizada);}?>" OnKeyUp="mascaraData(this);"
                             maxlength="10" autocomplete="off">
 
                     </td>

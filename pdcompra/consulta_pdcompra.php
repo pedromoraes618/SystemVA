@@ -9,13 +9,14 @@ include ("../_incluir/funcoes.php");
 
 
 
- 
+
 //consultar pedido de compra
 if(isset($_GET["pedidoCompra"])){
 $pedido = "SELECT * FROM pedido_compra";
         if(isset($_GET["pedidoCompra"])){
-            $pedido_Compra= $_GET["pedidoCompra"];
-            $pedido .= " WHERE produto LIKE '%{$pedido_Compra}%' or entrega_prevista LIKE '%{$pedido_Compra}%' or cliente LIKE '%{$pedido_Compra}%' ";
+        $pedido_Compra= $_GET["pedidoCompra"];
+        $pedido .= " WHERE produto LIKE '%{$pedido_Compra}%' or entrega_prevista LIKE '%{$pedido_Compra}%' or cliente LIKE '%{$pedido_Compra}%' ";
+        
 }
 
 
@@ -125,11 +126,14 @@ if(isset($_GET["pedidoCompra"])){
                             <font size="2"><?php echo utf8_encode($linha["produto"])?></font>
                         </td>
                         <td>
-                            <font size="2"> <?php if($data_chegada=="0000-00-00"){
-                               echo ("NÃO DEFINIDO");
+                            <font size="2"> <?php if($data_chegada=="0000-00-00") {
+                               echo ("");
 
-                                  }else{echo formatardataB($data_chegada);
-                        } ?></font>
+                                  }elseif($data_chegada=="1970-01-01"){
+
+                                    echo ("");
+
+                                  }else{echo formatardataB($data_chegada); } ?></font>
                         </td>
 
                         <td>
@@ -141,19 +145,26 @@ if(isset($_GET["pedidoCompra"])){
                         </td>
 
                         <td>
-                            <font size="2"> <?php if($entregaPrevista=="0000-00-00"){
-                    echo ("NÃO DEFINIDO");
-                }else{
-                    echo formatardataB($entregaPrevista);
-                } ?> </font>
+                            <font size="2"> <?php  
+                            if($entregaPrevista=="0000-00-00"){
+                                echo ("");
+                            }elseif($entregaPrevista=="1970-01-01"){
+                                echo ("");
+                            } else{
+                                echo formatardataB($entregaPrevista);
+                            }?> </font>
+
                         </td>
+
                         <td>
                             <font size="2">
-                                <?php if($entregaRealizada=="0000-00-00"){
-                    echo ("NÃO DEFINIDO");
-                }else{
-                    echo formatardataB($entregaRealizada);
-                } ?>
+                                <?php if(($entregaRealizada=="0000-00-00")){
+                                 echo ("");
+                                   }elseif($entregaRealizada=="1970-01-01"){
+                                    echo ("");
+                                   }else{
+                                      echo formatardataB($entregaRealizada);
+                                     } ?>
                             </font>
                         </td>
 
