@@ -209,8 +209,10 @@ if(isset($_POST["txtrazaosocial"])){
                     <tr>
                         <div id="botoes">
                             <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
-                            <input type="submit" onClick="return fechar();" name="btnfechar" class="btn btn-secondary"
-                                value="Voltar"> </input>
+                            <a href="consulta_cliente.php">
+                                <button type="button" class="btn btn-secondary">Voltar</button>
+                            </a>
+
                         </div>
                     </tr>
 

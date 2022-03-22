@@ -156,11 +156,11 @@ main div#listagem_cliente li img {
 
 
 
-table {
+table{
     border-collapse: collapse;
     text-indent: initial;
-    border-spacing: 2px;
-    position: absolute;
+    border-spacing: 0px;
+
 
 
    
@@ -253,7 +253,7 @@ tr input[type="submit"] {
   .tabela_pesquisa td {
     display: table-cell;
     vertical-align: inherit;
-    padding: 0 10px;
+    padding: 0 5px;
 
 }
 
@@ -266,6 +266,13 @@ tr input[type="submit"] {
 
 .tabela_pesquisa P{
    display: inline-block;
- 
+   padding: 0px 0px;
+    
 
+}
+
+
+#BotaoLancarFinanceiro #lancar{
+     width: 150px;
+     margin-right: 10px;
 }

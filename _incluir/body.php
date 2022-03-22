@@ -8,6 +8,7 @@
 
 <nav>
     <ul>
+        
         <li><a href="../../../SystemVA/inicial.php">Home</a></li>
         <li><a href="">Chamado</a></li>
         <li><a href="../../../SystemVA/cdcliente/consulta_cliente.php">Cliente</a></li>
@@ -15,8 +16,9 @@
         <li><a href="">Cotação</a></li>
         <li><a href="../../../SystemVA/pdcompra/consulta_pdcompra.php">Pedido de compra</a></li>
         <li><a href="">Venda</a></li>
-        <li><a href="">Financeiro</a></li>
+        <li><a href="../../../SystemVA/financeiro/consulta_financeiro.php">Financeiro</a></li>
         <li><a href="">Faturamento</a></li>
+
     </ul>
 </div>
 </body>

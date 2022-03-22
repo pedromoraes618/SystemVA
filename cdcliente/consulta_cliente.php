@@ -14,7 +14,7 @@ die("Falaha no banco de dados  Linha 31 inserir_transportadora");
 $clientes = "SELECT * FROM clientes";
 if(isset($_GET["cliente"])){
     $nome_cliente = $_GET["cliente"];
-    $clientes .= " WHERE razaosocial LIKE '%{$nome_cliente}%' or cpfcnpj LIKE '%{$nome_cliente}%'  ";
+    $clientes .= " WHERE  razaosocial LIKE '%{$nome_cliente}%' or cpfcnpj LIKE '%{$nome_cliente}%' and clienteID NOT IN (!0)";
 }
 
 $resultado = mysqli_query($conecta, $clientes);
@@ -46,6 +46,7 @@ if(!$resultado){
 
 
     <main>
+      
         <div id="janela_pesquisa">
             <a href="cadastro_cliente.php">
 
@@ -53,8 +54,11 @@ if(!$resultado){
 
             </a>
 
+
+
             <form action="consulta_cliente.php" method="get">
                 <input type="text" name="cliente" placeholder="pesquisa">
+
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
             </form>
 
@@ -67,7 +71,7 @@ if(!$resultado){
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
                         <td>
-                            <p>Razão social</p>
+                            Razão social
                         </td>
                         <td>
                             <p>Cpf/Cnpj</p>
@@ -81,7 +85,11 @@ if(!$resultado){
 
 
                         <td>
-                            <p>Fornecedor</p>
+                            <p>Fornecedor\Cliente</p>
+                        </td>
+
+                        <td>
+                            <p>Telefone</p>
                         </td>
 
                         <td>
@@ -99,28 +107,28 @@ if(!$resultado){
 
                     <tr id="linha_pesquisa">
 
-                        <td>
+                        <td style="width:500px;">
                             <p>
-                                <font size="3"><?php echo utf8_encode($linha["razaosocial"])?>
+                                <font size="2"><?php echo utf8_encode($linha["razaosocial"])?>
                                 </font>
                             </p>
                         </td>
 
-                        <td>
+                        <td style="width:120px;">
                             <font size="2"><?php echo formatCnpjCpf($linha["cpfcnpj"])?></font>
                         </td>
-                        <td>
+                        <td style="width:120px;">
                             <font size="2"> <?php echo utf8_encode($linha["cidade"])?>
                             </font>
                         </td>
 
-                        <td>
-                            <font size="2"> <?php echo utf8_encode($linha["bairro"])?></font>
+                        <td style="width:140px;">
+                            <font size="3"> <?php echo utf8_encode($linha["bairro"])?></font>
                         </td>
 
-                        <td>
+                        <td style="width:190px;">
                             <font size="2"><?php if ($linha["clienteftID"] == 1){
-                            echo  "CLIENTES";
+                            echo  "CLIENTE";
                             }
                             if ($linha["clienteftID"] == 2){
                                 echo  "FORNECEDOR";
@@ -130,6 +138,11 @@ if(!$resultado){
                                     echo "TRANSPORTADOR";
                                     }?> </font>
                         </td>
+
+                        <td style="width:120px;">
+                            <font size="2"> <?php echo utf8_encode($linha["telefone"])?></font>
+                        </td>
+
 
 
 

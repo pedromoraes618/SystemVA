@@ -12,21 +12,32 @@ include ("../_incluir/funcoes.php");
 
 //consultar pedido de compra
 if(isset($_GET["pedidoCompra"])){
-$pedido = "SELECT * FROM pedido_compra";
+    
+        $select = "SELECT clientes.razaosocial, pedido_compra.produto, pedido_compra.numero_pedido_compra, pedido_compra.pedidoID, pedido_compra.data_chegada, pedido_compra.entrega_realizada, pedido_compra.entrega_prevista, pedido_compra.valor_compra,  pedido_compra.valor_venda from  clientes inner join pedido_compra on pedido_compra.clienteID = clientes.clienteID " ;
         if(isset($_GET["pedidoCompra"])){
-        $pedido_Compra= $_GET["pedidoCompra"];
-        $pedido .= " WHERE produto LIKE '%{$pedido_Compra}%' or entrega_prevista LIKE '%{$pedido_Compra}%' or cliente LIKE '%{$pedido_Compra}%' ";
-        
+        $nPedidoCompra = $_GET["pedidoCompra"];
+        $select  .= " WHERE clientes.razaosocial LIKE '%{$nPedidoCompra}%' or pedido_compra.entrega_prevista LIKE '%{$nPedidoCompra}%' or pedido_compra.numero_pedido_compra LIKE '%{$nPedidoCompra}%' ";
+       
+        }
+    
+       
+
+//consultar cliente
+
+$lista_clientes = mysqli_query($conecta,$select);
+if(!$lista_clientes){
+    die("Falaha no banco de dados || select clientes");
+}
 }
 
-
-
+/*
 $resultado = mysqli_query($conecta, $pedido);
 if(!$resultado){
     die("Falha na consulta ao banco de dados");
     
 }
-}
+*/
+
 
 ?>
 <!doctype html>
@@ -58,7 +69,7 @@ if(!$resultado){
                 <input type="submit" name="cadastrar_pdcompra" value="Adicionar">
             </a>
             <form action="consulta_pdcompra.php" method="get">
-                <input type="text" name="pedidoCompra" placeholder="pesquisa">
+                <input type="text" name="pedidoCompra" placeholder="pesquisa / Cliente / Entrega prevista / N° Pedido">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
             </form>
@@ -71,6 +82,11 @@ if(!$resultado){
             <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
+
+                        <td>
+                            <p>N° Pedido</p>
+                        </td>
+
                         <td>
                             <p>Cliente</p>
                         </td>
@@ -104,28 +120,45 @@ if(!$resultado){
                     <?php
 
 if(isset($_GET["pedidoCompra"])){
+    /* 
     while($linha = mysqli_fetch_assoc($resultado)){
-     $entregaPrevista = $linha["entrega_prevista"];
-     $entregaRealizada = $linha["entrega_realizada"];
-     $data_chegada = $linha["data_chegada"];
-   
+    
 
     ?>
+                    */
 
+                    while($linha_clientes = mysqli_fetch_assoc($lista_clientes)){
+                    $pedidoIDL = $linha_clientes["pedidoID"];
+                    $nPedidoCompraL = $linha_clientes["numero_pedido_compra"];
+                    $clienteSeleiconado = $linha_clientes['razaosocial'];
+                    $entregaPrevista = $linha_clientes["entrega_prevista"];
+                    $entregaRealizada = $linha_clientes["entrega_realizada"];
+                    $data_chegada = $linha_clientes["data_chegada"];
+                    $produtoL = $linha_clientes["produto"];
+                    $valorCompraL = $linha_clientes["valor_compra"];
+                    $valorVendaL = $linha_clientes["valor_venda"];
+                    ?>
 
                     <tr id="linha_pesquisa">
+             
 
-                        <td>
+                    <td style="width:90px;">
                             <p>
-                                <font size="3"><?php echo utf8_encode($linha["cliente"])?>
-                                </font>
+                                <font size="3"><?php echo $nPedidoCompraL;?></font>
                             </p>
                         </td>
 
-                        <td>
-                            <font size="2"><?php echo utf8_encode($linha["produto"])?></font>
+
+                        <td style="width:280px;">
+                            <p>
+                                <font size="3"><?php echo $clienteSeleiconado;?> </font>
+                            </p>
                         </td>
-                        <td>
+
+                        <td style="width:280px;">
+                            <font size="2"><?php echo utf8_encode($produtoL)?></font>
+                        </td>
+                        <td style="width:100px;">
                             <font size="2"> <?php if($data_chegada=="0000-00-00") {
                                echo ("");
 
@@ -136,15 +169,15 @@ if(isset($_GET["pedidoCompra"])){
                                   }else{echo formatardataB($data_chegada); } ?></font>
                         </td>
 
-                        <td>
-                            <font size="2"> <?php echo real_format($linha["valor_compra"])?></font>
+                        <td style="width:110px;">
+                            <font size="2"> <?php echo real_format($valorCompraL)?></font>
                         </td>
 
-                        <td>
-                            <font size="2"> <?php echo real_format($linha["valor_venda"])?> </font>
+                        <td style="width:110px;">
+                            <font size="2"> <?php echo real_format($valorVendaL)?> </font>
                         </td>
 
-                        <td>
+                        <td style="width:110px;">
                             <font size="2"> <?php  
                             if($entregaPrevista=="0000-00-00"){
                                 echo ("");
@@ -156,7 +189,7 @@ if(isset($_GET["pedidoCompra"])){
 
                         </td>
 
-                        <td>
+                        <td style="width:130px;">
                             <font size="2">
                                 <?php if(($entregaRealizada=="0000-00-00")){
                                  echo ("");
@@ -170,7 +203,7 @@ if(isset($_GET["pedidoCompra"])){
 
 
                         <td id="botaoEditar">
-                            <a href="editar_pdcompra.php?codigo=<?php echo $linha["pedidoID"]?>">
+                            <a href="editar_pdcompra.php?codigo=<?php echo $pedidoIDL?>">
 
                                 <button type="button" name="Editar">Editar</button>
                             </a>
@@ -180,8 +213,9 @@ if(isset($_GET["pedidoCompra"])){
 
 
                     <?php
+                    }
              }
-            }
+            
             ?>
                 </tbody>
             </table>

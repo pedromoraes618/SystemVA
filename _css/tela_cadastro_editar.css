@@ -13,7 +13,7 @@ body{
 
 main{
    padding: 5px 30px;
-     margin: 0px auto 0px;
+   margin: 0px auto 0px;
 
      
    
@@ -69,16 +69,14 @@ tr{
   display: table-row;
   vertical-align: inherit;
   border-color: inherit;
- margin-bottom: 30px;
-
-
 
 
 }
 
 td{
   display: table-cell;
- vertical-align: inherit;
+  vertical-align: inherit;
+
 
 }
 
@@ -86,8 +84,8 @@ td{
 /*botão*/
 input[type="text"],input[type="email"]{
   margin-right: 20px;
-  margin-bottom:6px;
-  margin-top: 6px;
+  margin-bottom:9px;
+  margin-top: 9px;
   outline:none;
   box-shadow: 0px 0px 5px 0px #898989;
   border:none;
@@ -109,6 +107,8 @@ select{
   border:none;
   border-radius: 2px;
   padding: 7px;
+  margin-bottom:9px;
+  margin-top: 9px;
   outline: none;
 }
 
@@ -180,4 +180,8 @@ i{
   margin-left: 0px;
   margin-right: 10px;
   cursor: pointer;
+}
+
+#campoCliente{
+  width: 500px;
 }

@@ -19,6 +19,14 @@ if(!$lista_formapagamemto){
 }
 
 
+//consultar cliente
+$select = "SELECT clienteID, razaosocial from clientes";
+$lista_clientes = mysqli_query($conecta,$select);
+if(!$lista_clientes){
+    die("Falaha no banco de dados || select clientes");
+}
+
+
 //consultar status do pedido
 $select = "SELECT statuspedidoID, nome from status_pedido";
 $lista_statuspedido = mysqli_query($conecta,$select);
@@ -72,6 +80,7 @@ if(isset($_POST["enviar"])){
       }else{
         if($statusCompra=="Selecione"){
             ?>
+            
 
 <p id="obrigatorio"><?php echo "Favor selecione o status da compra";?> </p>
 <?php 
@@ -137,7 +146,7 @@ if(isset($_POST["enviar"])){
 
 //inserindo as informações no banco de dados
   $inserir = "INSERT INTO pedido_compra ";
-  $inserir .= "( data_movimento,numero_pedido_compra,numero_orcamento,numero_nf,data_pagamento,forma_pagamento,cliente,produto,status_da_compra,status_do_pedido,data_compra,data_chegada,entrega_prevista,entrega_realizada,valor_venda,valor_compra,unidade_medida,quantidade,margem,desconto,observacao)";
+  $inserir .= "( data_movimento,numero_pedido_compra,numero_orcamento,numero_nf,data_pagamento,forma_pagamento,clienteID,produto,status_da_compra,status_do_pedido,data_compra,data_chegada,entrega_prevista,entrega_realizada,valor_venda,valor_compra,unidade_medida,quantidade,margem,desconto,observacao)";
   $inserir .= " VALUES ";
   $inserir .= "( '$hoje','$numeroPedidoCompra','$numeroOrcamento','$numeroNfe','$dataPagamento','$formaPagamento','$cliente','$produto','$statusCompra','$statusPedido','$dataCompra','$dataChegada','$entregaPrevista','$entregaRealizada','$precoVenda','$precoCompra','$unidade','$quantidade','$margem','$desconto','$observacao')";
   
@@ -146,7 +155,7 @@ if(isset($_POST["enviar"])){
   $numeroPedidoCompra = "";
   $numeroOrcamento = "";
   $numeroNfe = "";
-  $cliente ="";
+
   $produto = "";
   $precoVenda = "";
   $precoCompra = "";
@@ -236,10 +245,27 @@ if(isset($_POST["enviar"])){
 
                 <tr>
                     <td align=left><b>Cliente:</b></td>
-                    <td align=left><input type="text" size=57 name="campoCliente" id="campoCliente"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($cliente);}?>"><i
-                            id="botaoPesquisar" class="fa-solid fa-magnifying-glass-plus"
-                            onclick="abrepopupcliente();"></i></td>
+                    <td align=left><select id="campoCliente" name="campoCliente"><?php 
+                           while($linha_clientes = mysqli_fetch_assoc($lista_clientes)){
+                        ?>
+                            <option value="<?php 
+
+                                echo utf8_encode($linha_clientes["clienteID"]);?>">
+                                
+                                <?php 
+                          
+                                echo utf8_encode($linha_clientes["razaosocial"]);?>
+                            </option>
+
+                            <?php
+
+                         }
+                         
+                         ?>
+
+                        </select>
+                    </td>
+                            
 
 
                     <td><b>Forma do pagamento:</b></td>

@@ -202,7 +202,6 @@ if(isset($_POST["enviar"])){
                         <div id="botoes">
                             <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
                             <a href="consulta_produto.php">
-                             
                                 <button type="button" name="btnfechar"  class="btn btn-secondary">Voltar</button>
                             </a>
 
