@@ -22,7 +22,7 @@ die("Falaha no banco de dados  Linha 31 inserir_transportadora");
 $produtos = "SELECT * FROM produtos";
 if(isset($_GET["produto"])){
     $nome_produto = $_GET["produto"];
-    $produtos .= " WHERE nomeproduto LIKE '%{$nome_produto}%' or produtoID LIKE '%{$nome_produto}%'  ";
+    $produtos .= " WHERE nomeproduto LIKE '%{$nome_produto}%' or nome_categoria LIKE '%{$nome_produto}%'  ";
 }
 
 $resultado = mysqli_query($conecta, $produtos);
@@ -61,7 +61,7 @@ if(!$resultado){
             </a>
             <form action="consulta_produto.php" method="get">
 
-                <input type="text" name="produto" placeholder="pesquisa">
+                <input type="text" name="produto" placeholder="Pesquisa / Produto / Código">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
 
@@ -75,6 +75,10 @@ if(!$resultado){
             <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
+                        <td>
+                            <p>Código</p>
+                        </td>
+
                         <td>
                             <p>Descrição</p>
                         </td>
@@ -114,27 +118,31 @@ if(isset($_GET["produto"])){
 
                     <tr id="linha_pesquisa">
 
-                        <td>
+                        <td style="width: 70px;">
+                            <font size="3"><?php echo utf8_encode($linha["produtoID"])?> </font>
+                        </td>
+
+                        <td style="width: 500px;">
                             <p>
                                 <font size="2"><?php echo utf8_encode($linha["nomeproduto"])?> </font>
                             </p>
                         </td>
-                        <td>
+                        <td style="width: 150px;">
                             <font size="2"><?php echo real_format($linha["precovenda"])?></font>
                         </td>
-                        <td>
+                        <td style="width: 150px;">
                             <font size="2"><?php echo real_format($linha["precocompra"])?> </font>
                         </td>
 
-                        <td>
+                        <td style="width: 100px;">
                             <font size="2"><?php echo utf8_encode($linha["estoque"])?> </font>
                         </td>
 
-                        <td>
+                        <td style="width: 130px;">
                             <font size="2"> <?php echo utf8_encode($linha["nome_categoria"])?></font>
                         </td>
 
-                        <td>
+                        <td style="width: 90px;">
                             <font size="2"><?php echo utf8_encode($linha["nome_ativo"])?> </font>
                         </td>
                         <td>

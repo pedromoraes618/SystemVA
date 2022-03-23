@@ -209,7 +209,7 @@ if(!$lista_cft){
                     <td align=left><b>Bairro:</b></td>
                     <td align=left><input type="text" size=30 name="bairro" value="<?php echo $bairro;?>"><b>C/F/T</b>
 
-                        <select id="fornecedor_cliente" name="fornecedor_cliente">
+                        <select style="width: 175px;" id="fornecedor_cliente" name="fornecedor_cliente">
 
                             <?php 
                            $cft_selecionado =  $clienteftID;
@@ -256,7 +256,7 @@ if(!$lista_cft){
 
                 <tr>
                     <td><b>Conta agência:</b></td>
-                    <td><input type="text" size=60 id="conta_agencia" name="conta_agencia"
+                    <td><input  type="text" size=30 id="conta_agencia" name="conta_agencia"
                             value="<?php echo $conta_agencia?>">
                     </td>
                     <td><b>Pix:</b></td>
@@ -283,7 +283,7 @@ if(!$lista_cft){
                             </a>
 
                             <input id="remover" type="submit" name="btnremover" value="Remover"
-                                class="btn btn-danger"></input>
+                                class="btn btn-danger" onClick="return confirm('Confirma Remoção do CLienter? Verifique se o cliente tem movimentação');" ></input>
 
 
 

@@ -80,7 +80,7 @@ if(isset($_POST["enviar"])){
       }else{
         if($statusCompra=="Selecione"){
             ?>
-            
+
 
 <p id="obrigatorio"><?php echo "Favor selecione o status da compra";?> </p>
 <?php 
@@ -225,20 +225,19 @@ if(isset($_POST["enviar"])){
 
                 <tr>
                     <td align=left><b>Nº Pedido:</b></td>
-                    <td align=left><input type="text" size=20 name="campoNpdCompra"
+                    <td align=left><input type="text" size=14 name="campoNpdCompra"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($numeroPedidoCompra);}?>"
                             td><b>Nº Orçamento:</b>
-                        <input type="text" size=20 id="campoOrcamento" name="campoOrcamento" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($numeroOrcamento);}?>">
+                        <input type="text" size=20 id="campoOrcamento" name="campoOrcamento"
+                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($numeroOrcamento);}?>">
 
                     <td><b>Nº NFE:</b></td>
                     <td><input type="text" size=20 id="campoNnfe" name="campoNnfe"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($numeroNfe);}?>"><b>Data
                             Pagamento*:</b>
-                        <input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento"
-                            value="<?php if(isset($_POST['enviar'])){ 
-                                echo ($dataPagamento);}?>"
-
-                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
+                        <input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento" value="<?php if(isset($_POST['enviar'])){ 
+                                echo ($dataPagamento);}?>" OnKeyUp="mascaraData(this);" maxlength="10"
+                            autocomplete="off">
 
 
                 </tr>
@@ -251,7 +250,7 @@ if(isset($_POST["enviar"])){
                             <option value="<?php 
 
                                 echo utf8_encode($linha_clientes["clienteID"]);?>">
-                                
+
                                 <?php 
                           
                                 echo utf8_encode($linha_clientes["razaosocial"]);?>
@@ -265,11 +264,11 @@ if(isset($_POST["enviar"])){
 
                         </select>
                     </td>
-                            
+
 
 
                     <td><b>Forma do pagamento:</b></td>
-                    <td><select id="campoFormaPagamento" name="campoFormaPagamento">
+                    <td><select style="width: 205px;" id="campoFormaPagamento" name="campoFormaPagamento">
                             <?php 
                            while($linha_formapagamento = mysqli_fetch_assoc($lista_formapagamemto)){
                         ?>
@@ -298,7 +297,7 @@ if(isset($_POST["enviar"])){
                         <b>Status da compra*:</b>
                     </td>
                     <td>
-                    <select id="campoStatusCompra" name="campoStatusCompra">
+                        <select id="campoStatusCompra" name="campoStatusCompra">
                             <?php 
                            while($linha_statusCompra = mysqli_fetch_assoc($lista_statuscompra )){
                         ?>
@@ -317,8 +316,6 @@ if(isset($_POST["enviar"])){
                         <b>Data Compra:</b>
                         <input type="text" size=20 id="campoDataCompra" name="campoDataCompra"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($dataCompra);}?>"
-
-                            
                             OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
 
                     </td>
@@ -328,9 +325,9 @@ if(isset($_POST["enviar"])){
 
                 <tr>
                     <td align=left><b>Unidade:</b></td>
-                    <td align=left><input type="text" size=18 name="CampoUnidade" id="CampoUnidade"
+                    <td align=left><input type="text" size=18 name="CampoUnidade" id="CampoUnidade" autocomplete="off"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($unidade);}?>"><b>Quantidade:</b>
-                        <input type="text" size=19 name="CampoQuantidade" id="CampoQuantidade"
+                        <input type="text" size=19 name="CampoQuantidade" id="CampoQuantidade" autocomplete="off"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($quantidade);}?>">
                     </td>
 
@@ -350,17 +347,19 @@ if(isset($_POST["enviar"])){
 
 
                 <tr>
-                    <td align=left><b>Preço Venda:</b></td>
-                    <td align=left><input type="text" size=18 name="campoPrecoVenda" id="campoPrecoVenda"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($precoVenda);}?>"><b>Preço
-                            Compra:</b>
-                        <input type="text" size=16 id="campoPrecoCompra" name="campoPrecoCompra" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($precoCompra);}?>">
+                    <td align=left> <b>Preço Compra:</b></td>
+                    <td align=left> <input style="width: 190px;" type="text" size=16 id="campoPrecoCompra" name="campoPrecoCompra"
+                            onblur="calculavalormargem()" autocomplete="off"
+                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($precoCompra);}?>">
+
+                        <b style="margin-left: -4px;">Preço Venda:</b>
+                        <input type="text" size=18 name="campoPrecoVenda" id="campoPrecoVenda"
+                            onblur="calculavalormargem()" autocomplete="off"
+                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($precoVenda);}?>">
                     </td>
-
-
                     <td><b>Status do pedido*:</b></td>
                     <td>
-                    <select id="campoStatusPedido" name="campoStatusPedido">
+                        <select id="campoStatusPedido" name="campoStatusPedido">
                             <?php 
                            while($linha_statusPedido= mysqli_fetch_assoc($lista_statuspedido)){
                         ?>
@@ -376,7 +375,8 @@ if(isset($_POST["enviar"])){
 
                         </select>
                         <b>Entrega Realizada:</b>
-                        <input type="text" size=20 id="CampoEntregaRealizada" name="CampoEntregaRealizada" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($entregaRealizada);}?>"
+                        <input type="text" size=20 id="CampoEntregaRealizada" name="CampoEntregaRealizada"
+                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($entregaRealizada);}?>"
                             OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">
 
                     </td>
@@ -387,8 +387,10 @@ if(isset($_POST["enviar"])){
 
                     <td align=left><b>Margem:</b></td>
                     <td align=left><input type="text" size=18 name="campoMargem" id="campoMargem"
+                            onblur="calculavalormargem()" autocomplete="off"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($margem);}?>"><b>Desconto:</b>
-                        <input type="text" size=16 id="campoDesconto" name="campoDesconto" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($desconto);}?>">
+                        <input type="text" size=16 id="campoDesconto" name="campoDesconto"
+                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($desconto);}?>">
                     </td>
 
                 </tr>
@@ -396,7 +398,8 @@ if(isset($_POST["enviar"])){
 
                 <tr>
                     <td align=left><b>Observação:<b></td>
-                    <td><textarea rows=4 cols=60 name="observacao" id="observacao"><?php if(isset($_POST['enviar'])){ echo utf8_encode($observacao);}?></textarea>
+                    <td><textarea rows=4 cols=60 name="observacao"
+                            id="observacao"><?php if(isset($_POST['enviar'])){ echo utf8_encode($observacao);}?></textarea>
 
 
                     </td>
@@ -413,7 +416,7 @@ if(isset($_POST["enviar"])){
                                 <button type="button" class="btn btn-secondary" onclick="fechar()">Voltar</button>
                             </a>
 
-                            
+
                         </div>
                     </tr>
 
@@ -446,7 +449,25 @@ function abrepopupcliente() {
 function fechar() {
     window.close();
 }
+
+function calculavalormargem() {
+    var campoPrecoVenda = document.getElementById("campoPrecoVenda").value;
+    var campoPrecoCompra = document.getElementById("campoPrecoCompra").value;
+    var campoMargem = document.getElementById("campoMargem");
+    var calculo;
+
+    campoPrecoVenda = parseFloat(campoPrecoVenda);
+    campoPrecoCompra = parseFloat(campoPrecoCompra);
+
+    calculo = (((campoPrecoVenda - campoPrecoCompra) / campoPrecoVenda) * 100).toFixed(2);;
+    campoMargem.value = calculo;
+}
+
 </script>
+
+
+
+
 
 
 </html>

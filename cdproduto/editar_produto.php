@@ -158,101 +158,108 @@ if(!$lista_ativo){
                     <td align=left><input type="text" size=60 name="campoNomeProduto"
                             value="<?php echo $Bnome_produdo ?>">
                     </td>
-                    <td><b>Unidade de Medida:</b></td>
-                    <td><input type="text" size=30 id="campoUnidadedeMedida" name="campoUnidadedeMedida"
-                            value="<?php echo $Bunidade_medida ?>">
-                    </td>
+
                 </tr>
 
                 <tr>
-                    <td align=left><b>Preço Venda:</b></td>
-                    <td align=left><input type="text" size=60 name="campoPrecoVenda" id="campoPrecoVenda"
-                            value="<?php echo $Bpreco_venda ?>"> </td>
-                    <td><b>Preço Compra:</b></td>
-                    <td><input type="text" size=60 id="campoPrecoCompra" name="campoPrecoCompra"
-                            value="<?php echo $Bpreco_compra ?>"> </td>
-                </tr>
+                    <td style="width: 120px;"><b>Preço Compra:</b></td>
+                    <td><input type="text" size=10 id="campoPrecoCompra" name="campoPrecoCompra"
+                            value="<?php echo $Bpreco_compra ?>">
 
-                <tr>
-                    <td align=left><b>Estoque:</b></td>
-                    <td align=left><input type="text" size=30 name="campoEstoque" id="campoEstoque"
-                            value="<?php echo $Bestoque ?>">
+                        <b>Preço Venda:</b>
+                        <input type="text" size=10 name="campoPrecoVenda" id="campoPrecoVenda"
+                            value="<?php echo $Bpreco_venda ?>">
 
-                        <!-- ativo -->
-                        
                         <b>Ativo:</b>
 
-                    
-                        <select  id="campoAtivo" name="campoAtivo">
-                            <?php 
-                           $meuativo = $Bativo;
-                           while($linha_ativo = mysqli_fetch_assoc($lista_ativo)){
-                           $ativo_principal  = utf8_encode($linha_ativo["nome_ativo"]);
-                           if($meuativo==$ativo_principal){
 
-                        ?>
+                        <select id="campoAtivo" name="campoAtivo">
+                            <?php 
+                        $meuativo = $Bativo;
+                        while($linha_ativo = mysqli_fetch_assoc($lista_ativo)){
+                        $ativo_principal  = utf8_encode($linha_ativo["nome_ativo"]);
+                        if($meuativo==$ativo_principal){
+
+?>
                             <option value="<?php echo utf8_encode($linha_ativo["nome_ativo"]);?>" selected>
                                 <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
                             </option>
 
                             <?php
-                         }else{
-                         ?>
-                            <option  value="<?php echo utf8_encode($linha_ativo["nome_ativo"]);?>">
+                                }else{
+ ?>
+                            <option value="<?php echo utf8_encode($linha_ativo["nome_ativo"]);?>">
                                 <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
                             </option>
                             <?php
 
-                         }}
-                         
-                         ?>
+ }}
+ 
+ ?>
 
                         </select>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td align=left><b>Estoque:</b></td>
+                    <td align=left><input type="text" size=10 name="campoEstoque" id="campoEstoque"
+                            value="<?php echo $Bestoque ?>">
+
+
+                        <b>Und Medida:</b>
+                        <input type="text" size=15 id="campoUnidadedeMedida" name="campoUnidadedeMedida"
+                            value="<?php echo $Bunidade_medida ?>">
+
+
 
                     </td>
-                     
 
+
+
+
+
+                </tr>
+
+                <tr>
 
 
                     <td align=left><b>Categoria:</b></td>
-
                     <td>
-                        <select id="campoCategoria" name="campoCategoria">
+                        <select style="width: 200px;" id="campoCategoria" name="campoCategoria">
                             <?php 
-                           $meucategoria =  $Bcategoria ;
-                           while($linha_categoria = mysqli_fetch_assoc($lista_categoria)){
-                           $categoria_principal  =  utf8_encode($linha_categoria["nome_categoria"]);
-                           if($meucategoria==$categoria_principal){
-                               
+                        $meucategoria =  $Bcategoria ;
+                        while($linha_categoria = mysqli_fetch_assoc($lista_categoria)){
+                        $categoria_principal  =  utf8_encode($linha_categoria["nome_categoria"]);
+                        if($meucategoria==$categoria_principal){
+                            
                         ?>
                             <option value="<?php echo utf8_encode($linha_categoria["nome_categoria"]);?>" selected>
                                 <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
                             </option>
 
-                        
+
 
                             <?php
-                         }else{
-                         ?>
+     }else{
+     ?>
                             <option value="<?php echo utf8_encode($linha_categoria["nome_categoria"]);?>">
                                 <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
                             </option>
                             <?php
-                         }}
-                         ?>
+     }}
+     ?>
 
                         </select>
 
                     </td>
-
                 </tr>
-
-
 
                 <tr>
                     <td align=left><b>Observação:<b></td>
-                    <td><textarea rows=4 cols=60 name="campoObservacao"
-                            id="observacao"><?php echo $Bobservacao  ?></textarea>
+                    <td><textarea rows=4 cols=60 
+                    name="campoObservacao" id="campoObservacao"><?php echo $Bobservacao?></textarea>
                     </td>
                 </tr>
 
@@ -268,8 +275,8 @@ if(!$lista_ativo){
 
                             </a>
 
-                            <input id="remover" type="submit" name="btnremover" value="Remover"
-                                class="btn btn-danger"></input>
+                            <input id="remover" type="submit" name="btnremover" value="Remover" class="btn btn-danger"
+                                onClick="return confirm('Confirma Remoção do Produto? Verifique se o produto tem movimentação');"></input>
 
 
 

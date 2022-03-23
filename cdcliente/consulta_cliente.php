@@ -14,7 +14,7 @@ die("Falaha no banco de dados  Linha 31 inserir_transportadora");
 $clientes = "SELECT * FROM clientes";
 if(isset($_GET["cliente"])){
     $nome_cliente = $_GET["cliente"];
-    $clientes .= " WHERE  razaosocial LIKE '%{$nome_cliente}%' or cpfcnpj LIKE '%{$nome_cliente}%' and clienteID NOT IN (!0)";
+    $clientes .= " WHERE  razaosocial LIKE '%{$nome_cliente}%' or cpfcnpj LIKE '%{$nome_cliente}%' ";
 }
 
 $resultado = mysqli_query($conecta, $clientes);
@@ -57,7 +57,7 @@ if(!$resultado){
 
 
             <form action="consulta_cliente.php" method="get">
-                <input type="text" name="cliente" placeholder="pesquisa">
+                <input type="text" name="cliente" placeholder="Pesquisa / Razão social / Cnpj">
 
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
             </form>

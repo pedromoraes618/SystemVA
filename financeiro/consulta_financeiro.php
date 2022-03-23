@@ -12,15 +12,13 @@ include ("../_incluir/funcoes.php");
 
 //consultar pedido de compra
 if(isset($_GET["CampoPesquisa"])){
-    
-        $select = "SELECT  clientes.razaosocial, grupo_lancamento.nome,forma_pagamento.nome, lancamento_financeiro.data_movimento, lancamento_financeiro.data_a_pagar, lancamento_financeiro.status,lancamento_financeiro.valor,lancamento_financeiro.documento, lancamento_financeiro.receita_despesa from  clientes inner join lancamento_financeiro on lancamento_financeiro.clienteID = clientes.clienteID inner join grupo_lancamento on lancamento_financeiro.grupoID = grupo_lancamento.grupo_lancamentoID inner join forma_pagamento on lancamento_financeiro.forma_pagamentoID = forma_pagamento.formapagamentoID " ;
-
+        $select = "SELECT  clientes.razaosocial, grupo_lancamento.nome AS nomeGrupo, forma_pagamento.nome, lancamento_financeiro.data_movimento, lancamento_financeiro.documento,lancamento_financeiro.lancamentoFinanceiroID, lancamento_financeiro.data_a_pagar, lancamento_financeiro.status,lancamento_financeiro.valor,lancamento_financeiro.documento, lancamento_financeiro.receita_despesa from  clientes inner join lancamento_financeiro on lancamento_financeiro.clienteID = clientes.clienteID inner join grupo_lancamento on lancamento_financeiro.grupoID = grupo_lancamento.grupo_lancamentoID inner join forma_pagamento on lancamento_financeiro.forma_pagamentoID = forma_pagamento.formapagamentoID " ;
         if(isset($_GET["CampoPesquisa"])){
         $pesquisa = $_GET["CampoPesquisa"];
-        $select  .= " WHERE  clientes.razaosocial LIKE '%{$pesquisa}%' ";
+        $select  .= " WHERE  clientes.razaosocial LIKE '%{$pesquisa}%' or  lancamento_financeiro.documento LIKE '%{$pesquisa}%' ";
        
         }
-    
+   
        
 
 //consultar cliente
@@ -30,6 +28,8 @@ if(!$lista_pesquisa){
     die("Falaha no banco de dados || select clientes");
 }
 }
+
+
 
 
 /*
@@ -73,7 +73,9 @@ if(!$resultado){
             </div>
 
             <form action="consulta_financeiro.php" method="get">
-                <input type="text" name="CampoPesquisa" placeholder="pesquisa / Cliente / Entrega prevista / N° Pedido">
+
+
+                <input type="text" name="CampoPesquisa" placeholder="pesquisa / Cliente / N° documento">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
             </form>
@@ -98,15 +100,15 @@ if(!$resultado){
                             <p>Cliente</p>
                         </td>
                         <td>
+                            <p>Valor</p>
+                        </td>
+                        <td>
                             <p>Status</p>
                         </td>
                         <td>
                             <p>Grupo</p>
                         </td>
 
-                        <td>
-                            <p>Valor</p>
-                        </td>
                         <td>
                             <p>Nº documento</p>
                         </td>
@@ -123,30 +125,25 @@ if(!$resultado){
                     <?php
 
 if(isset($_GET["CampoPesquisa"])){
-    /* 
-    while($linha = mysqli_fetch_assoc($resultado)){
-    
-
-    ?>
-                    */
 
                     while($linha_pesquisa = mysqli_fetch_assoc($lista_pesquisa)){
                     $dataMovimentoL = $linha_pesquisa["data_movimento"];
                     $dataVencimentoL = $linha_pesquisa["data_a_pagar"];
                     $clienteL = $linha_pesquisa['razaosocial'];
                     $statusL = $linha_pesquisa["status"];
-                    $grupoLancamentoL = $linha_pesquisa["nome"];
+                    $grupoLancamentoL = $linha_pesquisa["nomeGrupo"];
                     $valorL = $linha_pesquisa["valor"];
                     $documentoL = $linha_pesquisa["documento"];
                     $receite_despesa = $linha_pesquisa["receita_despesa"];
+                    $lancamentoID = $linha_pesquisa["lancamentoFinanceiroID"];
                    
                     ?>
 
                     <tr id="linha_pesquisa">
 
-                    <td>
-                        <p>
-                            <font size="2"> <?php if($dataMovimentoL=="0000-00-00") {
+                        <td style="width: 150px;">
+                            <p>
+                                <font size="2"> <?php if($dataMovimentoL=="0000-00-00") {
                                echo ("");
 
                                   }elseif($dataMovimentoL=="1970-01-01"){
@@ -154,11 +151,11 @@ if(isset($_GET["CampoPesquisa"])){
                                     echo ("");
 
                                   }else{echo formatardataB($dataMovimentoL); } ?></font>
-                                  </p>
+                            </p>
                         </td>
 
 
-                        <td>
+                        <td style="width: 150px;">
                             <font size="2"> <?php if($dataVencimentoL=="0000-00-00") {
                                echo ("");
 
@@ -170,22 +167,24 @@ if(isset($_GET["CampoPesquisa"])){
                         </td>
 
 
-                        <td>
+                        <td style="width:350px;">
                             <font size="2"><?php echo utf8_encode($clienteL)?></font>
                         </td>
-                        <td>
-                            <font size="2"> <?php echo utf8_encode($statusL)?></font>
-                        </td>
-
-                        <td>
-                            <font size="2"> <?php echo utf8_encode($grupoLancamentoL)?></font>
-                        </td>
-
+                        
                         <td>
                             <font size="2"> <?php echo real_format($valorL)?></font>
                         </td>
 
                         <td>
+                            <font size="2"> <?php echo utf8_encode($statusL)?></font>
+                        </td>
+
+                        <td style="width:170px;">
+                            <font size="2"> <?php echo utf8_encode($grupoLancamentoL)?></font>
+                        </td>
+
+
+                        <td style="width:150px;">
                             <font size="2"> <?php echo utf8_encode($documentoL)?> </font>
                         </td>
 
@@ -196,10 +195,10 @@ if(isset($_GET["CampoPesquisa"])){
 
 
                         <td id="botaoEditar">
-                            <a href="editar_pdcompra.php?codigo=<?php ?>">
+                            <a href="editar_receita_despesa.php?codigo=<?php echo  $lancamentoID?>">
 
                                 <button type="button" name="Editar">Editar</button>
-                            </a>
+                            </a>    
                         </td>
                     </tr>
 

@@ -13,7 +13,7 @@ include ("../_incluir/funcoes.php");
 //consultar pedido de compra
 if(isset($_GET["pedidoCompra"])){
     
-        $select = "SELECT clientes.razaosocial, pedido_compra.produto, pedido_compra.numero_pedido_compra, pedido_compra.pedidoID, pedido_compra.data_chegada, pedido_compra.entrega_realizada, pedido_compra.entrega_prevista, pedido_compra.valor_compra,  pedido_compra.valor_venda from  clientes inner join pedido_compra on pedido_compra.clienteID = clientes.clienteID " ;
+        $select = "SELECT clientes.razaosocial, pedido_compra.produto,pedido_compra.margem, pedido_compra.numero_pedido_compra, pedido_compra.pedidoID, pedido_compra.data_chegada, pedido_compra.entrega_realizada, pedido_compra.entrega_prevista, pedido_compra.valor_compra,  pedido_compra.valor_venda from  clientes inner join pedido_compra on pedido_compra.clienteID = clientes.clienteID " ;
         if(isset($_GET["pedidoCompra"])){
         $nPedidoCompra = $_GET["pedidoCompra"];
         $select  .= " WHERE clientes.razaosocial LIKE '%{$nPedidoCompra}%' or pedido_compra.entrega_prevista LIKE '%{$nPedidoCompra}%' or pedido_compra.numero_pedido_compra LIKE '%{$nPedidoCompra}%' ";
@@ -94,9 +94,6 @@ if(!$resultado){
                             <p>Produto</p>
                         </td>
                         <td>
-                            <p>Data Chegada</p>
-                        </td>
-                        <td>
                             <p>Valor Compra</p>
                         </td>
 
@@ -104,8 +101,16 @@ if(!$resultado){
                         <td>
                             <p>Valor Venda</p>
                         </td>
+
                         <td>
-                            <p>Entrega Prevista</p>
+                            <p>Lucro</p>
+                        </td>
+                       
+                        <td>
+                            <p>Data Chegada</p>
+                        </td>
+                            <td>
+                        <p>Entrega Prevista</p>
                         </td>
                         <td>
                             <p>Entrega Realizada</p>
@@ -137,12 +142,13 @@ if(isset($_GET["pedidoCompra"])){
                     $produtoL = $linha_clientes["produto"];
                     $valorCompraL = $linha_clientes["valor_compra"];
                     $valorVendaL = $linha_clientes["valor_venda"];
+                    $lucroL = $linha_clientes["margem"];
                     ?>
 
                     <tr id="linha_pesquisa">
-             
 
-                    <td style="width:90px;">
+
+                        <td style="width:90px;">
                             <p>
                                 <font size="3"><?php echo $nPedidoCompraL;?></font>
                             </p>
@@ -158,6 +164,19 @@ if(isset($_GET["pedidoCompra"])){
                         <td style="width:280px;">
                             <font size="2"><?php echo utf8_encode($produtoL)?></font>
                         </td>
+
+                        <td style="width:110px;">
+                            <font size="2"> <?php echo real_format($valorCompraL)?></font>
+                        </td>
+
+                        <td style="width:110px;">
+                            <font size="2"> <?php echo real_format($valorVendaL)?> </font>
+                        </td>
+
+                        <td style="width:80px;">
+                            <font size="2"> <?php echo porcent_format($lucroL)?> </font>
+                        </td>
+                        
                         <td style="width:100px;">
                             <font size="2"> <?php if($data_chegada=="0000-00-00") {
                                echo ("");
@@ -169,15 +188,9 @@ if(isset($_GET["pedidoCompra"])){
                                   }else{echo formatardataB($data_chegada); } ?></font>
                         </td>
 
-                        <td style="width:110px;">
-                            <font size="2"> <?php echo real_format($valorCompraL)?></font>
-                        </td>
 
-                        <td style="width:110px;">
-                            <font size="2"> <?php echo real_format($valorVendaL)?> </font>
-                        </td>
 
-                        <td style="width:110px;">
+                        <td style="width:120px;">
                             <font size="2"> <?php  
                             if($entregaPrevista=="0000-00-00"){
                                 echo ("");

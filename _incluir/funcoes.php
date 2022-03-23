@@ -4,6 +4,11 @@
         return "R$ " . $valor;
     }
 
+    function porcent_format($valor) {
+      return $valor . " % ";
+  }
+
+
     function dia_format($dias){
        return $dias . " dias";
     }
@@ -30,8 +35,10 @@
       return $value;
     
    }
-?>
 
+   
+
+?>
 
 
 

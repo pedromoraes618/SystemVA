@@ -149,7 +149,7 @@ if(isset($_POST["txtrazaosocial"])){
                     <td align=left><input type="text" size=30 name="bairro" id="bairro"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($bairro);}?>">
                         <b>C/F/T:</b>
-                        <select name="cft" id="cft">
+                        <select style="width: 168px;" name="cft" id="cft">
                             <?php while($linha_cft = mysqli_fetch_assoc($lista_cft)){
 ?>
                             <option value="<?php echo $linha_cft["clienteftID"];?>">
@@ -188,7 +188,7 @@ if(isset($_POST["txtrazaosocial"])){
 
                 <tr>
                     <td><b>Conta agência:</b></td>
-                    <td><input type="text" size=60 id="conta_agencia" name="conta_agencia"
+                    <td><input type="text" size=20 id="conta_agencia" name="conta_agencia"
                             value="<?php if(isset($_POST['enviar'])){ echo $conta_agencia;}?>"> </td>
                     <td><b>Pix:</b></td>
                     <td><input type="text" size=60 id="pix" name="pix"

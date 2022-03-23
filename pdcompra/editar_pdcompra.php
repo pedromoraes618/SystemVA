@@ -133,7 +133,8 @@ if(!$numeroPedidoCompra == ""){
     //query para remover o cliente no banco de dados
     if( !$pedidoID=="" ){
 
-   
+ 
+
     $remover = "DELETE FROM pedido_compra WHERE pedidoID = {$pedidoID}";
 
       $operacao_remover = mysqli_query($conecta, $remover);
@@ -141,12 +142,17 @@ if(!$numeroPedidoCompra == ""){
           die("Erro linha 44");   
       } else {  
         
+  //limpar os campos
+
+  $dataChegada = "teste";
 
     ?>
 <p id="obrigatorio">Pedido de compra removido</p>
 
 
 <?php
+
+
           //header("location:listagem.php"); 
            
       }
@@ -278,7 +284,7 @@ if(!$detalhe){
                             value="<?php echo $BnumeroPedidoCompra ?>" td>
 
                         <b>Nº Orçamento:</b>
-                        <input type="text" size=20 id="campoOrcamento" name="campoOrcamento"
+                        <input type="text" size=14 id="campoOrcamento" name="campoOrcamento"
                             value="<?php echo $BnumeroOrcamento?>">
 
 
@@ -332,7 +338,7 @@ if(!$detalhe){
 
 
                     <td><b>Forma do pagamento:</b></td>
-                    <td><select id="campoFormaPagamento" name="campoFormaPagamento">
+                    <td><select style="width: 205px;"  id="campoFormaPagamento" name="campoFormaPagamento">
                             <?php 
 
                              $meuFomraPagmaneto =  $BformaPagamento ;
@@ -459,15 +465,17 @@ if(!$detalhe){
 
 
                 <tr>
-                    <td align=left><b>Preço Venda:</b></td>
-                    <td align=left><input type="text" size=18 name="campoPrecoVenda" id="campoPrecoVenda"
-                            value="<?php echo $BprecoVenda?>"><b>Preço
-                            Compra:</b>
-                        <input type="text" size=16 id="campoPrecoCompra" name="campoPrecoCompra"
-                            value="<?php echo $BprecoCompra ?>">
+                    <td align=left> <b>Preço Compra:</b></td>
+                    <td align=left> <input type="text" size=18 id="campoPrecoCompra" name="campoPrecoCompra"
+                            onblur="calculavalormargem()" value="<?php echo $BprecoCompra ?>">
+
+                        <b>Preço Venda:</b>
+                   
+                    <input type="text" size=17 name="campoPrecoVenda" id="campoPrecoVenda" onblur="calculavalormargem()"
+                        value="<?php echo $BprecoVenda?>">
                     </td>
 
-
+           
                     <td><b>Status do pedido:</b></td>
                     <td>
                         <select id="campoStatusPedido" name="campoStatusPedido">
@@ -514,7 +522,7 @@ if(!$detalhe){
 
                     <td align=left><b>Margem:</b></td>
                     <td align=left><input type="text" size=18 name="campoMargem" id="campoMargem"
-                            value="<?php echo $Bmargem?>"><b>Desconto:</b>
+                            onblur="calculavalormargem()" value="<?php echo $Bmargem?>"><b>Desconto:</b>
                         <input type="text" size=16 id="campoDesconto" name="campoDesconto"
                             value="<?php echo $Bdesconto?>">
                     </td>
@@ -544,8 +552,8 @@ if(!$detalhe){
                                 <button type="button" class="btn btn-secondary">Voltar</button>
                             </a>
 
-                            <input id="remover" type="submit" name="btnremover" value="Remover"
-                                class="btn btn-danger"></input>
+                            <input id="remover" type="submit" name="btnremover" value="Remover" class="btn btn-danger"
+                                onClick="return confirm('Confirma Remoção do pedido de compra?');"></input>
 
 
 
@@ -568,6 +576,27 @@ if(!$detalhe){
 
 
 </html>
+
+
+
+<script>
+function calculavalormargem() {
+    var campoPrecoVenda = document.getElementById("campoPrecoVenda").value;
+    var campoPrecoCompra = document.getElementById("campoPrecoCompra").value;
+    var campoMargem = document.getElementById("campoMargem");
+    var calculo;
+
+    campoPrecoVenda = parseFloat(campoPrecoVenda);
+    campoPrecoCompra = parseFloat(campoPrecoCompra);
+
+    calculo = (((campoPrecoVenda - campoPrecoCompra) / campoPrecoVenda) * 100).toFixed(2);;
+    campoMargem.value = calculo;
+}
+</script>
+
+
+</script>
+
 <?php 
 include '../_incluir/funcaojavascript.jar'; 
 ?>
