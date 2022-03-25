@@ -272,7 +272,7 @@ if(isset($_POST["enviar"])){
                             <?php 
                            while($linha_formapagamento = mysqli_fetch_assoc($lista_formapagamemto)){
                         ?>
-                            <option value="<?php echo utf8_encode($linha_formapagamento["nome"]);?>">
+                            <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>">
                                 <?php echo utf8_encode($linha_formapagamento["nome"]);?>
                             </option>
 

@@ -343,19 +343,19 @@ if(!$detalhe){
 
                              $meuFomraPagmaneto =  $BformaPagamento ;
                            while($linha_formapagamento = mysqli_fetch_assoc($lista_formapagamemto)){
-                               $formaPagamentoPrincipal = utf8_encode($linha_formapagamento["nome"]);
+                               $formaPagamentoPrincipal = utf8_encode($linha_formapagamento["formapagamentoID"]);
 
                                if($meuFomraPagmaneto==$formaPagamentoPrincipal){
                                    ?>
 
-                            <option value="<?php echo utf8_encode($linha_formapagamento["nome"]);?>" selected>
+                            <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>" selected>
                                 <?php echo utf8_encode($linha_formapagamento["nome"]);?>
                             </option>
 
                             <?php
                                    }else{
                                        ?>
-                            <option value="<?php echo utf8_encode($linha_formapagamento["nome"]);?>">
+                            <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>">
                                 <?php echo utf8_encode($linha_formapagamento["nome"]);?>
                             </option>
                             <?php

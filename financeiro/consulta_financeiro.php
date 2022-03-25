@@ -7,28 +7,89 @@ include("../conexao/sessao.php");
 include ("../_incluir/funcoes.php");
 
 
-
-
-
 //consultar pedido de compra
-if(isset($_GET["CampoPesquisa"])){
+
+if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaDataf"]){
+
+    $pesquisaData = $_GET["CampoPesquisaData"];
+    $pesquisaDataf = $_GET["CampoPesquisaDataf"];
+
+    if($pesquisaData==""){
+          
+    }else{
+        $div1 = explode("/",$_GET['CampoPesquisaData']);
+        $pesquisaData = $div1[2]."-".$div1[1]."-".$div1[0];  
+       
+    }
+    if($pesquisaDataf==""){
+       
+    }else{
+    $div2 = explode("/",$_GET['CampoPesquisaDataf']);
+    $pesquisaDataf = $div2[2]."-".$div2[1]."-".$div2[0];
+    }
+
+
+
         $select = "SELECT  clientes.razaosocial, grupo_lancamento.nome AS nomeGrupo, forma_pagamento.nome, lancamento_financeiro.data_movimento, lancamento_financeiro.documento,lancamento_financeiro.lancamentoFinanceiroID, lancamento_financeiro.data_a_pagar, lancamento_financeiro.status,lancamento_financeiro.valor,lancamento_financeiro.documento, lancamento_financeiro.receita_despesa from  clientes inner join lancamento_financeiro on lancamento_financeiro.clienteID = clientes.clienteID inner join grupo_lancamento on lancamento_financeiro.grupoID = grupo_lancamento.grupo_lancamentoID inner join forma_pagamento on lancamento_financeiro.forma_pagamentoID = forma_pagamento.formapagamentoID " ;
-        if(isset($_GET["CampoPesquisa"])){
         $pesquisa = $_GET["CampoPesquisa"];
-        $select  .= " WHERE  clientes.razaosocial LIKE '%{$pesquisa}%' or  lancamento_financeiro.documento LIKE '%{$pesquisa}%' ";
+        $select  .= " WHERE data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' ";
        
-        }
-   
-       
+      
 
 //consultar cliente
-
 $lista_pesquisa = mysqli_query($conecta,$select);
 if(!$lista_pesquisa){
     die("Falaha no banco de dados || select clientes");
 }
 }
 
+if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaDataf"]){
+    $pesquisaData = $_GET["CampoPesquisaData"];
+    $pesquisaDataf = $_GET["CampoPesquisaDataf"];
+
+    if($pesquisaData==""){
+          
+    }else{
+        $div1 = explode("/",$_GET['CampoPesquisaData']);
+        $pesquisaData = $div1[2]."-".$div1[1]."-".$div1[0];  
+       
+    }
+    if($pesquisaDataf==""){
+       
+    }else{
+    $div2 = explode("/",$_GET['CampoPesquisaDataf']);
+    $pesquisaDataf = $div2[2]."-".$div2[1]."-".$div2[0];
+    }
+
+$selectValorSoma = $select = "SELECT  clientes.razaosocial, grupo_lancamento.nome AS nomeGrupo, forma_pagamento.nome, lancamento_financeiro.data_movimento, sum(valor) as soma, lancamento_financeiro.documento,lancamento_financeiro.lancamentoFinanceiroID, lancamento_financeiro.data_a_pagar, lancamento_financeiro.status,lancamento_financeiro.valor,lancamento_financeiro.documento, lancamento_financeiro.receita_despesa from  clientes inner join lancamento_financeiro on lancamento_financeiro.clienteID = clientes.clienteID inner join grupo_lancamento on lancamento_financeiro.grupoID = grupo_lancamento.grupo_lancamentoID inner join forma_pagamento on lancamento_financeiro.forma_pagamentoID = forma_pagamento.formapagamentoID " ;
+$pesquisa = $_GET["CampoPesquisa"];
+
+$selectValorSoma  .= " where data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' "   ;
+
+$lista_Soma_Valor= mysqli_query($conecta,$selectValorSoma);
+if(!$lista_Soma_Valor){
+    die("Falaha no banco de dados || select valor");
+}else{
+    //recuperar valor que está no input 
+   
+
+    }
+}
+
+
+//recuperar valores via get
+if (isset($_GET["CampoPesquisaData"])){
+    $pesquisaData=$_GET["CampoPesquisaData"];
+  }
+  if (isset($_GET["CampoPesquisaDataf"])){
+    $pesquisaDataf=$_GET["CampoPesquisaDataf"];
+  }
+
+
+ 
+
+
+   
 
 
 
@@ -72,14 +133,30 @@ if(!$resultado){
                 </a>
             </div>
 
-            <form action="consulta_financeiro.php" method="get">
+            <form style="width:1500px; " action="" method="get">
+
+                <td>
+
+                    <input style="width: 100px; " type="text" id="CampoPesquisaData" name="CampoPesquisaData"
+                        placeholder="Data incial" onkeyup="mascaraData(this);" value="<?php if( !isset($_GET["CampoPesquisa"])){ echo formatardataB(date('Y-m-01')); }
+                              if (isset($_GET["CampoPesquisaData"])){
+                                 echo $pesquisaData;
+                                    }?>" placeholder="pesquisa / Cliente / N° documento">
+
+                    <input style="width: 100px;" type="text" name="CampoPesquisaDataf" placeholder="Data final"
+                        onkeyup="mascaraData(this);" value="<?php if(!isset($_GET["CampoPesquisa"])){ echo date('d/m/Y');
+                        } if (isset($_GET["CampoPesquisaDataf"])){ echo $pesquisaDataf;} ?>"
+                        placeholder="pesquisa / Cliente / N° documento">
+
+                    <input style="margin-left:250px;" type="text" name="CampoPesquisa"
+                        placeholder="pesquisa / Cliente / N° documento">
+
+                    <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
 
-                <input type="text" name="CampoPesquisa" placeholder="pesquisa / Cliente / N° documento">
-                <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
+
 
             </form>
-
 
         </div>
 
@@ -170,7 +247,7 @@ if(isset($_GET["CampoPesquisa"])){
                         <td style="width:350px;">
                             <font size="2"><?php echo utf8_encode($clienteL)?></font>
                         </td>
-                        
+
                         <td>
                             <font size="2"> <?php echo real_format($valorL)?></font>
                         </td>
@@ -198,13 +275,57 @@ if(isset($_GET["CampoPesquisa"])){
                             <a href="editar_receita_despesa.php?codigo=<?php echo  $lancamentoID?>">
 
                                 <button type="button" name="Editar">Editar</button>
-                            </a>    
+                            </a>
                         </td>
                     </tr>
 
 
 
+
                     <?php
+                    }
+
+                    while($linha_Soma_Valor = mysqli_fetch_assoc($lista_Soma_Valor)){
+                
+                        ?>
+
+                    <tr id="cabecalho_pesquisa_consulta">
+
+                        <td>
+                            <p>Valor</p>
+                        </td>
+
+                        <td>
+                            <p></p>
+                        </td>
+                        <td>
+                            <p></p>
+                        </td>
+                        <td style="width: 140px;">
+                            <p><?php echo real_format($linha_Soma_Valor['soma']) ?></p>
+                        </td>
+                        <td>
+                            <p></p>
+                        </td>
+                        <td>
+                            <p></p>
+                        </td>
+
+                        <td>
+                            <p></p>
+                        </td>
+                        <td>
+                            <p></p>
+                        </td>
+
+                        <td>
+                            <p></p>
+                        </td>
+
+                    </tr>
+
+                    <?php
+
                     }
              }
             
@@ -220,6 +341,7 @@ if(isset($_GET["CampoPesquisa"])){
 </body>
 
 
+<?php include '../_incluir/funcaojavascript.jar'; ?>
 
 <script>
 //abrir uma nova tela de cadastro
