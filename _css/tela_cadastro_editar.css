@@ -89,7 +89,7 @@ input[type="text"],input[type="email"]{
   box-shadow: 0px 0px 5px 0px #898989;
   border:none;
   border-radius: 2px;
-  padding: 5px;
+  padding: 8px;
   
 
 }
@@ -105,7 +105,7 @@ select{
   box-shadow: 0px 0px 5px 0px #898989;
   border:none;
   border-radius: 2px;
-  padding: 7px;
+  padding:8px;
   margin-bottom:9px;
   margin-top: 9px;
   outline: none;

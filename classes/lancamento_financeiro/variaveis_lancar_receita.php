@@ -105,14 +105,12 @@
 
         }else{
           if($dataLancamento==""){
-           
-
-
+       
           }else{
-        
+            echo',';
            ?>
             <script>
-            alertify.alert("Pedido de compra lançado com sucesso");
+            alertify.success("lançamento financeiro lançado com sucesso");
             </script>
 
             <?php
@@ -153,14 +151,7 @@
   
     //limpando os campos apos inserir no banco de dados
     
-    $dataLancamento = "";
-    $dataapagar = "";
-    $dataPagamento = "";
-    $lancamento  = "";
-    $descricao= "";
-    $documento = "";
-    $valor = "";
-    $observacao = "";
+ 
   
     //verificando se está havendo conexão com o banco de dados
     $operacao_inserir = mysqli_query($conecta, $inserir);
@@ -169,7 +160,8 @@
         die("Erro no banco de dados inserir_no_banco_de_dados");
      
     }
-  
+
+ 
   }
   }
   }

@@ -3,7 +3,7 @@
 
 
 
-include("../lib/alertify.php");
+
 if(isset($_POST["enviar"])){
     $hoje = date('Y-m-d'); 
      $lancamentoID = utf8_decode($_POST["cammpoLancamentoID"]);
@@ -27,15 +27,16 @@ if($lancamento=="Selecione"){
 alertify.alert("Favor selecione o tipo do lançamento");
 </script>
 <?php
-}
 
-if($dataLancamento==""){
+
+if(!$dataLancamento){
     ?>
     <script>
-    alertify.alert("Favor informe a data de lançamento");
+    alertify.alert("Favor informe a data de lançamento / Será informado a data atual");
     </script>
     <?php
     }
+}
 }
  
 ?>
