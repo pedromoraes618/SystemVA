@@ -4,79 +4,7 @@ require_once("../conexao/conexao.php");
 include("../conexao/sessao.php");
 
 //variaveis
-$campo_obrigatorio_RazacaoS ="Descrição deve ser informado";
-$msgcadastrado = "Produto cadastrado com sucesso!";
-
-
-
-//consultar categoria do produto
-$select = "SELECT categoriaID, nome_categoria from categoria_produto";
-$lista_categoria = mysqli_query($conecta,$select);
-if(!$lista_categoria){
-    die("Falaha no banco de dados  Linha 89");
-}
-
-//consultar Situação ativo
-$selectativo = "SELECT ativoID, nome_ativo from ativo";
-$lista_ativo = mysqli_query($conecta, $selectativo);
-if(!$lista_ativo){
-    die("Falaha no banco de dados  Linha 96 ");
-}
-
-//variaveis 
-if(isset($_POST["enviar"])){
-    $hoje = date('Y-m-d'); 
-    $produtoID = utf8_decode($_POST["cammpoProdutoID"]);
-    $nome_produto = utf8_decode($_POST["campoNomeProduto"]);
-    $preco_venda = utf8_decode($_POST["campoPrecoVenda"]);
-    $preco_compra = utf8_decode($_POST["campoPrecoCompra"]);
-    $estoque = utf8_decode($_POST["campoEstoque"]);
-    $unidade_medida = utf8_decode($_POST["campoUnidadedeMedida"]);
-    $categoria = utf8_decode($_POST["campoCategoria"]);
-    $ativo = utf8_decode($_POST["campoAtivo"]);
-    $observacao = utf8_decode($_POST["campoObservacao"]);
-   
-
-  if(isset($_POST['enviar']))
-  {
-        //campo obrigatorio 
-              if($nome_produto == ""){
-                  ?>
-
-
-<p id="obrigatorio"><?php echo $campo_obrigatorio_RazacaoS;?> </p>
-<?php 
-              }else{
-        ?>
-
-<p id="confirmacao"><?php echo $msgcadastrado; ?> </p>
-<?php
-
-//inserindo as informações no banco de dados
-  $inserir = "INSERT INTO produtos ";
-  $inserir .= "( data_cadastro,nomeproduto,precovenda,precocompra,estoque,unidade_medida,observacao,nome_categoria,nome_ativo )";
-  $inserir .= " VALUES ";
-  $inserir .= "( '$hoje','$nome_produto','$preco_venda',' $preco_compra',' $estoque','$unidade_medida','$observacao','$categoria','$ativo')";
-
-    $nome_produto = "";
-    $preco_venda = "";
-    $preco_compra = "";
-    $estoque = "";
-    $unidade_medida = "";
-    $categoria = "";
-    $ativo = "";
-    $observacao = "";
-
-  $operacao_inserir = mysqli_query($conecta, $inserir);
-  if(!$operacao_inserir){
-      die("Erro no banco de dados Linha 63 inserir_no_banco_de_dados");
-      
-  }
-
-}
-}
-
-}
+include("../classes/produtos/cadastro_produto.php");
 
 //teste
 //
@@ -136,15 +64,40 @@ if(isset($_POST["enviar"])){
 
                         <select id="campoAtivo" name="campoAtivo">
                             <?php 
-                        while($linha_ativo = mysqli_fetch_assoc($lista_ativo)){
-                        ?>
-                            <option value="<?php echo utf8_encode($linha_ativo["nome_ativo"]);?>">
+                        
+      
+                        while($linha_ativo  = mysqli_fetch_assoc($lista_ativo)){
+                            $ativoPrincipal = utf8_encode($linha_ativo["ativoID"]);
+                           if(!isset($ativo)){
+                           
+                           ?>
+                            <option value="<?php echo utf8_encode($linha_ativo["ativoID"]);?>">
+                                <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
+                            </option>
+                            <?php
+                           
+                           }else{
+
+                            if($ativo==$ativoPrincipal){
+                            ?> <option value="<?php echo utf8_encode($linha_ativo["ativoID"]);?>" selected>
                                 <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
                             </option>
 
                             <?php
+                                     }else{
+                            
+                           ?>
+                            <option value="<?php echo utf8_encode($linha_ativo["ativoID"]);?>">
+                                <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
+                            </option>
+                            <?php
 
- }
+       }
+       
+   }
+
+                         
+}
  
  ?>
 
@@ -179,16 +132,39 @@ if(isset($_POST["enviar"])){
                         <select style="width: 200px;" id="campoCategoria" name="campoCategoria">
                             <?php 
 
-                    while($linha_categoria = mysqli_fetch_assoc($lista_categoria)){
-                    
-           
-    ?>
-                            <option value="<?php echo utf8_encode($linha_categoria["nome_categoria"]);?>">
+while($linha_categoria  = mysqli_fetch_assoc($lista_categoria)){
+    $categoriaPrincipal = utf8_encode($linha_categoria["categoriaID"]);
+   if(!isset($categoria)){
+   
+   ?>
+                            <option value="<?php echo utf8_encode($linha_categoria["categoriaID"]);?>">
+                                <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
+                            </option>
+                            <?php
+   
+   }else{
+
+    if($categoria==$categoriaPrincipal){
+    ?> <option value="<?php echo utf8_encode($linha_categoria["categoriaID"]);?>" selected>
                                 <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
                             </option>
 
                             <?php
-     }
+             }else{
+    
+   ?>
+                            <option value="<?php echo utf8_encode($linha_categoria["categoriaID"]);?>">
+                                <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
+                            </option>
+                            <?php
+
+}
+
+}
+
+ 
+}
+                   
      ?>
 
                         </select>
@@ -198,7 +174,7 @@ if(isset($_POST["enviar"])){
                 </tr>
 
                 <tr>
-                    <td align=left><b>Observação:<b></td>
+                    <td><b>Observação:<b></td>
                     <td><textarea rows=4 cols=60 name="campoObservacao" id="observacao" value="
 "><?php if(isset($_POST['enviar'])){ echo utf8_encode($observacao);}?></textarea>
                     </td>

@@ -19,10 +19,11 @@ die("Falaha no banco de dados  Linha 31 inserir_transportadora");
 
 //consultar clientes
 
-$produtos = "SELECT * FROM produtos";
+$produtos = " SELECT produtos.produtoID, produtos.nomeproduto, produtos.precovenda,produtos.precocompra,produtos.estoque, categoria_produto.nome_categoria as categoria_nome, ativo.nome_ativo as ativo_nome, produtos.unidade_medida from ativo  inner join  produtos on produtos.nome_ativo = ativo.ativoID INNER Join categoria_produto on produtos.nome_categoria = categoria_produto.categoriaID " ;
+
 if(isset($_GET["produto"])){
     $nome_produto = $_GET["produto"];
-    $produtos .= " WHERE nomeproduto LIKE '%{$nome_produto}%' or nome_categoria LIKE '%{$nome_produto}%'  ";
+    $produtos .= " WHERE produtos.nomeproduto LIKE '%{$nome_produto}%' or categoria_produto.nome_categoria LIKE '%{$nome_produto}%'  ";
 }
 
 $resultado = mysqli_query($conecta, $produtos);
@@ -139,11 +140,11 @@ if(isset($_GET["produto"])){
                         </td>
 
                         <td style="width: 130px;">
-                            <font size="2"> <?php echo utf8_encode($linha["nome_categoria"])?></font>
+                            <font size="2"> <?php echo utf8_encode($linha["categoria_nome"])?></font>
                         </td>
 
                         <td style="width: 90px;">
-                            <font size="2"><?php echo utf8_encode($linha["nome_ativo"])?> </font>
+                            <font size="2"><?php echo utf8_encode($linha["ativo_nome"])?> </font>
                         </td>
                         <td>
                             <font size="2"><?php echo utf8_encode($linha["unidade_medida"])?> </font>

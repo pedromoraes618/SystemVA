@@ -127,7 +127,7 @@ if(!$resultado){
 
     <main>
         <div id="janela_pesquisa">
-            <div id="BotaoLancarFinanceiro">
+            <div id="BotaoLancar">
                 <a href="lancar_receita_despesa.php">
                     <input id="lancar" type="submit" name="lançarFinanceiro" value="Lançar Financeiro">
                 </a>

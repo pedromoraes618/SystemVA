@@ -56,12 +56,16 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
                     
                             
                             if(isset($_POST['enviar'])){ 
+                             
                                 if($dataLancamento){
-                                    echo  ($dataLancamento);
+                              
+                                    echo  $dataLancamento;
                                 }else{
-                                    echo date('d/m/Y');
-                                
-                                } }?>" td>
+                                        echo "";
+                                    
+                                }}
+                                  
+                           ?>" td>
 
                         <b>Data Vencimento:</b>
                         <input type="text" size=20 id="campoDataPagar" name="campoDataPagar"
@@ -371,7 +375,7 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
 
         <?php
      //msg campos obrigatorios
-        include("../classes/lancamento_financeiro/if_msg.php");
+    
      ?>
 
 

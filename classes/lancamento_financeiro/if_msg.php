@@ -20,24 +20,29 @@ if(isset($_POST["enviar"])){
      $valor = utf8_decode($_POST["campoValor"]); 
      $observacao = utf8_decode($_POST["observacao"]);
     
+     print_r($_POST);
 
 if($lancamento=="Selecione"){
+    echo "teste"
 ?>
 <script>
 alertify.alert("Favor selecione o tipo do lançamento");
 </script>
 <?php
-
-
-if(!$dataLancamento){
+}elseif($dataLancamento==""){
     ?>
     <script>
-    alertify.alert("Favor informe a data de lançamento / Será informado a data atual");
+    alertify.alert("Favor informe a data de lançamento");
     </script>
     <?php
-    }
+}elseif($statusLancamento=="Selecione"){
+    ?>
+    <script>
+    alertify.alert("Favor informe o status do lançamento");
+    </script>
+    <?php
 }
 }
- 
+
 ?>
 

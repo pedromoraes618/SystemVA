@@ -22,9 +22,8 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css" />
 
 <?php 
+
   $msgcadastrado = "Lançamento realizado com sucesso";
-
-
 
   //consultar forma de pagamento
   $select = "SELECT formapagamentoID, nome, statuspagamento from forma_pagamento";
@@ -99,21 +98,39 @@
     if(isset($_POST['enviar']))
   {
 
-  
-        if($lancamento=="Selecione"){
-  
+    if($lancamento=="Selecione"){
+    print_r('.'); ?> 
+       <script>
+      alertify.alert("Favor selecione o tipo do lançamento");
+      </script>
+      
+    <?php
+      
+    }elseif($dataLancamento==""){
+        echo ",";
+        ?>
+        <script>
+        alertify.alert("Favor informe a data de lançamento");
+        </script>
+        <?php
+    }elseif($statusLancamento=="Selecione"){
+        echo ",";
+        ?>
 
-        }else{
-          if($dataLancamento==""){
-       
-          }else{
-            echo',';
-           ?>
-            <script>
-            alertify.success("lançamento financeiro lançado com sucesso");
-            </script>
-
-            <?php
+         <script>
+        alertify.alert("Favor informe o status do lançamento");
+        </script>
+  <?php
+  
+    }else{
+        echo ",";
+    ?>
+        <script>
+        alertify.success("Lançamento Realizado com sucesso");
+        </script>
+    <?php
+    
+        
 
   //condição obrigatorio 
       if(!$lancamento == ""){
@@ -151,7 +168,16 @@
   
     //limpando os campos apos inserir no banco de dados
     
- 
+   
+
+    $dataLancamento = "";
+    $dataapagar ="";
+    $dataPagamento = "";
+    $formaPagamento = "";
+    $descricao = "";
+    $documento ="";
+    $valor = "";
+    $observacao = "";
   
     //verificando se está havendo conexão com o banco de dados
     $operacao_inserir = mysqli_query($conecta, $inserir);
@@ -166,7 +192,7 @@
   }
   }
   }
-  }
+  
   
 
 ?>

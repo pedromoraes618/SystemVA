@@ -272,7 +272,12 @@ tr input[type="submit"] {
 }
 
 
-#BotaoLancarFinanceiro #lancar{
+#BotaoLancar #lancar{
      width: 150px;
      margin-right: 10px;
+}
+
+#BotaoLancar #lancar:hover{
+    letter-spacing: 0.5px;
+    transition: all 0.1s ease-in-out;
 }

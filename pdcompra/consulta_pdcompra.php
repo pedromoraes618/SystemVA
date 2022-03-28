@@ -11,14 +11,29 @@ include ("../_incluir/funcoes.php");
 
 
 //consultar pedido de compra
-if(isset($_GET["pedidoCompra"])){
-    
-        $select = "SELECT clientes.razaosocial, pedido_compra.produto,pedido_compra.margem, pedido_compra.numero_pedido_compra, pedido_compra.pedidoID, pedido_compra.data_chegada, pedido_compra.entrega_realizada, pedido_compra.entrega_prevista, pedido_compra.valor_compra,  pedido_compra.valor_venda from  clientes inner join pedido_compra on pedido_compra.clienteID = clientes.clienteID " ;
-        if(isset($_GET["pedidoCompra"])){
-        $nPedidoCompra = $_GET["pedidoCompra"];
-        $select  .= " WHERE clientes.razaosocial LIKE '%{$nPedidoCompra}%' or pedido_compra.entrega_prevista LIKE '%{$nPedidoCompra}%' or pedido_compra.numero_pedido_compra LIKE '%{$nPedidoCompra}%' ";
+if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaDataf"]){
+    $pesquisaData = $_GET["CampoPesquisaData"];
+    $pesquisaDataf = $_GET["CampoPesquisaDataf"];
+
+    if($pesquisaData==""){
+          
+    }else{
+        $div1 = explode("/",$_GET['CampoPesquisaData']);
+        $pesquisaData = $div1[2]."-".$div1[1]."-".$div1[0];  
        
-        }
+    }
+    if($pesquisaDataf==""){
+       
+    }else{
+    $div2 = explode("/",$_GET['CampoPesquisaDataf']);
+    $pesquisaDataf = $div2[2]."-".$div2[1]."-".$div2[0];
+    }
+
+
+        $select = "SELECT clientes.razaosocial, pedido_compra.produto,pedido_compra.data_movimento,pedido_compra.margem, pedido_compra.numero_pedido_compra, pedido_compra.pedidoID, pedido_compra.data_chegada, pedido_compra.entrega_realizada, pedido_compra.entrega_prevista, pedido_compra.valor_compra,  pedido_compra.valor_venda from  clientes inner join pedido_compra on pedido_compra.clienteID = clientes.clienteID " ;
+        $nPedidoCompra = $_GET["CampoPesquisa"];
+        $select  .= " WHERE data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$nPedidoCompra}%' ";
+    
     
        
 
@@ -37,6 +52,49 @@ if(!$resultado){
     
 }
 */
+if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaDataf"]){
+    $pesquisaData = $_GET["CampoPesquisaData"];
+    $pesquisaDataf = $_GET["CampoPesquisaDataf"];
+
+    if($pesquisaData==""){
+          
+    }else{
+        $div1 = explode("/",$_GET['CampoPesquisaData']);
+        $pesquisaData = $div1[2]."-".$div1[1]."-".$div1[0];  
+       
+    }
+    if($pesquisaDataf==""){
+       
+    }else{
+    $div2 = explode("/",$_GET['CampoPesquisaDataf']);
+    $pesquisaDataf = $div2[2]."-".$div2[1]."-".$div2[0];
+    }
+
+$selectValorSoma = $select = "SELECT  clientes.razaosocial, sum(valor_venda) as soma, sum(valor_compra) as somaCompra, pedido_compra.produto,pedido_compra.data_movimento,pedido_compra.margem, pedido_compra.numero_pedido_compra, pedido_compra.pedidoID, pedido_compra.data_chegada, pedido_compra.entrega_realizada, pedido_compra.entrega_prevista, pedido_compra.valor_compra,  pedido_compra.valor_venda from  clientes inner join pedido_compra on pedido_compra.clienteID = clientes.clienteID "  ;
+$pesquisa = $_GET["CampoPesquisa"];
+
+$selectValorSoma  .= " where data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' "   ;
+
+$lista_Soma_Valor= mysqli_query($conecta,$selectValorSoma);
+if(!$lista_Soma_Valor){
+    die("Falaha no banco de dados || select valor");
+}else{
+    //recuperar valor que está no input 
+   
+
+    }
+}
+
+
+//recuperar valores via get
+if (isset($_GET["CampoPesquisaData"])){
+    $pesquisaData=$_GET["CampoPesquisaData"];
+  }
+  if (isset($_GET["CampoPesquisaDataf"])){
+    $pesquisaDataf=$_GET["CampoPesquisaDataf"];
+  }
+
+
 
 
 ?>
@@ -64,12 +122,25 @@ if(!$resultado){
 
     <main>
         <div id="janela_pesquisa">
+        <div id="BotaoLancar">
             <a href="cadastro_pdcompra.php">
 
-                <input type="submit" name="cadastrar_pdcompra" value="Adicionar">
+                <input style="width: 150px;" id="lancar" type="submit" name="cadastrar_pdcompra" value="Adicionar P.Compra">
             </a>
-            <form action="consulta_pdcompra.php" method="get">
-                <input type="text" name="pedidoCompra" placeholder="pesquisa / Cliente / Entrega prevista / N° Pedido">
+        </div>
+            <form style="width:1500px;" action="" method="get">
+                <input style="width: 100px; " type="text" id="CampoPesquisaData" name="CampoPesquisaData"
+                    placeholder="Data incial" onkeyup="mascaraData(this);" value="<?php if( !isset($_GET["CampoPesquisa"])){ echo formatardataB(date('Y-m-01')); }
+                              if (isset($_GET["CampoPesquisaData"])){
+                                 echo $pesquisaData;
+                                    }?>">
+
+                <input style="width: 100px;" type="text" name="CampoPesquisaDataf" placeholder="Data final"
+                    onkeyup="mascaraData(this);" value="<?php if(!isset($_GET["CampoPesquisa"])){ echo date('d/m/Y');
+                        } if (isset($_GET["CampoPesquisaDataf"])){ echo $pesquisaDataf;} ?>">
+
+                <input style="margin-left:250px;" type="text" name="CampoPesquisa"
+                    placeholder="pesquisa / Cliente / Entrega prevista / N° Pedido">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
             </form>
@@ -82,7 +153,9 @@ if(!$resultado){
             <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
-
+                        <td>
+                            <p>D.lancamento</p>
+                        </td>
                         <td>
                             <p>N° Pedido</p>
                         </td>
@@ -105,12 +178,12 @@ if(!$resultado){
                         <td>
                             <p>Lucro</p>
                         </td>
-                       
+
                         <td>
                             <p>Data Chegada</p>
                         </td>
-                            <td>
-                        <p>Entrega Prevista</p>
+                        <td>
+                            <p>Entrega Prevista</p>
                         </td>
                         <td>
                             <p>Entrega Realizada</p>
@@ -124,7 +197,7 @@ if(!$resultado){
 
                     <?php
 
-if(isset($_GET["pedidoCompra"])){
+if(isset($_GET["CampoPesquisa"])){
     /* 
     while($linha = mysqli_fetch_assoc($resultado)){
     
@@ -134,6 +207,7 @@ if(isset($_GET["pedidoCompra"])){
 
                     while($linha_clientes = mysqli_fetch_assoc($lista_clientes)){
                     $pedidoIDL = $linha_clientes["pedidoID"];
+                    $dataLancamentoL = $linha_clientes["data_movimento"];
                     $nPedidoCompraL = $linha_clientes["numero_pedido_compra"];
                     $clienteSeleiconado = $linha_clientes['razaosocial'];
                     $entregaPrevista = $linha_clientes["entrega_prevista"];
@@ -147,7 +221,16 @@ if(isset($_GET["pedidoCompra"])){
 
                     <tr id="linha_pesquisa">
 
+                        <td style="width:100px;">
+                            <font size="2"> <?php if($dataLancamentoL=="0000-00-00") {
+                               echo ("");
 
+                                  }elseif($dataLancamentoL=="1970-01-01"){
+
+                                    echo ("");
+
+                                  }else{echo formatardataB($dataLancamentoL); } ?></font>
+                        </td>
                         <td style="width:90px;">
                             <p>
                                 <font size="3"><?php echo $nPedidoCompraL;?></font>
@@ -176,7 +259,7 @@ if(isset($_GET["pedidoCompra"])){
                         <td style="width:80px;">
                             <font size="2"> <?php echo porcent_format($lucroL)?> </font>
                         </td>
-                        
+
                         <td style="width:100px;">
                             <font size="2"> <?php if($data_chegada=="0000-00-00") {
                                echo ("");
@@ -226,6 +309,59 @@ if(isset($_GET["pedidoCompra"])){
 
 
                     <?php
+                    }
+
+              while($linha_Soma_Valor = mysqli_fetch_assoc($lista_Soma_Valor)){
+                
+                        ?>
+
+                    <tr id="cabecalho_pesquisa_consulta">
+                        <td>
+                            <p></p>
+                        </td>
+                        <td>
+                            <p></p>
+                        </td>
+
+                        <td>
+                            <p></p>
+                        </td>
+                        <td>
+                            <p></p>
+                        </td>
+
+                        <td style="width: 140px;">
+                            <p><?php echo real_format($linha_Soma_Valor['somaCompra']) ?></p>
+                        </td>
+
+
+                        <td style="width: 140px;">
+                            <p><?php echo real_format($linha_Soma_Valor['soma']) ?></p>
+                        </td>
+
+                        <td>
+                            <p><?php echo real_percent(((($linha_Soma_Valor['soma']) - ($linha_Soma_Valor['somaCompra'])) / ($linha_Soma_Valor['soma']))  * 100) ?> </p>
+                        </td>
+
+                        <td>
+                            <p></p>
+                        </td>
+                        <td>
+                            <p></p>
+                        </td>
+                        <td>
+                            <p></p>
+                        </td>
+
+                        <td>
+                            <p></p>
+                        </td>
+
+
+                    </tr>
+
+                    <?php
+
                     }
              }
             

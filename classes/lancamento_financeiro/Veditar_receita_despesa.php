@@ -1,10 +1,17 @@
-<?php
-require_once("../conexao/conexao.php");
-include("../../conexao/sessao.php");
 
-include ("../../_incluir/funcoes.php");
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
-//variaveis texto obrigatorio e sucesso!
+<!-- CSS -->
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css" />
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css" />
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css" />
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css" />
+
+<?php 
 $msgcadastrado = "Lançamento realizado com sucesso";
 
 
@@ -78,6 +85,7 @@ if(isset($_POST["btnsalvar"])){
     $valor = utf8_decode($_POST["campoValor"]); 
     $observacao = utf8_decode($_POST["observacao"]);
 
+   
 //formatar a data para o banco de dados(Y-m-d)
 
 //condição obrigatorio 
@@ -105,20 +113,23 @@ if(isset($_POST["btnsalvar"])){
         $div3 = explode("/",$_POST['campoDataPagamento']);
         $dataPagamento = $div3[2]."-".$div3[1]."-".$div3[0];
         }
-
+        
 
     //alterando as informações no banco de dados
   
     //query para alterar o pedido de compra no banco de dados
-    $alterar = "UPDATE lancamento_financeiro set data_movimento = '{$dataLancamento}', data_a_pagar = '{$dataPagamento}', receita_despesa = '{$lancamento}',  status = '{$statusLancamento}', ";
+    $alterar = "UPDATE lancamento_financeiro set data_movimento = '{$dataLancamento}', data_a_pagar = '{$dataapagar}', data_do_pagamento = '{$dataPagamento}',  receita_despesa = '{$lancamento}',  status = '{$statusLancamento}', ";
     $alterar .= " forma_pagamentoID = '{$formaPagamento}', clienteID = '{$cliente}', descricao = '{$descricao}', documento = '{$documento}', grupoID = '{$grupoLancamento}', valor = '{$valor}',  observacao  = '{$observacao}' WHERE lancamentoFinanceiroID = {$lancamentoID} ";
 
       $operacao_alterar = mysqli_query($conecta, $alterar);
       if(!$operacao_alterar) {
           die("Erro na alteracao linha29");   
-      } else {  ?>
-
-<p id="confirmacao">Dados alterados</p>
+      } else {  
+  echo ",";
+    ?>
+        <script>
+        alertify.success("Dados alterados");
+        </script>
 <?php
           //header("location:listagem.php"); 
            
@@ -130,42 +141,5 @@ if(isset($_POST["btnsalvar"])){
 
 
 //botão remover
+
 ?>
-
-
-<?php
-
-    $consulta = "SELECT * FROM lancamento_financeiro ";
-if (isset($_GET["codigo"])){
-    $lancamentoID=$_GET["codigo"];
-$consulta .= " WHERE lancamentoFinanceiroID = {$lancamentoID} ";
-}else{
-    $consulta .= " WHERE lancamentoFinanceiroID = 1 ";
-  
-}
-//consulta ao banco de dados
-$detalhe = mysqli_query($conecta, $consulta);
-if(!$detalhe){
-    die("Falha na consulta ao banco de dados");
-}else{
- 
-    $dados_detalhe = mysqli_fetch_assoc($detalhe);
-    $BpedidoID =  utf8_encode($dados_detalhe['lancamentoFinanceiroID']);
-    $BdataMovimento =  utf8_encode($dados_detalhe["data_movimento"]);
-    $BdataaPagar = utf8_encode($dados_detalhe["data_a_pagar"]);
-    $BdataPagamento = utf8_encode($dados_detalhe["data_do_pagamento"]);
-    $BreceitaDespesa = utf8_encode($dados_detalhe["receita_despesa"]);
-    $Bstatus = utf8_encode($dados_detalhe["status"]);
-    $BformaPagamentoID = utf8_encode($dados_detalhe["forma_pagamentoID"]);
-    $BclienteID = utf8_encode($dados_detalhe["clienteID"]);
-    $Bdescrisao = utf8_encode($dados_detalhe["descricao"]);
-    $Bdocumento = utf8_encode($dados_detalhe["documento"]);
-    $BgrupoID = $dados_detalhe["grupoID"];
-    $Bvalor = utf8_encode($dados_detalhe["valor"]);
-    $Bobservacao = utf8_encode($dados_detalhe["observacao"]);
-    
-
-}
-
-
-  ?>
