@@ -9,11 +9,11 @@ include ("../_incluir/funcoes.php");
 
 //consultar pedido de compra
 
-if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaDataf"]){
+if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaDataf"] && ["CampoPesquisaDoc"]) {
 
     $pesquisaData = $_GET["CampoPesquisaData"];
     $pesquisaDataf = $_GET["CampoPesquisaDataf"];
-
+ 
     if($pesquisaData==""){
           
     }else{
@@ -30,9 +30,12 @@ if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaData
 
 
 
+
         $select = "SELECT  clientes.razaosocial, grupo_lancamento.nome AS nomeGrupo, forma_pagamento.nome, lancamento_financeiro.data_movimento, lancamento_financeiro.documento,lancamento_financeiro.lancamentoFinanceiroID, lancamento_financeiro.data_a_pagar, lancamento_financeiro.status,lancamento_financeiro.valor,lancamento_financeiro.documento, lancamento_financeiro.receita_despesa from  clientes inner join lancamento_financeiro on lancamento_financeiro.clienteID = clientes.clienteID inner join grupo_lancamento on lancamento_financeiro.grupoID = grupo_lancamento.grupo_lancamentoID inner join forma_pagamento on lancamento_financeiro.forma_pagamentoID = forma_pagamento.formapagamentoID " ;
         $pesquisa = $_GET["CampoPesquisa"];
-        $select  .= " WHERE data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' ";
+        $pesquisaDoc = $_GET["CampoPesquisaDoc"];
+
+        $select  .= " WHERE data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' and lancamento_financeiro.documento LIKE '%{$pesquisaDoc}%' ";
        
       
 
@@ -43,9 +46,11 @@ if(!$lista_pesquisa){
 }
 }
 
-if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaDataf"]){
+if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaDataf"] && ["CampoPesquisaDoc"]) {
     $pesquisaData = $_GET["CampoPesquisaData"];
     $pesquisaDataf = $_GET["CampoPesquisaDataf"];
+ 
+ 
 
     if($pesquisaData==""){
           
@@ -60,11 +65,14 @@ if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaData
     $div2 = explode("/",$_GET['CampoPesquisaDataf']);
     $pesquisaDataf = $div2[2]."-".$div2[1]."-".$div2[0];
     }
+    
+   
 
 $selectValorSoma = $select = "SELECT  clientes.razaosocial, grupo_lancamento.nome AS nomeGrupo, forma_pagamento.nome, lancamento_financeiro.data_movimento, sum(valor) as soma, lancamento_financeiro.documento,lancamento_financeiro.lancamentoFinanceiroID, lancamento_financeiro.data_a_pagar, lancamento_financeiro.status,lancamento_financeiro.valor,lancamento_financeiro.documento, lancamento_financeiro.receita_despesa from  clientes inner join lancamento_financeiro on lancamento_financeiro.clienteID = clientes.clienteID inner join grupo_lancamento on lancamento_financeiro.grupoID = grupo_lancamento.grupo_lancamentoID inner join forma_pagamento on lancamento_financeiro.forma_pagamentoID = forma_pagamento.formapagamentoID " ;
 $pesquisa = $_GET["CampoPesquisa"];
+$pesquisaDoc = $_GET["CampoPesquisaDoc"];
 
-$selectValorSoma  .= " where data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' "   ;
+$selectValorSoma  .= " where data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' and lancamento_financeiro.documento LIKE '%{$pesquisaDoc}%' "   ;
 
 $lista_Soma_Valor= mysqli_query($conecta,$selectValorSoma);
 if(!$lista_Soma_Valor){
@@ -76,7 +84,6 @@ if(!$lista_Soma_Valor){
     }
 }
 
-
 //recuperar valores via get
 if (isset($_GET["CampoPesquisaData"])){
     $pesquisaData=$_GET["CampoPesquisaData"];
@@ -84,23 +91,7 @@ if (isset($_GET["CampoPesquisaData"])){
   if (isset($_GET["CampoPesquisaDataf"])){
     $pesquisaDataf=$_GET["CampoPesquisaDataf"];
   }
-
-
- 
-
-
-   
-
-
-
-/*
-$resultado = mysqli_query($conecta, $pedido);
-if(!$resultado){
-    die("Falha na consulta ao banco de dados");
-    
-}
-*/
-
+  
 
 ?>
 <!doctype html>
@@ -114,7 +105,7 @@ if(!$resultado){
     <!-- estilo -->
     <link href="../_css/estilo.css" rel="stylesheet">
     <link href="../_css/pesquisa_tela.css" rel="stylesheet">
-
+    <script src="https://kit.fontawesome.com/e8ff50f1be.js" crossorigin="anonymous"></script>
     <a href="https://icons8.com/icon/59832/cardápio"></a>
 </head>
 
@@ -129,9 +120,12 @@ if(!$resultado){
         <div id="janela_pesquisa">
             <div id="BotaoLancar">
                 <a href="lancar_receita_despesa.php">
+
                     <input id="lancar" type="submit" name="lançarFinanceiro" value="Lançar Financeiro">
+
                 </a>
             </div>
+
 
             <form style="width:1500px; " action="" method="get">
 
@@ -141,20 +135,22 @@ if(!$resultado){
                         placeholder="Data incial" onkeyup="mascaraData(this);" value="<?php if( !isset($_GET["CampoPesquisa"])){ echo formatardataB(date('Y-m-01')); }
                               if (isset($_GET["CampoPesquisaData"])){
                                  echo $pesquisaData;
-                                    }?>" placeholder="pesquisa / Cliente / N° documento">
+                                    }?>" >
 
-                    <input style="width: 100px;" type="text" name="CampoPesquisaDataf" placeholder="Data final"
+                    <input style=" width: 100px;" type="text" name="CampoPesquisaDataf" placeholder="Data final"
                         onkeyup="mascaraData(this);" value="<?php if(!isset($_GET["CampoPesquisa"])){ echo date('d/m/Y');
-                        } if (isset($_GET["CampoPesquisaDataf"])){ echo $pesquisaDataf;} ?>"
-                        placeholder="pesquisa / Cliente / N° documento">
+                        } if (isset($_GET["CampoPesquisaDataf"])){ echo $pesquisaDataf;} ?>">
+                    <input style="width: 100px; margin-left:50px" type="text" name="CampoPesquisaDoc" placeholder="N° documento" 
+                    >
 
-                    <input style="margin-left:250px;" type="text" name="CampoPesquisa"
-                        placeholder="pesquisa / Cliente / N° documento">
-
+                <td>
+                    <input style="margin-left:110px;" type="text" name="CampoPesquisa"
+                        placeholder="pesquisa / Cliente">
                     <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
-
-
-
+                </td>
+                
+                </td>
+               
 
             </form>
 
@@ -266,7 +262,19 @@ if(isset($_GET["CampoPesquisa"])){
                         </td>
 
                         <td>
-                            <font size="2"> <?php echo utf8_encode($receite_despesa )?> </font>
+                            <font size="2"> <?php  echo ($receite_despesa);
+                            if ($receite_despesa=="Receita"){
+                          ?>
+                                <i style="font-size: 20px; margin-left:10px"
+                                    class="fa-solid fa-money-bill-trend-up"></i><?php
+                              }if($receite_despesa=="Despesa"){
+                           
+                            ?>
+                                <i style="font-size: 20px; margin-left:10px"
+                             class="fa-solid fa-money-bill-transfer"></i><?php
+                        }
+                            ?>
+                            </font>
                         </td>
 
 

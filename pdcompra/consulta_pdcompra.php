@@ -31,8 +31,9 @@ if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaData
 
 
         $select = "SELECT clientes.razaosocial, pedido_compra.produto,pedido_compra.data_movimento,pedido_compra.margem, pedido_compra.numero_pedido_compra, pedido_compra.pedidoID, pedido_compra.data_chegada, pedido_compra.entrega_realizada, pedido_compra.entrega_prevista, pedido_compra.valor_compra,  pedido_compra.valor_venda from  clientes inner join pedido_compra on pedido_compra.clienteID = clientes.clienteID " ;
-        $nPedidoCompra = $_GET["CampoPesquisa"];
-        $select  .= " WHERE data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$nPedidoCompra}%' ";
+        $pesquisa = $_GET["CampoPesquisa"];
+        $pesquisaNpedido = $_GET["CampoPesquisaNpedido"];
+        $select  .= " WHERE data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' and pedido_compra.numero_pedido_compra LIKE '%{$pesquisaNpedido}%'  ";
     
     
        
@@ -72,8 +73,9 @@ if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaData
 
 $selectValorSoma = $select = "SELECT  clientes.razaosocial, sum(valor_venda) as soma, sum(valor_compra) as somaCompra, pedido_compra.produto,pedido_compra.data_movimento,pedido_compra.margem, pedido_compra.numero_pedido_compra, pedido_compra.pedidoID, pedido_compra.data_chegada, pedido_compra.entrega_realizada, pedido_compra.entrega_prevista, pedido_compra.valor_compra,  pedido_compra.valor_venda from  clientes inner join pedido_compra on pedido_compra.clienteID = clientes.clienteID "  ;
 $pesquisa = $_GET["CampoPesquisa"];
+$pesquisaNpedido = $_GET["CampoPesquisaNpedido"];
 
-$selectValorSoma  .= " where data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' "   ;
+$selectValorSoma  .= " where data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' and pedido_compra.numero_pedido_compra LIKE '%{$pesquisaNpedido}%'   "   ;
 
 $lista_Soma_Valor= mysqli_query($conecta,$selectValorSoma);
 if(!$lista_Soma_Valor){
@@ -109,7 +111,7 @@ if (isset($_GET["CampoPesquisaData"])){
     <!-- estilo -->
     <link href="../_css/estilo.css" rel="stylesheet">
     <link href="../_css/pesquisa_tela.css" rel="stylesheet">
-
+    <script src="https://kit.fontawesome.com/e8ff50f1be.js" crossorigin="anonymous"></script>
     <a href="https://icons8.com/icon/59832/cardápio"></a>
 </head>
 
@@ -122,12 +124,13 @@ if (isset($_GET["CampoPesquisaData"])){
 
     <main>
         <div id="janela_pesquisa">
-        <div id="BotaoLancar">
-            <a href="cadastro_pdcompra.php">
+            <div id="BotaoLancar">
+                <a href="cadastro_pdcompra.php">
 
-                <input style="width: 150px;" id="lancar" type="submit" name="cadastrar_pdcompra" value="Adicionar P.Compra">
-            </a>
-        </div>
+                    <input style="width: 150px;" id="lancar" type="submit" name="cadastrar_pdcompra"
+                        value="Adicionar P.Compra">
+                </a>
+            </div>
             <form style="width:1500px;" action="" method="get">
                 <input style="width: 100px; " type="text" id="CampoPesquisaData" name="CampoPesquisaData"
                     placeholder="Data incial" onkeyup="mascaraData(this);" value="<?php if( !isset($_GET["CampoPesquisa"])){ echo formatardataB(date('Y-m-01')); }
@@ -138,8 +141,10 @@ if (isset($_GET["CampoPesquisaData"])){
                 <input style="width: 100px;" type="text" name="CampoPesquisaDataf" placeholder="Data final"
                     onkeyup="mascaraData(this);" value="<?php if(!isset($_GET["CampoPesquisa"])){ echo date('d/m/Y');
                         } if (isset($_GET["CampoPesquisaDataf"])){ echo $pesquisaDataf;} ?>">
+                <input style="width: 100px; margin-left:50px" type="text" name="CampoPesquisaNpedido"
+                    placeholder="N° pedido">
 
-                <input style="margin-left:250px;" type="text" name="CampoPesquisa"
+                <input style="margin-left:110px;" type="text" name="CampoPesquisa"
                     placeholder="pesquisa / Cliente / Entrega prevista / N° Pedido">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
@@ -293,6 +298,10 @@ if(isset($_GET["CampoPesquisa"])){
                                     echo ("");
                                    }else{
                                       echo formatardataB($entregaRealizada);
+                                      ?>
+                                      <i style="font-size: 20px; margin-left:10px" class="fa-solid fa-check-double"></i>
+                                      <?php
+
                                      } ?>
                             </font>
                         </td>
@@ -340,7 +349,8 @@ if(isset($_GET["CampoPesquisa"])){
                         </td>
 
                         <td>
-                            <p><?php echo real_percent(((($linha_Soma_Valor['soma']) - ($linha_Soma_Valor['somaCompra'])) / ($linha_Soma_Valor['soma']))  * 100) ?> </p>
+                            <p><?php echo real_percent(((($linha_Soma_Valor['soma']) - ($linha_Soma_Valor['somaCompra'])) / ($linha_Soma_Valor['soma']))  * 100) ?>
+                            </p>
                         </td>
 
                         <td>

@@ -1,0 +1,65 @@
+*{
+    margin: 0;
+}
+
+body{
+    font-family: 'Nunito sans', sans-serif;
+}
+
+header{
+    background-color: rgb(175, 216, 216);
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+}
+
+main{
+    padding: 30px 50px;
+}
+.car{
+    background-color: rgb(221, 221, 221);
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+.lineInput{
+    display: grid;
+    margin-bottom: 10px;
+}
+input{
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 3px;
+
+}
+
+button{
+    border: 0px;
+    padding: 10px;  
+    outline: 0;
+    background-color: rgb(144, 166, 253);
+    color: #fff;
+    border-radius: 3px;
+    font-weight: bold;
+    transition: all ease 0.3s;
+}
+
+content{
+margin-top: 15px;
+}
+
+table{
+    border-collapse:collapse ;
+    border: 1px solid;
+    width: 100%;
+}
+
+table th{
+    background-color: #ccc;
+}
+
+.center{
+    text-align: center;
+}
