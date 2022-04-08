@@ -40,9 +40,9 @@ alertify.success("Dados alterados");
    
    }
 
- ?>
 
-   <?php
+
+
  if(isset($_POST['btnremover'])){
  
     //inlcuir as varias do input
@@ -89,8 +89,8 @@ if (isset($_GET["codigo"])){
 $consulta .= " WHERE clienteID = {$clienteID} ";
 }else{
    $consulta .= " WHERE clienteID = 1 ";
- 
 }
+
 //consulta ao banco de dados
 $detalhe = mysqli_query($conecta, $consulta);
 if(!$detalhe){

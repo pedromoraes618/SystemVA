@@ -53,15 +53,7 @@ if(isset($_POST["txtrazaosocial"])){
 
   if(isset($_POST['enviar']))
   {
-    //campo obrigatorio 
-          if($razao_social == ""){
-            echo ".";
-            ?>
-<script>
-alertify.alert("Favor informe a razão social do cliente");
-</script>
-<?php
-          }else{echo ".";
+    echo ".";
             ?>
 <script>
 alertify.success("Cliente cadastrado com sucesso");
@@ -97,5 +89,5 @@ alertify.success("Cliente cadastrado com sucesso");
 }
 }
 
-}
+
 ?>

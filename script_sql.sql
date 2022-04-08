@@ -306,3 +306,57 @@ CREATE TABLE `cotacao` (
   PRIMARY KEY (`cotacaoID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+
+CREATE TABLE `vendas` (
+  `id_venda` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `preco` float NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `total_venda` float NOT NULL,
+  `dataCompra` date NOT NULL,
+   PRIMARY KEY (`id_venda`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `comprador` (
+  `id_comprador` int(11) NOT NULL AUTO_INCREMENT,
+  `id_cliente` int(11) NOT NULL,
+  `comprador` varchar(120) NOT NULL,
+  `email` varchar(120) NOT NULL,
+  `contato` varchar(120) NOT NULL,
+  `dataCadastro` date NOT NULL,
+   PRIMARY KEY (`id_comprador`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `teste` (
+  `id_teste` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `mensagem` varchar(50) NOT NULL,
+   PRIMARY KEY (`id_teste`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `lembrete` (
+  `lembreteID` int(11) NOT NULL AUTO_INCREMENT,
+  `data_lancamento` date DEFAULT NULL,
+  `descricao` varchar(100) NOT NULL,
+  `usuarioID` tinyint(3) DEFAULT NULL,
+  `clienteID` tinyint(3) DEFAULT NULL,
+  `statusID` tinyint(3) DEFAULT NULL,
+  
+   PRIMARY KEY (`lembreteID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `status_lembrete` (
+  `statusLID` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(50) NOT NULL,
+  
+   PRIMARY KEY (`lembreteID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+
+

@@ -5,20 +5,19 @@ body { margin:0 ;
 
 
 div#menulateral {
-    margin: 0px;
-    padding: 0px;
-    
+margin: 0px;
+padding: 0px;
+
 }
 
 div#menulateral{
-    float: left;
+float: left;
     
- 
- 
 }
+
 div#menulateral input[type="checkbox"]{
-    position: fixed;
-    display: none;
+position: fixed;
+display: none;
 }
 
 div#menulateral img{
@@ -29,74 +28,108 @@ top:10px;
 }
 
 div#menulateral img:hover{
-    position: fixed;
-    background-color: rgb(221, 221, 221,0.2);
-    border-radius: 20px;
-    padding: 5px;
-    transition: all .2s;
-    }
-
+position: fixed;
+background-color: rgb(221, 221, 221,0.2);
+border-radius: 20px;
+padding: 5px;
+transition: all .2s;
+}
 
 div#menulateral nav{
-    background: rgba(14, 84, 82, 1);
-    width: 1050px;
-    height:57px;
-    margin-top: -250px;
-    position: fixed;
-    transition: all .6s;
-    border-bottom-right-radius: 20px;
-    box-shadow: 0px 0px 5px 0px rgba(14, 84, 82, 1);
-
+background: rgb(19, 124, 120);
+height:58px;
+margin-top: 0px;
+position: fixed;
+transition: all .6s;
+border-bottom-right-radius: 20px;
+box-shadow: 0px 0px 5px 0px rgba(14, 84, 82, 1);
+padding-left: 110px;
+width:1100px;
 }
 
 div#menulateral input[type="checkbox"]:checked ~ nav{
-    transform: translatey(250px);
+transform: translatey(-250px);
 }
-
 
 div#menulateral nav ul{
-    list-style: none;
-    margin-top: 2px;
-    margin-left: 90px;
-   
-  
-
- }
-
- div#menulateral nav ul li{
-    display: inline;
-   
- 
- }
-
-
-div#menulateral a{
-display: inline-block;
-padding: 15px 5px;
-color: white;
-text-decoration: none;
-padding-left: 15px;
-padding-right: 15px;
-font-size: 16px;
+margin: 0; padding: 0;
+list-style: none;
 
 }
 
+div#menulateral ul li{
+float: left;
+position: relative;
+
+
+}
+
+
+div#menulateral ul li a {
+    display: inline-block;
+    padding: 20px 5px;
+    color: white;
+    text-decoration: none;
+    padding-left: 15px;
+    padding-right: 18px;
+    font-size: 17px;
+
+    }
+
+    
 div#menulateral a:hover{
-color: rgb(224, 245, 40);
-transition: 0.4s;
- }
+    color: rgb(214, 214, 214);
+    transition: 0.4s;
+
+     }
+    
+div#menulateral ul li ul {
+    display:  none;
+    position: absolute;
+    background: rgb(92, 134, 131);
+    box-shadow: 0px 0px 5px 0px rgba(14, 84, 82, 1);
+    border-radius:3px;
+    width: 180px;
+
+}
+
+div#menulateral ul li ul li {
+
+  
+  
+    
+}
+
+div#menulateral ul li ul li a {
+
+    padding: 12px;
+    width: 150px;
+    display: block;
+}
+
+div#menulateral ul li i {
+ font-size: 15px;
 
  
-div#menulateral label{
-  padding: 15px;
-  position: absolute;
-  z-index: 1;
- }
+}
 
- div#menulateral img{
-    cursor:pointer;
+
+
+
+div#menulateral ul li:hover ul {
+display: block; }
+        
+
+div#menulateral label{
+    padding: 15px;
+    position: absolute;
+    z-index: 1;
    }
   
+   div#menulateral img{
+      cursor:pointer;
+     }
+    
 
  header {
     width:100%;

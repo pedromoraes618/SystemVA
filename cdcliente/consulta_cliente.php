@@ -46,14 +46,12 @@ if(!$resultado){
 
 
     <main>
-      
+
         <div id="janela_pesquisa">
+
             <a href="cadastro_cliente.php">
-
                 <input type="submit" name="cadastar_cliente" value="Adicionar">
-
             </a>
-
 
 
             <form action="consulta_cliente.php" method="get">
@@ -70,6 +68,8 @@ if(!$resultado){
             <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
+
+
                         <td>
                             Razão social
                         </td>
@@ -99,13 +99,17 @@ if(!$resultado){
                     </tr>
 
                     <?php
-           if(isset($_GET["cliente"])){
+                  if(isset($_GET["cliente"])){
            while($linha = mysqli_fetch_assoc($resultado)){
+            $Idcliente = $linha["clienteID"];
+         
            ?>
 
 
 
                     <tr id="linha_pesquisa">
+
+
 
                         <td style="width:500px;">
                             <p>
@@ -147,11 +151,15 @@ if(!$resultado){
 
 
                         <td id="botaoEditar">
+
+
                             <a href="editar_cliente.php?codigo=<?php echo $linha["clienteID"]?>">
 
                                 <button type="button" name="Editar">Editar</button>
 
                             </a>
+
+
                         </td>
                     </tr>
 
@@ -175,7 +183,22 @@ if(!$resultado){
 function abrepopupcliente() {
 
     var janela = "cadastro_cliente.php";
-    window.open(janela, 'popuppage',
+    window.open(janela, 'popuppageCadastrar',
+        'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');
+}
+
+function abrepopupEditarCliente() {
+
+    var janela = "editar_cliente.php?codigo=<?php  
+       if(isset($_GET["cliente"])){
+        while($linha = mysqli_fetch_assoc($resultado)){
+         $Idcliente = $linha["clienteID"];
+        
+        }
+    }
+
+    ?>";
+    window.open(janela, 'popuppageEditar',
         'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');
 }
 </script>

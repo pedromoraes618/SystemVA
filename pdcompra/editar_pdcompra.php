@@ -316,18 +316,17 @@ include ("../classes/pdcompra/editar_pedido_compra.php");
                 </tr>
 
 
-
-
-
                 <table width=100%>
                     <tr>
                         <div id="botoes">
 
                             <input type="submit" name="btnsalvar" value="Salvar" class="btn btn-info btn-sm"></input>
 
+                            
                             <a href="consulta_pdcompra.php">
                                 <button type="button" class="btn btn-secondary">Voltar</button>
                             </a>
+                        
 
                             <input id="remover" type="submit" name="btnremover" value="Remover" class="btn btn-danger"
                                 onClick="return confirm('Confirma Remoção do pedido de compra?');"></input>
@@ -372,6 +371,12 @@ function calculavalormargem() {
 </script>
 
 
+<script>
+
+
+function fechar() {
+    window.close();
+}
 </script>
 
 <?php 

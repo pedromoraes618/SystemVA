@@ -29,7 +29,7 @@ include("../classes/cliente/editar_cliente.php");
     <main>
         <form action="" method="post">
             <div id="titulo">
-                </p>Dados do Ciente</p>
+                </p>Dados do Cliente</p>
             </div>
 
 
@@ -144,7 +144,7 @@ include("../classes/cliente/editar_cliente.php");
 
                 <tr>
                     <td><b>Conta agência:</b></td>
-                    <td><input  type="text" size=30 id="conta_agencia" name="conta_agencia"
+                    <td><input type="text" size=30 id="conta_agencia" name="conta_agencia"
                             value="<?php echo $conta_agencia?>">
                     </td>
                     <td><b>Pix:</b></td>
@@ -166,15 +166,17 @@ include("../classes/cliente/editar_cliente.php");
                             <input type="submit" name="btnsalvar" value="Salvar" class="btn btn-info btn-sm"></input>
 
                             <a href="consulta_cliente.php">
-                                <button type="button" class="btn btn-secondary">Voltar</button>
+                       
+                                <button type="button"  class="btn btn-secondary">Voltar</button>
 
-                            </a>
+                                </a>
 
-                            <input id="remover" type="submit" name="btnremover" value="Remover"
-                                class="btn btn-danger" onClick="return confirm('Confirma Remoção do CLienter? Verifique se o cliente tem movimentação');" ></input>
+                            <input id="remover" type="submit" name="btnremover" value="Remover" class="btn btn-danger"
+                                onClick="return confirm('Confirma Remoção do CLienter? Verifique se o cliente tem movimentação');"></input>
 
 
-
+                            <input id="" type="submit" name="brncomprador" value="Comprador" class="btn btn-dark"
+                                onClick="abrepopupConsultaComprador();"></input>
                         </div>
                     </tr>
 
@@ -195,6 +197,18 @@ include("../classes/cliente/editar_cliente.php");
 
 </html>
 
+<script>
+//abrir uma nova tela de cadastro
+function abrepopupConsultaComprador() {
+    var janela = "comprador_cl/consulta_comprador.php?cliente=<?php echo $clienteID;?>";
+    window.open(janela, 'popuppage',
+        'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=700,top=100,left=100');
+}
+
+function fechar() {
+    window.close();
+}
+</script>
 
 <?php 
 mysqli_close($conecta);

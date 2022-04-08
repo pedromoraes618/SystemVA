@@ -21,6 +21,7 @@ include("../classes/cliente/cadastro_cliente.php");
 
     <link href="../_css/tela_cadastro_editar.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
 </head>
 
 <body>
@@ -40,7 +41,7 @@ include("../classes/cliente/cadastro_cliente.php");
 
                 <tr>
                     <td align=left><b>Razão Social: *</b></td>
-                    <td align=left><input type="text" size=60 name="txtrazaosocial"
+                    <td align=left><input type="text" required size=60 name="txtrazaosocial"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($razao_social);}?>">
                     </td>
                     <td><b>Nome Fantasia:</b></td>
@@ -141,8 +142,7 @@ include("../classes/cliente/cadastro_cliente.php");
 
                 <tr>
                     <td><b>Observação:</b></td>
-                    <td><textarea rows=4 cols=60 name="observacao" id="observacao" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($observacao);}?>
-"></textarea> </td>
+                    <td><textarea rows=4 cols=60 name="observacao" id="observacao"><?php if(isset($_POST['enviar'])){ echo utf8_encode($observacao);}?></textarea> </td>
                 </tr>
 
 
@@ -154,8 +154,8 @@ include("../classes/cliente/cadastro_cliente.php");
                             <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
                             <a href="consulta_cliente.php">
                                 <button type="button" class="btn btn-secondary">Voltar</button>
+                      
                             </a>
-
                         </div>
                     </tr>
 

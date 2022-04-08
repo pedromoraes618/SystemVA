@@ -97,14 +97,8 @@ if(isset($_POST["enviar"])){
     </script>
     
     <?php 
-    }elseif($numeroPedidoCompra == ""){
-                echo ".";
-                ?>
-    <script>
-    alertify.alert("Favor informar o Nº pedido");
-    </script>
-    <?php 
-                    }else{ echo ".";
+
+        }else{ echo ".";
                         ?>
             <script>
             alertify.success("Pedido de compra lançado com sucesso");

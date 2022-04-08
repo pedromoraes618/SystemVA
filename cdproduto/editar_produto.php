@@ -143,8 +143,8 @@ include("../classes/produtos/editar_produto.php");
 
                 <tr>
                     <td align=left><b>Observação:<b></td>
-                    <td><textarea rows=4 cols=60 
-                    name="campoObservacao" id="campoObservacao"><?php echo $Bobservacao?></textarea>
+                    <td><textarea rows=4 cols=60 name="campoObservacao"
+                            id="observacao"><?php echo $Bobservacao?></textarea>
                     </td>
                 </tr>
 
@@ -154,6 +154,7 @@ include("../classes/produtos/editar_produto.php");
                         <div id="botoes">
 
                             <input type="submit" name="btnsalvar" value="Salvar" class="btn btn-info btn-sm"></input>
+
 
                             <a href="consulta_produto.php">
                                 <button type="button" class="btn btn-secondary">Voltar</button>
@@ -185,6 +186,12 @@ include("../classes/produtos/editar_produto.php");
 
 </html>
 
+
+<script>
+function fechar() {
+    window.close();
+}
+</script>
 
 <?php 
 mysqli_close($conecta);

@@ -1,4 +1,3 @@
-
 <?php
 require_once("../conexao/conexao.php");
 
@@ -56,7 +55,7 @@ if(!$detalhe){
 
 <head>
     <meta charset="UTF-8">
- 
+
 
     <link href="../_css/tela_cadastro_editar.css" rel="stylesheet">
     <link rel="shortcut icon" type="imagex/png" href="img/marvolt.ico">
@@ -107,16 +106,16 @@ if(!$detalhe){
 
 
                     <td><b>Data Pagamento:</b></td>
-                    <td><input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento"
-                          maxlength="10" value="<?php
+                    <td><input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento" maxlength="10"
+                            value="<?php
                                  if($BdataPagamento=="1970-01-01"){
                                     print_r("");
                                 }elseif($BdataPagamento=="0000-00-00"){
                                     print_r ("");
                                 }else{
                                     echo formatardataB($BdataPagamento);}
-                                ?>" OnKeyUp="mascaraData(this);">     
-                        
+                                ?>" OnKeyUp="mascaraData(this);">
+
                         <b>Lançamento:</b>
 
                         <select style="width: 170px;" id="campoLancamento" name="campoLancamento">
@@ -322,6 +321,8 @@ if(!$detalhe){
                                 <div style="margin-left:150px;" id="botoes">
                                     <input type="submit" name=btnsalvar value="Salvar"
                                         class="btn btn-info btn-sm"></input>
+
+
 
                                     <a href="consulta_financeiro.php">
                                         <button type="button" class="btn btn-secondary"

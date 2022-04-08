@@ -3,9 +3,6 @@ session_start();
 
 
 
-
-
-
 if(isset($_SESSION['venda'])){
 }else{
     $_SESSION['venda'] = array();
@@ -13,8 +10,8 @@ if(isset($_SESSION['venda'])){
 
 
 if (isset($_GET["enviar"])){
-    print_r($_SESSION['venda']);
-    echo '</br>';
+    $cliente = $_GET['cliente'];
+
     $_GET['id']+=1;
     if($_GET['id'] == ""){
         $_GET['id'] =  0;
@@ -26,15 +23,13 @@ if (isset($_GET["enviar"])){
   
     if(isset($_GET['id'])){
         array_push($_SESSION['venda'], $_GET);
-        var_dump( $_SESSION['venda']);
-        
-      
+   
     }
 
     if(isset($_GET['del'])){
         $delete = $_GET['del'];
         unset($_SESSION['venda'][$delete]);
-        var_dump( $_SESSION['venda'],[$delete]);
+    
     }
     
 
@@ -82,14 +77,18 @@ if(isset($_GET['del'])){
 
 
     <form action="index_teste.php" method="get">
-        <input type="text" id="id" name="id" value="">
+    
+    <input type="text" name="cliente" id="cliente" placeholder="Digite o cliente" value="<?php echo $_GET['cliente'];?>">
+
+        <input type="hidden" id="id" name="id" value="<?php if(isset($_GET['enviar'])){
+            echo $contador -1;
+        }?>">
         <input type="text" id="campo" name="campo">
         <input type="text" id="qtd" name="qtd">
         <input type="text" id="valor" name="valor">
+        <p id="texto"></p>
 
-        <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
-
-
+        <input type="submit" onclick="capturar();" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
 
         <table width="700" border="1">
             <tr>
@@ -108,11 +107,11 @@ if(isset($_GET['del'])){
                 echo '<td>'. ($valor['campo']) .'</td>';
                 echo '<td>'. ($valor['qtd']) .'</td>';
                 echo '<td>'. ($valor['valor']) .'</td>';
-                echo '<td><a href="index_teste.php?del='.$chave.'"> X </a></td>';
-                
-
+              
+                echo '<td><a href="index_teste.php?del='.$chave.'"><input type=button value="Deletar"  > </a></td>';
                 echo '</tr>';
                 
+
 
                 
             }
@@ -125,4 +124,16 @@ if(isset($_GET['del'])){
 
 </body>
 
+
 </html>
+
+<script>
+var input = "";
+
+function capturar(){
+    input = document.getElementById('cliente').value;
+    document.getElementById('texto').innerHTML = input;
+}
+
+
+</script>

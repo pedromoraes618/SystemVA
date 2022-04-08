@@ -42,7 +42,7 @@ include("../classes/pdcompra/cadastro_prcompra.php");
 
                 <tr>
                     <td align=left><b>Nº Pedido:</b></td>
-                    <td align=left><input type="text" size=14 name="campoNpdCompra"
+                    <td align=left><input  required type="text" size=14 name="campoNpdCompra"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($numeroPedidoCompra);}?>"
                             td><b>Nº Orçamento:</b>
                         <input type="text" size=20 id="campoOrcamento" name="campoOrcamento"

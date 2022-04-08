@@ -43,7 +43,7 @@ include("../classes/produtos/cadastro_produto.php");
 
                 <tr>
                     <td align=left><b>Descrição:</b></td>
-                    <td align=left><input type="text" size=60 name="campoNomeProduto"
+                    <td align=left><input required type="text" size=60 name="campoNomeProduto"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($nome_produto);}?>">
                     </td>
 
@@ -186,8 +186,9 @@ while($linha_categoria  = mysqli_fetch_assoc($lista_categoria)){
                     <tr>
                         <div id="botoes">
                             <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
+                            
                             <a href="consulta_produto.php">
-                                <button type="button" name="btnfechar" class="btn btn-secondary">Voltar</button>
+                                <button type="button"  name="btnfechar" class="btn btn-secondary">Voltar</button>
                             </a>
 
 

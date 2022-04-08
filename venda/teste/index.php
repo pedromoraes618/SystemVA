@@ -28,6 +28,7 @@ if(isset($_GET['del'])){
     $delete = $_GET['del'];
     unset($_SESSION['venda'][$delete]);
 }
+
 ?>
 
 <!DOCTYPE html>

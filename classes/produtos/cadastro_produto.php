@@ -1,4 +1,3 @@
-
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
 <!-- CSS -->
@@ -48,16 +47,11 @@ if(isset($_POST["enviar"])){
 
   if(isset($_POST['enviar']))
   {
-        //campo obrigatorio 
-              if($nome_produto == ""){echo "."; ?>
-            <script>
-            alertify.alert("Favor informe a descrição do produto");
-            </script>
-    <?php }else{
+
         echo "."; ?>
-        <script>
-        alertify.success("Produto cadastrado com sucesso");
-        </script>
+<script>
+alertify.success("Produto cadastrado com sucesso");
+</script>
 
 <?php
 
@@ -83,6 +77,6 @@ if(isset($_POST["enviar"])){
   }
 
 }
-}
+
 
 }?>

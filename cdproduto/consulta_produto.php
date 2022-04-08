@@ -57,8 +57,9 @@ if(!$resultado){
 
     <main>
         <div id="janela_pesquisa">
-            <a href="cadastro_produto.php">
-                <input type="submit" name="cadastrar_produto" value="Adicionar">
+
+        <a href="cadastro_produto.php">
+            <input type="submit" name="cadastrar_produto" value="Adicionar">
             </a>
             <form action="consulta_produto.php" method="get">
 
@@ -112,10 +113,11 @@ if(!$resultado){
 
                     <?php
 
-if(isset($_GET["produto"])){
 
+if(isset($_GET["produto"])){
       while($linha = mysqli_fetch_assoc($resultado)){
-    ?>
+        $idProduto = $linha["produtoID"]?>
+
 
                     <tr id="linha_pesquisa">
 
@@ -151,6 +153,8 @@ if(isset($_GET["produto"])){
                         </td>
 
                         <td id="botaoEditar">
+
+                 
                             <a href="editar_produto.php?codigo=<?php echo $linha["produtoID"]?>">
                                 <button type="button" name="editar">Editar</button>
                             </a>
@@ -176,10 +180,17 @@ if(isset($_GET["produto"])){
 
 <script>
 //abrir uma nova tela de cadastro
-function abrepopupcliente() {
+function abrepopupCadastroProduto() {
 
     var janela = "cadastro_produto.php";
     window.open(janela, 'popuppage',
+        'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');
+}
+
+function abrepopupEditarProduto() {
+
+    var janela = "editar_produto.php?codigo=<?php echo $idProduto ?>";
+    window.open(janela, 'popuppageEditarProduto',
         'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');
 }
 </script>

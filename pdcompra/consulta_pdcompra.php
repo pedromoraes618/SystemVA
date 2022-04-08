@@ -1,12 +1,12 @@
-<?php require_once("../conexao/conexao.php"); ?>
 <?php
+
+
+require_once("../conexao/conexao.php");
 
 include("../conexao/sessao.php");
 
 
 include ("../_incluir/funcoes.php");
-
-
 
 
 
@@ -111,7 +111,7 @@ if (isset($_GET["CampoPesquisaData"])){
     <!-- estilo -->
     <link href="../_css/estilo.css" rel="stylesheet">
     <link href="../_css/pesquisa_tela.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/e8ff50f1be.js" crossorigin="anonymous"></script>
+
     <a href="https://icons8.com/icon/59832/cardápio"></a>
 </head>
 
@@ -125,10 +125,9 @@ if (isset($_GET["CampoPesquisaData"])){
     <main>
         <div id="janela_pesquisa">
             <div id="BotaoLancar">
-                <a href="cadastro_pdcompra.php">
 
-                    <input style="width: 150px;" id="lancar" type="submit" name="cadastrar_pdcompra"
-                        value="Adicionar P.Compra">
+                <a href="cadastro_pdcompra.php">
+                    <input id="lancar" type="submit" name="cadastrar_pdcompra" value="Adicionar P.Compra">
                 </a>
             </div>
             <form style="width:1500px;" action="" method="get">
@@ -202,13 +201,8 @@ if (isset($_GET["CampoPesquisaData"])){
 
                     <?php
 
-if(isset($_GET["CampoPesquisa"])){
-    /* 
-    while($linha = mysqli_fetch_assoc($resultado)){
-    
-
-    ?>
-                    */
+if(isset($_GET["CampoPesquisaData"])){
+ 
 
                     while($linha_clientes = mysqli_fetch_assoc($lista_clientes)){
                     $pedidoIDL = $linha_clientes["pedidoID"];
@@ -299,8 +293,8 @@ if(isset($_GET["CampoPesquisa"])){
                                    }else{
                                       echo formatardataB($entregaRealizada);
                                       ?>
-                                      <i style="font-size: 20px; margin-left:10px" class="fa-solid fa-check-double"></i>
-                                      <?php
+                                <i style="font-size: 20px; margin-left:10px" class="fa-solid fa-check-double"></i>
+                                <?php
 
                                      } ?>
                             </font>
@@ -308,10 +302,16 @@ if(isset($_GET["CampoPesquisa"])){
 
 
                         <td id="botaoEditar">
+
+
+
+                 
                             <a href="editar_pdcompra.php?codigo=<?php echo $pedidoIDL?>">
 
                                 <button type="button" name="Editar">Editar</button>
                             </a>
+                        </td>
+
                         </td>
                     </tr>
 
@@ -321,6 +321,8 @@ if(isset($_GET["CampoPesquisa"])){
                     }
 
               while($linha_Soma_Valor = mysqli_fetch_assoc($lista_Soma_Valor)){
+                $soma = $linha_Soma_Valor['soma'];
+                $somaValor =  $linha_Soma_Valor['somaCompra'];
                 
                         ?>
 
@@ -349,7 +351,17 @@ if(isset($_GET["CampoPesquisa"])){
                         </td>
 
                         <td>
-                            <p><?php echo real_percent(((($linha_Soma_Valor['soma']) - ($linha_Soma_Valor['somaCompra'])) / ($linha_Soma_Valor['soma']))  * 100) ?>
+                            <p><?php 
+                          
+                            if($soma == 0){
+                             
+                            }else{
+                                $calculo = real_percent(((($soma) - ($somaValor)) / ($somaValor))  * 100);
+                                echo $calculo;
+                            }
+                        
+                            
+                            ?>
                             </p>
                         </td>
 
@@ -388,18 +400,27 @@ if(isset($_GET["CampoPesquisa"])){
 
 
 
+
+
+</html>
+
 <script>
 //abrir uma nova tela de cadastro
 
-function abrepopupcliente() {
+function abrepopupEditarPcompra() {
 
-    var janela = "cadastro_pdcompra.php";
+    var janela = "editar_pdcompra.php?codigo=<?php echo $pedidoIDL?>";
     window.open(janela, 'popuppage',
         'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');
 }
-</script>
 
-</html>
+function abrepopupAdicionarPcompra() {
+
+    var janela = "cadastro_pdcompra.php";
+    window.open(janela, 'popuppageCadastar',
+        'width=1700,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');
+}
+</script>
 
 <?php
     // Fechar conexao
