@@ -4,27 +4,28 @@
 include("../conexao/sessao.php");
 
 
-//consultar cliente
 $select = "SELECT statusID, descricao from status_lembrete";
 $status_lembrete = mysqli_query($conecta,$select);
 if(!$status_lembrete){
     die("Falaha no banco de dados || select clientes");
 }
 
-//consultar clientes
+
+if(isset($_GET["campoStatusLembrete"])){   
+    //consultar
+//consultar 
 $lembrete = "SELECT  lembrete.lembreteID,  lembrete.data_lancamento, lembrete.descricao as descricaoNome, clientes.razaosocial as clienteNome, usuarios.usuario AS usariosNome, status_lembrete.descricao as statusNomeLembrete from clientes inner join  lembrete on lembrete.clienteID = clientes.clienteID INNER Join status_lembrete on lembrete.statusID = status_lembrete.statusID INNER Join usuarios on lembrete.usuarioID = usuarios.usuarioID ";
-/*
-if(isset($_GET["cliente"])){
-    $nome_cliente = $_GET["cliente"];
- $lembrete .= " WHERE  razaosocial LIKE '%{$nome_cliente}%' or cpfcnpj LIKE '%{$nome_cliente}%' ";
-}
-*/
+$pesquisa = $_GET["campoPesquisa"];
+$statusLembreteID = $_GET["campoStatusLembrete"];
+$lembrete .= " where lembrete.statusID = $statusLembreteID and clientes.razaosocial LIKE '%{$pesquisa}%'  ";
 
 $resultado = mysqli_query($conecta, $lembrete);
 if(!$resultado){
     die("Falha na consulta ao banco de dados");
     
 }
+}
+
 
 ?>
 <!doctype html>
@@ -60,7 +61,9 @@ if(!$resultado){
             <form style="width:1500px;" action="consulta_lembrete.php" method="get">
 
 
-                <input style="margin-left:500px;" type="text" name="campoPesquisa"
+                <input style="margin-left:500px;" type="text" name="campoPesquisa" value="<?php if(isset($_GET['campoStatusLembrete'])){
+                    echo $pesquisa;
+                } ?>"
                     placeholder="Pesquisa / Razão social / Cnpj">
 
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
@@ -68,9 +71,11 @@ if(!$resultado){
 
                 <select style=" float:right; margin-right:150px; " name="campoStatusLembrete" id="campoStatusLembrete">
 
+
+                
                     <?php  while($linha_usuario  = mysqli_fetch_assoc($status_lembrete)){
                                 $statusLembretePrincipal = utf8_encode($linha_usuario["statusID"]);
-                               if(!isset($status_Lembrete)){
+                               if(!isset($statusLembreteID)){
                                
                                ?>
                     <option value="<?php echo utf8_encode($linha_usuario["statusID"]);?>">
@@ -80,7 +85,7 @@ if(!$resultado){
                                
                                }else{
    
-                                if($status_Lembrete==$statusLembretePrincipal){
+                                if($statusLembreteID==$statusLembretePrincipal){
                                 ?> <option value="<?php echo utf8_encode($linha_usuario["statusID"]);?>" selected>
                         <?php echo utf8_encode($linha_usuario["descricao"]);?>
                     </option>
@@ -119,7 +124,7 @@ if(!$resultado){
 
 
                         <td>
-                            Nº Lembrete
+                           <p>Nº Lembrete</p> 
                         </td>
                         <td>
                             <p>Data lancamento</p>

@@ -61,8 +61,8 @@ include("../classes/cliente/editar_cliente.php");
                 </tr>
 
                 <tr>
-                    <td align=left><b>Cidade:</b></td>
-                    <td align=left><input type="text" size=30 name="cidade" value="<?php echo $cidade ?>">
+                    <td align=left><b>Cidade:*</b></td>
+                    <td align=left><input required type="text" size=30 name="cidade" value="<?php echo $cidade ?>">
                         <!-- uf -->
                         <b>UF:</b>
                         <select id="estados" name="estados">

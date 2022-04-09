@@ -17,7 +17,7 @@ include("../../conexao/sessao.php");
 
 
 
-
+echo ".";
 if(isset($_GET['cliente'])){
 $clienteID = $_GET['cliente'];
 
@@ -66,7 +66,7 @@ alertify.success("Dados alterados");
      $operacao_remover = mysqli_query($conecta, $remover);
      if(!$operacao_remover) {
          die("Erro banco de dados ");   
-     } else {   echo ".";
+     } else {   
         ?>
 <script>
 alertify.error("Cliente removido com sucesso");

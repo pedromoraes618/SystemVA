@@ -43,7 +43,7 @@
       $operacao_remover = mysqli_query($conecta, $remover);
       if(!$operacao_remover) {
           die("Erro linha 44");   
-      } else {echo ',';
+      } else {
         ?>
         
         <script >

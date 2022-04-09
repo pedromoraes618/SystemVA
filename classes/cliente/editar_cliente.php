@@ -13,6 +13,8 @@
 <?php 
 
 
+echo ".";
+
 if(isset($_POST['btnsalvar'])){
 
     //inlcuir as varias do input
@@ -28,7 +30,7 @@ if(isset($_POST['btnsalvar'])){
      $operacao_alterar = mysqli_query($conecta, $alterar);
      if(!$operacao_alterar) {
          die("Erro na alteracao lina 20");   
-     } else {  echo ".";
+     } else {  
         ?>
 <script>
 alertify.success("Dados alterados");
@@ -54,7 +56,7 @@ alertify.success("Dados alterados");
      $operacao_remover = mysqli_query($conecta, $remover);
      if(!$operacao_remover) {
          die("Erro linha 44");   
-     } else {   echo ".";
+     } else {   
         ?>
 <script>
 alertify.error("Cliente removido com sucesso");

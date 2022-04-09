@@ -140,11 +140,15 @@ if (isset($_GET["CampoPesquisaData"])){
                 <input style="width: 100px;" type="text" name="CampoPesquisaDataf" placeholder="Data final"
                     onkeyup="mascaraData(this);" value="<?php if(!isset($_GET["CampoPesquisa"])){ echo date('d/m/Y');
                         } if (isset($_GET["CampoPesquisaDataf"])){ echo $pesquisaDataf;} ?>">
-                <input style="width: 100px; margin-left:50px" type="text" name="CampoPesquisaNpedido"
-                    placeholder="N° pedido">
 
-                <input style="margin-left:110px;" type="text" name="CampoPesquisa"
-                    placeholder="pesquisa / Cliente / Entrega prevista / N° Pedido">
+                <input style="width: 100px; margin-left:50px" type="text" name="CampoPesquisaNpedido"
+                    placeholder="N° pedido" value="<?php if(isset($_GET['CampoPesquisaNpedido'])){
+                        echo $pesquisaNpedido;
+                    } ?>">
+
+                <input style="margin-left:110px;" type="text" name="CampoPesquisa" value="<?php if(isset($_GET['CampoPesquisa'])){
+                    echo $pesquisa;
+                } ?>" placeholder="pesquisa / Cliente / Entrega prevista / N° Pedido">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
             </form>
@@ -305,7 +309,7 @@ if(isset($_GET["CampoPesquisaData"])){
 
 
 
-                 
+
                             <a href="editar_pdcompra.php?codigo=<?php echo $pedidoIDL?>">
 
                                 <button type="button" name="Editar">Editar</button>

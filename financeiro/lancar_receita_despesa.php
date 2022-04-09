@@ -69,8 +69,7 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
 
                         <b>Data Vencimento:</b>
                         <input type="text" size=20 id="campoDataPagar" name="campoDataPagar"
-                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off"
-                            value="<?php if(isset($_POST['enviar'])){ 
+                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off" value="<?php if(isset($_POST['enviar'])){ 
                                 
                                 if($dataapagar){
                               
@@ -83,8 +82,7 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
 
                     <td><b>Data Pagamento:</b></td>
                     <td><input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento"
-                            OnKeyUp="mascaraData(this);" maxlength="10"
-                            value="<?php if(isset($_POST['enviar'])){ 
+                            OnKeyUp="mascaraData(this);" maxlength="10" value="<?php if(isset($_POST['enviar'])){ 
                                 
                                 if($dataPagamento){
                               
@@ -105,26 +103,26 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
                                if(!isset($lancamento)){
                                
                                ?>
-                               <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
-                                   <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
-                               </option>
-                               <?php
+                            <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
+                                <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
+                            </option>
+                            <?php
                                
                                }else{
    
                                 if($lancamento==$receita_despesa_principal){
                                 ?> <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>" selected>
-                                   <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
-                               </option>
-   
-                               <?php
+                                <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
+                            </option>
+
+                            <?php
                                          }else{
                                 
                                ?>
-                               <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
-                                   <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
-                               </option>
-                               <?php
+                            <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
+                                <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
+                            </option>
+                            <?php
    
            }
            
@@ -147,26 +145,25 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
                     <td align=left><b>Cliente:</b></td>
                     <td align=left><select id="campoCliente" name="campoCliente"><?php 
 
-                             while($linha_clientes = mysqli_fetch_assoc($lista_clientes)){
-                             $formaClientePrincipal = utf8_encode($linha_clientes["clienteID"]);
+                            while($linha_clientes = mysqli_fetch_assoc($lista_clientes)){
+                            $formaClientePrincipal = utf8_encode($linha_clientes["clienteID"]);
                             if(!isset($cliente)){
                             
                             ?>
                             <option value="<?php echo utf8_encode($linha_clientes["clienteID"]);?>">
-                                <?php echo utf8_encode($linha_clientes["razaosocial"]);?>
+                            <?php echo utf8_encode($linha_clientes["razaosocial"]);?>
                             </option>
                             <?php
                             
 
                             }else{
-
-                             if($cliente ==$formaClientePrincipal){
+                            if($cliente ==$formaClientePrincipal){
                              ?> <option value="<?php echo utf8_encode($linha_clientes["clienteID"]);?>" selected>
                                 <?php echo utf8_encode($linha_clientes["razaosocial"]);?>
                             </option>
 
                             <?php
-                                      }else{
+                            }else{
                              
                             ?>
                             <option value="<?php echo utf8_encode($linha_clientes["clienteID"]);?>">
@@ -209,7 +206,8 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
                             }else{
 
                              if($formaPagamento==$formaPagmaentoPrincipal){
-                             ?> <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>" selected>
+                             ?> <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>"
+                                selected>
                                 <?php echo utf8_encode($linha_formapagamento["nome"]);?>
                             </option>
 
@@ -241,27 +239,27 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
                                if(!isset($statusLancamento)){
                                
                                ?>
-                               <option value="<?php echo utf8_encode($linha_statusLacamento["nome"]);?>">
-                                   <?php echo utf8_encode($linha_statusLacamento["nome"]);?>
-                               </option>
-                               <?php
+                            <option value="<?php echo utf8_encode($linha_statusLacamento["nome"]);?>">
+                                <?php echo utf8_encode($linha_statusLacamento["nome"]);?>
+                            </option>
+                            <?php
                                
    
                                }else{
    
                                 if($statusLancamento==$statusPrincipal){
                                 ?> <option value="<?php echo utf8_encode($linha_statusLacamento["nome"]);?>" selected>
-                                   <?php echo utf8_encode($linha_statusLacamento["nome"]);?>
-                               </option>
-   
-                               <?php
+                                <?php echo utf8_encode($linha_statusLacamento["nome"]);?>
+                            </option>
+
+                            <?php
                                          }else{
                                 
                                ?>
-                               <option value="<?php echo utf8_encode($linha_statusLacamento["nome"]);?>">
-                                   <?php echo utf8_encode($linha_statusLacamento["nome"]);?>
-                               </option>
-                               <?php
+                            <option value="<?php echo utf8_encode($linha_statusLacamento["nome"]);?>">
+                                <?php echo utf8_encode($linha_statusLacamento["nome"]);?>
+                            </option>
+                            <?php
    
            }
            
@@ -299,27 +297,28 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
                            if(!isset($grupoLancamento)){
                            
                            ?>
-                           <option value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>">
-                               <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
-                           </option>
-                           <?php
+                                <option value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>">
+                                    <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
+                                </option>
+                                <?php
                            
 
                            }else{
 
                             if($grupoLancamento==$GrupoLancamentoPrincipal){
-                            ?> <option value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>" selected>
-                               <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
-                           </option>
+                            ?> <option value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>"
+                                    selected>
+                                    <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
+                                </option>
 
-                           <?php
+                                <?php
                                      }else{
                             
                            ?>
-                           <option value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>">
-                               <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
-                           </option>
-                           <?php
+                                <option value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>">
+                                    <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
+                                </option>
+                                <?php
 
        }
        

@@ -73,7 +73,7 @@
   if(!$lista_statuscompra){
       die("Falaha no banco de dados || select statuscompra");
   }
-  
+  echo ",";
   //iniciar a tela com o campo preenchido
   
   //variaveis 
@@ -99,7 +99,7 @@
   {
 
     if($lancamento=="Selecione"){
-    print_r('.'); ?> 
+ ?> 
        <script>
       alertify.alert("Favor selecione o tipo do lançamento");
       </script>
@@ -107,14 +107,24 @@
     <?php
       
     }elseif($dataLancamento==""){
-        echo ",";
+      
         ?>
         <script>
         alertify.alert("Favor informe a data de lançamento");
         </script>
+
         <?php
+    }elseif($cliente=="1"){
+        ?>
+
+        <script>
+        alertify.alert("Favor informe o cliente");
+        </script>
+        
+        <?php
+
     }elseif($statusLancamento=="Selecione"){
-        echo ",";
+        
         ?>
 
          <script>
@@ -123,7 +133,7 @@
   <?php
   
     }else{
-        echo ",";
+       
     ?>
         <script>
         alertify.success("Lançamento Realizado com sucesso");
@@ -174,6 +184,11 @@
     $dataapagar ="";
     $dataPagamento = "";
     $formaPagamento = "";
+    $cliente = 1;
+    $formaPagamento = 1;
+    $statusLancamento=1;
+    $grupoLancamento=1;
+    $lancamento = 1;
     $descricao = "";
     $documento ="";
     $valor = "";

@@ -59,8 +59,8 @@ include("../classes/cliente/cadastro_cliente.php");
                 </tr>
 
                 <tr>
-                    <td align=left><b>Cidade:</b></td>
-                    <td align=left><input type="text" size=30 name="cidade"
+                    <td align=left><b>Cidade:*</b></td>
+                    <td align=left><input  required type="text" size=30 name="cidade"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($cidade);}?>"><b>UF:</b>
                         <?php include_once("../_incluir/uf_estados.php"); ?>
                     </td>
@@ -151,7 +151,7 @@ include("../classes/cliente/cadastro_cliente.php");
                 <table width=100%>
                     <tr>
                         <div id="botoes">
-                            <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
+                            <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"  onClick="return confirm('Confirma o cadastro desse cliente?');"></input>
                             <a href="consulta_cliente.php">
                                 <button type="button" class="btn btn-secondary">Voltar</button>
                       
@@ -176,5 +176,6 @@ function fechar() {
 </html>
 
 <?php 
+
 mysqli_close($conecta);
 ?>

@@ -185,7 +185,7 @@ while($linha_categoria  = mysqli_fetch_assoc($lista_categoria)){
                 <table width=100%>
                     <tr>
                         <div id="botoes">
-                            <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
+                            <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"  onClick="return confirm('Confirma o cadastro do produto?');"></input>
                             
                             <a href="consulta_produto.php">
                                 <button type="button"  name="btnfechar" class="btn btn-secondary">Voltar</button>

@@ -16,7 +16,7 @@ $campo_obrigatorio_RazacaoS ="Razao Social deve ser informada";
 $msgcadastrado = "Cliente cadastrado com sucesso";
 
 
-
+echo ".";
 //consultar estados 
 $select = "SELECT estadoID, nome from estados";
 $lista_estados = mysqli_query($conecta,$select);
@@ -53,7 +53,7 @@ if(isset($_POST["txtrazaosocial"])){
 
   if(isset($_POST['enviar']))
   {
-    echo ".";
+  
             ?>
 <script>
 alertify.success("Cliente cadastrado com sucesso");

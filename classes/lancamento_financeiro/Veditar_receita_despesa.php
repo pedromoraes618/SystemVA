@@ -1,4 +1,3 @@
-
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
 <!-- CSS -->
@@ -13,7 +12,7 @@
 
 <?php 
 $msgcadastrado = "Lançamento realizado com sucesso";
-
+echo ",";
 
 
 //consultar forma de pagamento
@@ -125,11 +124,11 @@ if(isset($_POST["btnsalvar"])){
       if(!$operacao_alterar) {
           die("Erro na alteracao linha29");   
       } else {  
-  echo ",";
+  
     ?>
-        <script>
-        alertify.success("Dados alterados");
-        </script>
+<script>
+alertify.success("Dados alterados");
+</script>
 <?php
           //header("location:listagem.php"); 
            

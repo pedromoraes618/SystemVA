@@ -55,7 +55,10 @@ if(!$resultado){
 
 
             <form action="consulta_cliente.php" method="get">
-                <input type="text" name="cliente" placeholder="Pesquisa / Razão social / Cnpj">
+                <input type="text" name="cliente" placeholder="Pesquisa / Razão social / Cnpj" value="<?php if(isset($_GET['cliente'])){
+                    echo $nome_cliente;
+
+                }?>">
 
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
             </form>
@@ -70,6 +73,9 @@ if(!$resultado){
                     <tr id="cabecalho_pesquisa_consulta">
 
 
+                        <td>
+                          Cod
+                        </td>
                         <td>
                             Razão social
                         </td>
@@ -110,6 +116,13 @@ if(!$resultado){
                     <tr id="linha_pesquisa">
 
 
+
+                    <td style="width:50px">
+                            <p>
+                                <font size="2"><?php echo utf8_encode($linha["clienteID"])?>
+                                </font>
+                            </p>
+                        </td>
 
                         <td style="width:500px;">
                             <p>

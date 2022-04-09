@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css" />
 
 <?php
+ echo "."; 
 if(isset($_POST['btnsalvar'])){
 
 //inlcuir as varias do input
@@ -34,7 +35,7 @@ $alterar .= " unidade_medida = '{$unidade_medida}', categoriaID = '{$categoria}'
  $operacao_alterar = mysqli_query($conecta, $alterar);
  if(!$operacao_alterar) {
      die("Erro na alteracao linha29");   
- } else {  echo "."; ?>
+ } else { ?>
     <script>
     alertify.success("Dados alterados");
     </script>
@@ -61,7 +62,7 @@ $remover = "DELETE FROM produtos WHERE produtoID = {$produtoID}";
 
  if(!$operacao_remover) {
      die("Erro linha 44");   
- } else {    echo "."; ?>
+ } else {    ?>
     <script>
     alertify.error("Produto removido com sucesso");
     </script>

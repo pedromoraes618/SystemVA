@@ -49,7 +49,7 @@ $lista_statuscompra = mysqli_query($conecta,$select);
 if(!$lista_statuscompra){
     die("Falaha no banco de dados || select statuscompra");
 }
-
+echo ".";
 
 //variaveis 
 if(isset($_POST["enviar"])){
@@ -82,7 +82,7 @@ if(isset($_POST["enviar"])){
   if(isset($_POST['enviar'])){
 
   if($statusCompra=="Selecione"){
-            echo ".";
+          
                 ?>
     <script>
     alertify.alert("Favor selecione o status da compra");
@@ -90,7 +90,7 @@ if(isset($_POST["enviar"])){
     <?php 
             }elseif($cliente == ("1")){
                 
-                echo ".";
+         
                 ?>
     <script>
     alertify.alert("Favor informar o cliente");
@@ -98,7 +98,7 @@ if(isset($_POST["enviar"])){
     
     <?php 
 
-        }else{ echo ".";
+        }else{ 
                         ?>
             <script>
             alertify.success("Pedido de compra lançado com sucesso");

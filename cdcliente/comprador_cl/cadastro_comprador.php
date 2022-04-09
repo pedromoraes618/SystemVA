@@ -14,7 +14,7 @@
 require_once("../../conexao/conexao.php");
 
 include("../../conexao/sessao.php");
-
+echo ".";
 
 if(isset($_GET['cliente'])){
 $clienteID = $_GET['cliente'];
@@ -47,7 +47,7 @@ if (isset($_POST['enviar'])){
     if(!$operacao_inserir){
         die("Erro no banco de dados ");
     }else{
-        echo ".";
+       
         ?>
 <script>
 alertify.success("Comprador incluido com sucesso");

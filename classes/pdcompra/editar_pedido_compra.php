@@ -12,7 +12,7 @@
 
 
 <?php
-
+echo ',';
 if(isset($_POST['btnsalvar'])){
 
     //inlcuir as varias do input
@@ -94,7 +94,7 @@ if(!$numeroPedidoCompra == ""){
      $operacao_alterar = mysqli_query($conecta, $alterar);
      if(!$operacao_alterar) {
          die("Erro na alteracao linha29");   
-     } else {echo ',';
+     } else {
         ?>
         
         <script >

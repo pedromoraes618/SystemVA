@@ -16,7 +16,7 @@ $campo_obrigatorio_RazacaoS ="Descrição deve ser informado";
 $msgcadastrado = "Produto cadastrado com sucesso!";
 
 
-
+echo "."; 
 //consultar categoria do produto
 $select = "SELECT categoriaID, nome_categoria from categoria_produto";
 $lista_categoria = mysqli_query($conecta,$select);
@@ -48,7 +48,7 @@ if(isset($_POST["enviar"])){
   if(isset($_POST['enviar']))
   {
 
-        echo "."; ?>
+        ?>
 <script>
 alertify.success("Produto cadastrado com sucesso");
 </script>

@@ -63,7 +63,9 @@ if(!$resultado){
             </a>
             <form action="consulta_produto.php" method="get">
 
-                <input type="text" name="produto" placeholder="Pesquisa / Produto / Código">
+                <input type="text" name="produto" placeholder="Pesquisa / Produto / Código" value="<?php if(isset($_GET['produto'])){
+                    echo $nome_produto;
+                }?>">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
 

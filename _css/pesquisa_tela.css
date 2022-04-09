@@ -267,7 +267,7 @@ tr input[type="submit"] {
 .tabela_pesquisa P{
    display: inline-block;
    padding: 0px 0px;
-    
+   color: rgb(36, 36, 36);
 
 }
 
