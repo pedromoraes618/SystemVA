@@ -156,10 +156,10 @@ include("../classes/produtos/editar_produto.php");
                             <input type="submit" name="btnsalvar" value="Salvar" class="btn btn-info btn-sm"></input>
 
 
-                            <a href="consulta_produto.php">
-                                <button type="button" class="btn btn-secondary">Voltar</button>
+                           
+                                <button type="button" onclick="fechar();" class="btn btn-secondary">Voltar</button>
 
-                            </a>
+                        
 
                             <input id="remover" type="submit" name="btnremover" value="Remover" class="btn btn-danger"
                                 onClick="return confirm('Confirma Remoção do Produto? Verifique se o produto tem movimentação');"></input>

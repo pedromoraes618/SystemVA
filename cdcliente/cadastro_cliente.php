@@ -152,10 +152,10 @@ include("../classes/cliente/cadastro_cliente.php");
                     <tr>
                         <div id="botoes">
                             <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"  onClick="return confirm('Confirma o cadastro desse cliente?');"></input>
-                            <a href="consulta_cliente.php">
-                                <button type="button" class="btn btn-secondary">Voltar</button>
+                           
+                                <button type="button" onclick="fechar();" class="btn btn-secondary">Voltar</button>
                       
-                            </a>
+                     
                         </div>
                     </tr>
 

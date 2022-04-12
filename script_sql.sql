@@ -354,9 +354,40 @@ CREATE TABLE `status_lembrete` (
   `statusLID` int(11) NOT NULL AUTO_INCREMENT,
   `descricao` varchar(50) NOT NULL,
   
-   PRIMARY KEY (`lembreteID`)
+   PRIMARY KEY (`statusLID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+insert into status_lembrete values (null,'Não inciado');
+insert into status_lembrete values (null,'Não inciado');
+insert into lembrete values (null,'2022-04-07','teste','1','2','1');
+
+SELECT  lembrete.lembreteID, lembrete.descricao, clientes.razaosocial, usuarios.usuario, status_lembrete.descricao from clientes
+ inner join 
+ lembrete on lembrete.clienteID = clientes.clienteID
+ INNER Join
+ status_lembrete on lembrete.statusID = status_lembrete.statusID
+ INNER Join
+usuarios on lembrete.usuarioID = usuarios.usuarioID;
+
+insert into clientes(cpfcnpj,inscricao_estadual,razaosocial,cidade,estadoID,endereco,clienteftID,bairro) values('44.983.435/0003-30','12.095.653-5','GRANEL QUÍMICA LTDA-SÃO LUIS I
+','Sao Luis','10','PORTO DE ITAQUI','1','ITAQUI');
+insert into clientes(cpfcnpj,inscricao_estadual,razaosocial,cidade,estadoID,endereco,clienteftID,bairro) values('44.983.435/0010-60','','GRANEL QUÍMICA LTDA SÃO LUIS II
+','Sao Luis','10','RTN do Itaqui','1','ITAQUI');
+insert into clientes(cpfcnpj,inscricao_estadual,razaosocial,cidade,estadoID,endereco,clienteftID,bairro) values('05.300.197/0001-06','','ROFE DISTRIBUIDORA','Sao Luis','10','AV. 9','2','MAIOBÃO');
+
+insert into clientes(cpfcnpj,inscricao_estadual,razaosocial,cidade,estadoID,endereco,clienteftID,bairro) values('44.983.435/0003-30','12.095.653-5','GRANEL QUÍMICA LTDA-SÃO LUIS I
+','Sao Luis','10','PORTO DE ITAQUI','1','ITAQUI');
+  
+ 
+SELECT MAX(id_comprador) FROM comprador;
 
 
+INSERT into cotacao values(null,'1','1','1',150,'0000-00-00','TESTE');
 
+
+CREATE TABLE `produto_cotacao` (
+  `produto_cotacao` int(11) NOT NULL AUTO_INCREMENT,
+  `cotacaoID` tinyint(3),
+  `descricao` varchar(10)
+  PRIMARY KEY (`produto_cotacao`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

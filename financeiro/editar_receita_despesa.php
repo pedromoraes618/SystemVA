@@ -324,10 +324,10 @@ if(!$detalhe){
 
 
 
-                                    <a href="consulta_financeiro.php">
+               
                                         <button type="button" class="btn btn-secondary"
                                             onclick="fechar()">Voltar</button>
-                                    </a>
+              
 
                                     <input id="remover" type="submit" name="btnremover" value="Remover"
                                         class="btn btn-danger"

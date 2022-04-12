@@ -151,7 +151,7 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
                             
                             ?>
                             <option value="<?php echo utf8_encode($linha_clientes["clienteID"]);?>">
-                            <?php echo utf8_encode($linha_clientes["razaosocial"]);?>
+                                <?php echo utf8_encode($linha_clientes["razaosocial"]);?>
                             </option>
                             <?php
                             
@@ -358,11 +358,8 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
                                 <div style="margin-left:150px;" id="botoes">
                                     <input type="submit" name=enviar value="Cadastrar"
                                         class="btn btn-info btn-sm"></input>
+                                    <button type="button" class="btn btn-secondary" onclick="fechar()">Voltar</button>
 
-                                    <a href="consulta_financeiro.php">
-                                        <button type="button" class="btn btn-secondary"
-                                            onclick="fechar()">Voltar</button>
-                                    </a>
 
 
                                 </div>

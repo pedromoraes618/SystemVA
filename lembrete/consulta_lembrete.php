@@ -53,7 +53,9 @@ if(!$resultado){
 
         <div id="janela_pesquisa">
 
-            <a href="cadastro_lembrete.php">
+            <a
+                onclick="window.open('cadastro_lembrete.php', 
+'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=600');">
                 <input type="submit" name="cadastar_cliente" value="Adicionar">
             </a>
 
@@ -63,8 +65,7 @@ if(!$resultado){
 
                 <input style="margin-left:500px;" type="text" name="campoPesquisa" value="<?php if(isset($_GET['campoStatusLembrete'])){
                     echo $pesquisa;
-                } ?>"
-                    placeholder="Pesquisa / Razão social / Cnpj">
+                } ?>" placeholder="Pesquisa / Razão social / Cnpj">
 
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
@@ -72,7 +73,7 @@ if(!$resultado){
                 <select style=" float:right; margin-right:150px; " name="campoStatusLembrete" id="campoStatusLembrete">
 
 
-                
+
                     <?php  while($linha_usuario  = mysqli_fetch_assoc($status_lembrete)){
                                 $statusLembretePrincipal = utf8_encode($linha_usuario["statusID"]);
                                if(!isset($statusLembreteID)){
@@ -124,7 +125,7 @@ if(!$resultado){
 
 
                         <td>
-                           <p>Nº Lembrete</p> 
+                            <p>Nº Lembrete</p>
                         </td>
                         <td>
                             <p>Data lancamento</p>
@@ -153,7 +154,7 @@ if(!$resultado){
 
 
                     </tr>
-    <?php   if(isset($_GET["campoPesquisa"])){
+                    <?php   if(isset($_GET["campoPesquisa"])){
            while($linha = mysqli_fetch_assoc($resultado)){
                 
                 
@@ -211,7 +212,10 @@ if(!$resultado){
                         <td id="botaoEditar">
 
 
-                            <a href="editar_lembrete.php?codigo=<?php echo $lembreteID?>">
+
+                            <a
+                                onclick="window.open('editar_lembrete.php?codigo=<?php echo $lembreteID?>', 
+'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
 
                                 <button type="button" name="Editar">Editar</button>
 

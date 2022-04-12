@@ -84,29 +84,39 @@ if(isset($_POST["enviar"])){
   if($statusCompra=="Selecione"){
           
                 ?>
-    <script>
-    alertify.alert("Favor selecione o status da compra");
-    </script>
-    <?php 
+<script>
+alertify.alert("Favor selecione o status da compra");
+</script>
+<?php 
             }elseif($cliente == ("1")){
                 
          
                 ?>
-    <script>
-    alertify.alert("Favor informar o cliente");
-    </script>
-    
-    <?php 
+<script>
+alertify.alert("Favor informar o cliente");
+</script>
 
+<?php 
+
+        }elseif($formaPagamento == ("1")){
+
+            ?>
+<script>
+alertify.alert("Favor informar a forma de pagamento");
+</script>
+
+<?php 
+
+        
         }else{ 
                         ?>
-            <script>
-            alertify.success("Pedido de compra lançado com sucesso");
-            </script>
-    <?php
+<script>
+alertify.success("Pedido de compra lançado com sucesso");
+</script>
+<?php
                 
                 ?>
-    <?php
+<?php
 
 //condição obrigatorio 
     if(!$numeroPedidoCompra == ""){

@@ -322,10 +322,9 @@ include ("../classes/pdcompra/editar_pedido_compra.php");
 
                             <input type="submit" name="btnsalvar" value="Salvar" class="btn btn-info btn-sm"></input>
 
-                            
-                            <a href="consulta_pdcompra.php">
-                                <button type="button" class="btn btn-secondary">Voltar</button>
-                            </a>
+               
+                                <button type="button"  onclick="fechar();" class="btn btn-secondary">Voltar</button>
+                      
                         
 
                             <input id="remover" type="submit" name="btnremover" value="Remover" class="btn btn-danger"

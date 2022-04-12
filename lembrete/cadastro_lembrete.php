@@ -274,7 +274,7 @@ alertify.success("Lembrete lançado com sucesso!");
                         <div style="margin-left:120px" id="botoes">
                             <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"></input>
                             <a href="consulta_lembrete.php">
-                                <button type="button" class="btn btn-secondary">Voltar</button>
+                                <button type="button"  onclick="fechar()" class="btn btn-secondary">Voltar</button>
 
                             </a>
                         </div>

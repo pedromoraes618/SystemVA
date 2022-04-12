@@ -123,7 +123,10 @@ if (isset($_GET["CampoPesquisaData"])){
     <main>
         <div id="janela_pesquisa">
             <div id="BotaoLancar">
-                <a href="lancar_receita_despesa.php">
+
+                <a
+                    onclick="window.open('lancar_receita_despesa.php', 
+'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
 
                     <input id="lancar" type="submit" name="lançarFinanceiro" value="Lançar Financeiro">
 
@@ -158,8 +161,9 @@ if (isset($_GET["CampoPesquisaData"])){
                     <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
                 </td>
                 <td>
-                <select style="width: 170px; float:right; margin-right:100px; " id="campoLancamento" name="campoLancamento">
-                            <?php 
+                    <select style="width: 170px; float:right; margin-right:100px; " id="campoLancamento"
+                        name="campoLancamento">
+                        <?php 
                             
                                
                              while($linha_receita_despesa  = mysqli_fetch_assoc($lista_receita_despesa)){
@@ -167,26 +171,26 @@ if (isset($_GET["CampoPesquisaData"])){
                                if(!isset($lancamento)){
                                
                                ?>
-                            <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
-                                <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
-                            </option>
-                            <?php
+                        <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
+                            <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
+                        </option>
+                        <?php
                                
                                }else{
    
                                 if($lancamento==$receita_despesa_principal){
                                 ?> <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>" selected>
-                                <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
-                            </option>
+                            <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
+                        </option>
 
-                            <?php
+                        <?php
                                          }else{
                                 
                                ?>
-                            <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
-                                <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
-                            </option>
-                            <?php
+                        <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
+                            <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
+                        </option>
+                        <?php
    
            }
            
@@ -198,8 +202,8 @@ if (isset($_GET["CampoPesquisaData"])){
                          ?>
 
 
-                        </select>
-      </td>
+                    </select>
+                </td>
 
 
                 </td>
@@ -336,7 +340,11 @@ if(isset($_GET["CampoPesquisa"])){
                         <td id="botaoEditar">
 
 
-                            <a href="editar_receita_despesa.php?codigo=<?php echo  $lancamentoID?>">
+
+                            <a
+                                onclick="window.open('editar_cliente.php?codigo=<?php $lancamentoID?>', 
+        'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
+
 
                                 <button type="button" name="Editar">Editar</button>
                             </a>

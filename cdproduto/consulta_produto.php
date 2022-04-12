@@ -58,9 +58,13 @@ if(!$resultado){
     <main>
         <div id="janela_pesquisa">
 
-        <a href="cadastro_produto.php">
+     
+        <a onclick="window.open('cadastro_produto.php', 
+'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
             <input type="submit" name="cadastrar_produto" value="Adicionar">
             </a>
+
+
             <form action="consulta_produto.php" method="get">
 
                 <input type="text" name="produto" placeholder="Pesquisa / Produto / Código" value="<?php if(isset($_GET['produto'])){
@@ -157,7 +161,9 @@ if(isset($_GET["produto"])){
                         <td id="botaoEditar">
 
                  
-                            <a href="editar_produto.php?codigo=<?php echo $linha["produtoID"]?>">
+                            <a onclick="window.open('editar_produto.php?codigo=<?php echo $linha["produtoID"]?>', 
+'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
+                            
                                 <button type="button" name="editar">Editar</button>
                             </a>
 

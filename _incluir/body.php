@@ -35,7 +35,7 @@
                 </li>
                 <li><a href="">Cotação</a>
                     <ul>
-                        <li><a href="">Cotação</a></li>
+                        <li><a href="../../../SystemVA/cotacao/consulta_cotacao.php">Cotação</a></li>
 
                     </ul>
                 </li>

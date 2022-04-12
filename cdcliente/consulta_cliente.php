@@ -49,7 +49,8 @@ if(!$resultado){
 
         <div id="janela_pesquisa">
 
-            <a href="cadastro_cliente.php">
+        <a onclick="window.open('cadastro_cliente.php', 
+'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
                 <input type="submit" name="cadastar_cliente" value="Adicionar">
             </a>
 
@@ -74,7 +75,7 @@ if(!$resultado){
 
 
                         <td>
-                          Cod
+                            Cod
                         </td>
                         <td>
                             Razão social
@@ -117,7 +118,7 @@ if(!$resultado){
 
 
 
-                    <td style="width:50px">
+                        <td style="width:50px">
                             <p>
                                 <font size="2"><?php echo utf8_encode($linha["clienteID"])?>
                                 </font>
@@ -164,14 +165,14 @@ if(!$resultado){
 
 
                         <td id="botaoEditar">
+                            <a onclick="window.open('editar_cliente.php?codigo=<?php echo $linha["clienteID"]?>', 
+'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
+
+                                <button type="button"  name="Editar">Editar</button>
 
 
-                            <a href="editar_cliente.php?codigo=<?php echo $linha["clienteID"]?>">
-
-                                <button type="button" name="Editar">Editar</button>
-
-                            </a>
-
+                                </a>
+                         
 
                         </td>
                     </tr>
@@ -203,13 +204,13 @@ function abrepopupcliente() {
 function abrepopupEditarCliente() {
 
     var janela = "editar_cliente.php?codigo=<?php  
-       if(isset($_GET["cliente"])){
+ 
         while($linha = mysqli_fetch_assoc($resultado)){
          $Idcliente = $linha["clienteID"];
+      
         
         }
-    }
-
+ 
     ?>";
     window.open(janela, 'popuppageEditar',
         'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');

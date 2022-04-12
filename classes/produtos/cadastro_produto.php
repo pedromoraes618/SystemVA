@@ -47,7 +47,22 @@ if(isset($_POST["enviar"])){
 
   if(isset($_POST['enviar']))
   {
-
+    if($categoria=="1"){
+     
+      ?>
+      <script>
+      alertify.alert("Favor informar o grupo do produto");
+      </script>
+      
+      <?php 
+    }elseif($nome_produto==""){
+      ?>
+      <script>
+      alertify.alert("Favor informe a descrição do produto");
+      </script>
+      
+      <?php 
+    }else{
         ?>
 <script>
 alertify.success("Produto cadastrado com sucesso");
@@ -78,5 +93,6 @@ alertify.success("Produto cadastrado com sucesso");
 
 }
 
+}
 
 }?>

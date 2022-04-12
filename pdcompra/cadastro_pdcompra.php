@@ -209,7 +209,7 @@ include("../classes/pdcompra/cadastro_prcompra.php");
                     <td align=left><b>Unidade:</b></td>
                     <td align=left><input type="text" size=18 name="CampoUnidade" id="CampoUnidade" autocomplete="off"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($unidade);}?>"><b>Quantidade:</b>
-                        <input type="text" size=19 name="CampoQuantidade" id="CampoQuantidade" autocomplete="off"
+                        <input type="text" size=10 name="CampoQuantidade" id="CampoQuantidade" autocomplete="off"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($quantidade);}?>">
                     </td>
 
@@ -235,7 +235,7 @@ include("../classes/pdcompra/cadastro_prcompra.php");
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($precoCompra);}?>">
 
                         <b style="margin-left: -4px;">Preço Venda:</b>
-                        <input type="text" size=18 name="campoPrecoVenda" id="campoPrecoVenda"
+                        <input type="text" size=10 name="campoPrecoVenda" id="campoPrecoVenda"
                             onblur="calculavalormargem()" autocomplete="off"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($precoVenda);}?>">
                     </td>
@@ -294,7 +294,7 @@ include("../classes/pdcompra/cadastro_prcompra.php");
                     <td align=left><input type="text" size=18 name="campoMargem" id="campoMargem"
                             onblur="calculavalormargem()" autocomplete="off"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($margem);}?>"><b>Desconto:</b>
-                        <input type="text" size=16 id="campoDesconto" name="campoDesconto"
+                        <input type="text" size=10 id="campoDesconto" name="campoDesconto"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($desconto);}?>">
                     </td>
 
