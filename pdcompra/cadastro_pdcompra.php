@@ -218,7 +218,7 @@ include("../classes/pdcompra/cadastro_prcompra.php");
                     <td align=left><input type="text" size=20 name="CampoDataChegada" id="CampoDataChegada"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($dataChegada);}?>"
                             OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off"><b>Entrega Prevista:</b>
-
+                       
                         <input type="text" size=20 id="CampoEntregaPrevista" name="CampoEntregaPrevista"
                             value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($entregaPrevista);}?>"
                             OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off">

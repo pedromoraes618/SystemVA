@@ -60,7 +60,7 @@ if(!$resultado){
 
      
         <a onclick="window.open('cadastro_cotacao.php', 
-'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
+'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1600px, HEIGHT=900');">
             <input type="submit" name="cadastrar_cotacao" value="Adicionar">
             </a>
 
