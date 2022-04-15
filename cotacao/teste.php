@@ -214,34 +214,34 @@
 ?>
             </select>
         </td>
-            <b>Forma do pagamento:</b>
-            <select style="width: 150px;" id="campoFormaPagamento" name="campoFormaPagamento">
-                <?php 
+        <td align=left> <b>Forma do pagamento:</b></td>
+        <td align=left><select style="width: 150px;" id="campoFormaPagamento" name="campoFormaPagamento">
+            <?php 
             while($linha_formapagamento  = mysqli_fetch_assoc($lista_formapagamemto)){
                 $formaPagamentoPrincipal = utf8_encode($linha_formapagamento["formapagamentoID"]);
                if(!isset($formaPagamento)){
                
                ?>
-                <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>">
-                    <?php echo utf8_encode($linha_formapagamento["nome"]);?>
-                </option>
-                <?php
+            <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>">
+                <?php echo utf8_encode($linha_formapagamento["nome"]);?>
+            </option>
+            <?php
                
                }else{
 
                 if($formaPagamento==$formaPagamentoPrincipal){
                 ?> <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>" selected>
-                    <?php echo utf8_encode($linha_formapagamento["nome"]);?>
-                </option>
+                <?php echo utf8_encode($linha_formapagamento["nome"]);?>
+            </option>
 
-                <?php
+            <?php
                          }else{
                 
                ?>
-                <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>">
-                    <?php echo utf8_encode($linha_formapagamento["nome"]);?>
-                </option>
-                <?php
+            <option value="<?php echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>">
+                <?php echo utf8_encode($linha_formapagamento["nome"]);?>
+            </option>
+            <?php
 
 }
 
@@ -252,7 +252,7 @@
 
          ?>
 
-            </select>
+        </select>
         </td>
     </tr>
 

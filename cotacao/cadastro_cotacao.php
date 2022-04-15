@@ -20,14 +20,28 @@ echo ",";
 if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or  (isset($_POST['cotacaofinalizada']))){
     
     $codCotacao = utf8_decode($_POST["codigoCotacao"]);
-    $descricao = utf8_decode($_POST["campoNomeProduto"]);
-    $clienteID = utf8_decode($_POST["campoCliente"]);
     $salvar = utf8_decode($_POST["tueSalvar"]);
     $cotacaofinalizada = utf8_decode($_POST["cotacaofinalizada"]);
     $compradorID = utf8_decode($_POST["campoComprador"]);   
-    $freteID = utf8_decode($_POST["campoFrete"]);  
-    $formaPagamento = utf8_decode($_POST["campoFormaPagamento"]);  
+    $freteID = utf8_decode($_POST["campoFrete"]);   
     $statusProposta = utf8_decode($_POST["campoStatusProposta"]);  
+    $nomeProduto = utf8_decode($_POST["campoNomeProduto"]);
+    $numeroSolicitacao = utf8_decode($_POST["campoNsolitacao"]);
+    $formaPagamento = utf8_decode($_POST["campoFormaPagamento"]); 
+    $dataRecebida = utf8_decode($_POST["campoDataRecebida"]);
+    $dataEnvio = utf8_decode($_POST["campoDataEnvio"]);
+    $dataResponder = utf8_decode($_POST["campoDataResponder"]);
+    $dataFechamento= utf8_decode($_POST["campoDaFechamento"]);
+    $dataNegociacao = utf8_decode($_POST["campoDiasNegociacao"]);
+    $statusProposta = utf8_decode($_POST["campoStatusProposta"]);
+    $PrazoEntrega = utf8_decode($_POST["campoPrazoEntrega"]);
+    $clienteID = utf8_decode($_POST["campoCliente"]);
+    $comprador = utf8_decode($_POST["campoComprador"]);
+    $nomeProduto= utf8_decode($_POST["campoNomeProduto"]);
+    $qtdProduto = utf8_decode($_POST["campoQtdProduto"]);
+    $precoCompra = utf8_decode($_POST["campoPrecoCotado"]);
+    $precoVenda= utf8_decode($_POST["campoPrecoVenda"]);
+    $margem = utf8_decode($_POST["campoMargem"]);
     
 }
 
@@ -58,14 +72,27 @@ die("Falaha no banco de dados");
 //inserir o produto com a condição
 if(isset($_POST['adicionar']))
 {
-    if($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
-
+    if($nomeProduto==""){
+        ?>
+<script>
+alertify.alert("É necessario informar a descrição do produto");
+</script>
+<?php 
+    }elseif($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
+      
 //inserir o produto
 $inserir = "INSERT INTO produto_cotacao ";
-  $inserir .= "(cotacaoID, descricao )";
+  $inserir .= "(cotacaoID, descricao,quantidade,preco_compra,preco_venda,margem )";
   $inserir .= " VALUES ";
-  $inserir .= "('$codCotacao','$descricao' )";
+  $inserir .= "('$codCotacao','$nomeProduto','$qtdProduto','$precoCompra', '$precoVenda', '$margem' )";
   $operacao_inserir = mysqli_query($conecta, $inserir);
+
+    $nomeProduto = "";
+    $quantidade = "";
+    $precoCompra = "";
+    $precoVenda = "";
+    $margem = "";
+
   if(!$operacao_inserir){
       die("Falaha no banco de dados || pesquisar produto cotacao");
         }
@@ -181,33 +208,34 @@ if(!$lista_situacao_proposta){
 
 
 
-    <div style="margin:0 auto; width:1500px; ">
+        <div style="margin:0 auto; width:1500px; ">
 
-        <table style="float: right; margin-right:100px;">
-            <div id="titulo">
-                </p>Cotação</p>
-            </div>
+            <table style="float: right; margin-right:100px;">
+                <div id="titulo">
+                    </p>Cotação</p>
+                </div>
 
 
-            <tr>
+                <tr>
 
-                <form action="" method="post">
+                    <form action="" method="post">
 
-                    <td align=left> <input style="width:120px" type="submit" name="iniciar" class="btn btn-info btn-sm"
-                            value="Inicar Cotacão">
-                    </td>
-                    <td align=left> <input type="submit" id="" name="salvar" class="btn btn-success" value="Finalizar">
-                    </td>
-                    <td align=left> <button type="button" name="btnfechar" onclick="fechar();"
-                            class="btn btn-secondary">Voltar</button>
+                        <td align=left> <input style="width:120px" type="submit" name="iniciar"
+                                class="btn btn-info btn-sm" value="Inicar Cotacão">
+                        </td>
+                        <td align=left> <input type="submit" id="" name="salvar" class="btn btn-success"
+                                value="Finalizar">
+                        </td>
+                        <td align=left> <button type="button" name="btnfechar" onclick="fechar();"
+                                class="btn btn-secondary">Voltar</button>
 
-                    </td>
+                        </td>
 
-            </tr>
+                </tr>
 
-        </table>
+            </table>
 
-      
+
             <table style="float:left;">
 
 
@@ -265,7 +293,7 @@ if(!$lista_situacao_proposta){
     }?>"> </td>
 
                     <td align=left> <b>Forma do pagamento:</b></td>
-                    <td align=left><select style="width: 150px; margin-right:10px;" id="campoFormaPagamento"
+                    <td align=left><select style="width: 170px; margin-right:10px;" id="campoFormaPagamento"
                             name="campoFormaPagamento">
                             <?php 
             while($linha_formapagamento  = mysqli_fetch_assoc($lista_formapagamemto)){
@@ -319,7 +347,7 @@ if(!$lista_situacao_proposta){
             </table>
 
 
-            <table  style="float:left; margin-top:5px; ">
+            <table style="float:left; margin-top:5px; ">
                 <tr>
                     <td align=left><b>Data envio:</b></td>
                     <td align=left><input type="text" name="campoDataEnvio" OnKeyUp="mascaraData(this);" size="10"
@@ -329,7 +357,7 @@ if(!$lista_situacao_proposta){
 
 
                     <td> <b>Data a responder:<b>
-                    <td> <input type="text" name="campoDataRecebida" OnKeyUp="mascaraData(this);" size="10" onchange=""
+                    <td> <input type="text" name="campoDataResponder" OnKeyUp="mascaraData(this);" size="10" onchange=""
                             value="<?php if(isset($_POST['adicionar'])){
             
     }?>"></td>
@@ -344,7 +372,7 @@ if(!$lista_situacao_proposta){
                             value="<?php if(isset($_POST['adicionar'])){
       
     }?>"></td>
-                   
+
                 </tr>
 
 
@@ -555,7 +583,7 @@ if($freteID==$frete_principal){
 
 
 
-            <table style="float:left; width:1400px; margin-top:5px;"  id="divisaoTabela">
+            <table style="float:left; width:1400px; margin-top:5px;" id="divisaoTabela">
                 <td>
                     <div id="divDivisao">
                     </div>
@@ -565,32 +593,34 @@ if($freteID==$frete_principal){
 
             <table style="float:left; ">
                 <tr>
-                    <td align=left><b>produto:</b></td>
-                    <td align=left><input type="text" size=60 name="campoNomeProduto" value="">
+                    <td align=left><b>Produto:</b></td>
+                    <td align=left><input type="text" size=60 name="campoNomeProduto"
+                            value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($nomeProduto);}?>">
                     </td>
                     <td>
-                        
-                
-                    <form action="" method="post">
-                        <td align=left><input type="submit" name="adicionar" class="btn btn-success"  value="Adicionar"> </td>
-                    </form>
+
+
+                        <form action="" method="post">
+                    <td align=left><input type="submit" name="adicionar" class="btn btn-success" value="Adicionar">
+                    </td>
+
                 </tr>
             </table>
             <table style="float:left;   margin-bottom:35px;">
 
                 <tr>
                     <div>
-                        <td align=left><b>Qtd:</b></td>
-                        <td align=left><input type="text" size=20 name="campoNomeProduto" value="">
+                        <td align=left><b>Quantidade:</b></td>
+                        <td align=left><input type="text" size=10 name="campoQtdProduto" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($qtdProduto);}?>">
                         </td>
-                        <td align=left><b>Preço cotao:</b></td>
-                        <td align=left><input type="text" size=20 name="campoNomeProduto" value="">
+                        <td align=left><b>Preço cotado:</b></td>
+                        <td align=left><input type="text" size=10 name="campoPrecoCotado" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($precoCompra);}?>">
                         </td>
                         <td align=left><b>Preço venda:</b></td>
-                        <td align=left><input type="text" size=20 name="campoNomeProduto" value="">
+                        <td align=left><input type="text" size=10 name="campoPrecoVenda" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($precoVenda);}?>">
                         </td>
-                        <td align=left><b>margem:</b></td>
-                        <td align=left><input type="text" size=20 name="campoNomeProduto" value="">
+                        <td align=left><b>Margem:</b></td>
+                        <td align=left><input type="text" size=10 name="campoMargem" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($margem);}?>">
                         </td>
 
                     </div>
@@ -606,37 +636,36 @@ if($freteID==$frete_principal){
 
 
         <form action="consulta_produto.php" method="get">
-          
+
             <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
                         <td>
-                            <p>Código</p>
+                            <p style="text-align:center">Cód</p>
                         </td>
 
                         <td>
                             <p>Descrição</p>
                         </td>
                         <td>
-                            <p>Preço venda</p>
+                            <p>Quantidade</p>
                         </td>
                         <td>
                             <p>Preço compra</p>
                         </td>
                         <td>
-                            <p>Estoque</p>
+                            <p>Preco Venda</p>
+                        </td>
+                        <td>
+                            <p>Compra total</p>
+                        </td>
+                        <td>
+                            <p>Venda total</p>
+                        </td>
+                        <td>
+                            <p>Lucro</p>
                         </td>
 
-
-                        <td>
-                            <p>Categoria</p>
-                        </td>
-                        <td>
-                            <p>Ativo</p>
-                        </td>
-                        <td>
-                            <p>UND</p>
-                        </td>
 
                         <td>
                             <p></p>
@@ -650,41 +679,49 @@ if(isset($_POST['adicionar'])){
 if($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
 
 while($linha = mysqli_fetch_assoc($lista_Produto_otacao)){
+    $cotacaoID = $linha['cotacaoID'];
+    $descricao = $linha['descricao'];
+    $quantidade = $linha['quantidade'];
+    $precoCompra = $linha['preco_compra'];
+    $precoVenda = $linha['preco_venda'];
+    $margem = $linha['margem'];
 ?>
                     <tr id="linha_pesquisa">
 
-                        <td style="width: 70px;">
-                            <font size="3"><?php echo $linha['cotacaoID']?></font>
+                        <td style="width: 70px; text-align:center">
+                            <font size="3"><?php echo $cotacaoID;?></font>
                         </td>
 
-                        <td style="width: 500px;">
+                        <td style="width: 550px;">
                             <p>
-                                <font size="2"><?php echo $linha['descricao']?> </font>
+                                <font size="2"><?php echo $descricao;?> </font>
                             </p>
-                        </td>
-                        <td style="width: 150px;">
-                            <font size="2"></font>
-                        </td>
-                        <td style="width: 150px;">
-                            <font size="2"> </font>
                         </td>
 
                         <td style="width: 100px;">
-                            <font size="2"> </font>
+                            <font size="2"><?php echo $quantidade;?> </font>
                         </td>
 
                         <td style="width: 130px;">
-                            <font size="2"> </font>
+                            <font size="2"><?php echo real_format($precoCompra);?> </font>
                         </td>
 
-                        <td style="width: 90px;">
-                            <font size="2"> </font>
-                        </td>
-                        <td>
-                            <font size="2"> </font>
+                        <td style="width: 130px;">
+                            <font size="2"><?php echo real_format($precoVenda);?> </font>
                         </td>
 
                         
+                        <td style="width: 130px;">
+                            <font size="2"><?php echo real_format($quantidade*$precoCompra)?> </font>
+                        </td>
+
+                        <td style="width: 130px;">
+                            <font size="2"><?php echo real_format($quantidade*$precoVenda)?> </font>
+                        </td>
+                        <td style="width: 80px;">
+                            <font size="2"><?php echo  real_percent($margem);?> </font>
+                        </td>
+
 
                         <td id="botaoEditar">
 
