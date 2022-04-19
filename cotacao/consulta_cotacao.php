@@ -3,30 +3,14 @@
 
 include("../conexao/sessao.php");
 
-//consultar situacao ativo
-$selectativo = "SELECT ativoID, nome_ativo from ativo";
-$lista_ativo = mysqli_query($conecta, $selectativo);
-if(!$lista_ativo){
-die("Falaha no banco de dados  Linha 31 inserir_transportadora");
-}
-
-//consultar categoria
-$selectcategoria = "SELECT categoriaID, nome_categoria from categoria_produto";
-$lista_categoria = mysqli_query($conecta, $selectcategoria);
-if(!$lista_categoria){
-die("Falaha no banco de dados  Linha 31 inserir_transportadora");
-}
-
-//consultar clientes
-
-$produtos = " SELECT produtos.produtoID, produtos.nomeproduto, produtos.precovenda,produtos.precocompra,produtos.estoque, categoria_produto.nome_categoria as categoria_nome, ativo.nome_ativo as ativo_nome, produtos.unidade_medida from ativo  inner join  produtos on produtos.nome_ativo = ativo.ativoID INNER Join categoria_produto on produtos.nome_categoria = categoria_produto.categoriaID " ;
-
+//consultar cotacao
+$select = " SELECT cotacao.numero_orcamento, clientes.razaosocial as cliente,situacao_proposta.descricao as situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID " ;
 if(isset($_GET["produto"])){
-    $nome_produto = $_GET["produto"];
-    $produtos .= " WHERE produtos.nomeproduto LIKE '%{$nome_produto}%' or categoria_produto.nome_categoria LIKE '%{$nome_produto}%'  ";
+    $nOrcamento = $_GET["cotacao"];
+    $produtos .= " WHERE otacao.numero_orcamento LIKE '%{$nOrcamento}%' ";
 }
 
-$resultado = mysqli_query($conecta, $produtos);
+$resultado = mysqli_query($conecta, $select);
 if(!$resultado){
     die("Falha na consulta ao banco de dados");
     
@@ -58,16 +42,17 @@ if(!$resultado){
     <main>
         <div id="janela_pesquisa">
 
-     
-        <a onclick="window.open('cadastro_cotacao.php', 
+
+            <a
+                onclick="window.open('cadastro_cotacao.php', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1600px, HEIGHT=900');">
-            <input type="submit" name="cadastrar_cotacao" value="Adicionar">
+                <input type="submit" name="cadastrar_cotacao" value="Adicionar">
             </a>
 
 
             <form action="consulta_cotacao.php" method="get">
 
-                <input type="text" name="cotacao" placeholder="Pesquisa / Produto / Código">
+                <input type="text" name="campoPesquisa" placeholder="Pesquisa / N°orçamento / Cliente">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
 
@@ -82,31 +67,31 @@ if(!$resultado){
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
                         <td>
-                            <p>Código</p>
+                            <p>N°Orç</p>
                         </td>
 
                         <td>
-                            <p>Descrição</p>
+                            <p>Cliente</p>
                         </td>
                         <td>
-                            <p>Preço venda</p>
+                            <p>Status proposta</p>
                         </td>
                         <td>
-                            <p>Preço compra</p>
+                            <p>Preço cotato</p>
                         </td>
                         <td>
-                            <p>Estoque</p>
+                            <p>Validade</p>
                         </td>
 
 
                         <td>
-                            <p>Categoria</p>
+                            <p>Data a responder</p>
                         </td>
                         <td>
-                            <p>Ativo</p>
+                            <p>Data envio</p>
                         </td>
                         <td>
-                            <p>UND</p>
+                            <p>Fechamento</p>
                         </td>
 
                         <td>
@@ -115,46 +100,89 @@ if(!$resultado){
 
                     </tr>
 
- 
+
+                    <?php   if(isset($_GET["campoPesquisa"])){
+           while($linha = mysqli_fetch_assoc($resultado)){
+                
+                
+            $nOrcamento = $linha["numero_orcamento"];
+            $cliente = $linha["cliente"];
+            $situacao = $linha["situacao"];
+            $validade = $linha["validade"];
+            $dataResponder = $linha["data_responder"];
+            $DataEnvio = $linha["data_envio"];
+            $DataFechamento = $linha["data_fechamento"];
+            
+            
+          
+         
+
+         
+           ?>
+
                     <tr id="linha_pesquisa">
 
                         <td style="width: 70px;">
-                            <font size="3"></font>
+                            <font size="3"><?php echo $nOrcamento;?></font>
                         </td>
 
                         <td style="width: 500px;">
                             <p>
-                                <font size="2"> </font>
+                                <font size="2"><?php echo utf8_encode($cliente);?> </font>
                             </p>
+                        </td>
+                        <td style="width: 150px;">
+                            <font size="2"><?php echo utf8_encode($situacao);?></font>
                         </td>
                         <td style="width: 150px;">
                             <font size="2"></font>
                         </td>
-                        <td style="width: 150px;">
-                            <font size="2"> </font>
-                        </td>
 
                         <td style="width: 100px;">
-                            <font size="2"> </font>
+                            <font size="2"><?php echo utf8_encode($validade);?> </font>
                         </td>
 
                         <td style="width: 130px;">
-                            <font size="2"> </font>
+                            <font size="2"> <?php if($dataResponder=="0000-00-00") {
+                               echo ("");
+
+                                  }elseif($dataResponder=="1970-01-01"){
+
+                                    echo ("");
+
+                                  }else{echo formatardataB($dataResponder); } ?></font>
                         </td>
 
                         <td style="width: 90px;">
-                            <font size="2"> </font>
+                            <font size="2"><?php if($DataEnvio=="0000-00-00") {
+                               echo ("");
+
+                                  }elseif($DataEnvio=="1970-01-01"){
+
+                                    echo ("");
+
+                                  }else{echo formatardataB($DataEnvio); } ?> </font>
                         </td>
-                        <td>
-                            <font size="2"> </font>
+
+                        <td style="width: 130px;">
+                            <font size="2"> <?php if($DataFechamento=="0000-00-00") {
+                               echo ("");
+
+                                  }elseif($DataFechamento=="1970-01-01"){
+
+                                    echo ("");
+
+                                  }else{echo formatardataB($DataFechamento); } ?></font>
                         </td>
+                     
 
                         <td id="botaoEditar">
 
-                 
-                            <a onclick="window.open('editar_cotacao.php', 
+
+                            <a
+                                onclick="window.open('editar_cotacao.php', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
-                            
+
                                 <button type="button" name="editar">Editar</button>
                             </a>
 
@@ -166,7 +194,7 @@ if(!$resultado){
 
 
                     <?php
-           
+           }}
             ?>
                 </tbody>
             </table>

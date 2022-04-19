@@ -388,6 +388,64 @@ INSERT into cotacao values(null,'1','1','1',150,'0000-00-00','TESTE');
 CREATE TABLE `produto_cotacao` (
   `produto_cotacao` int(11) NOT NULL AUTO_INCREMENT,
   `cotacaoID` tinyint(3),
-  `descricao` varchar(10)
+  `descricao` varchar(10),
   PRIMARY KEY (`produto_cotacao`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `frete` (
+  `freteID` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(),
+  PRIMARY KEY (`freteID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+insert into frete values(null,'Selecione');
+insert into frete values(null,'Por conta do emitente - Cif');
+insert into frete values(null,'Por conta do destinatario - Fob');
+insert into frete values(null,'terceiros');
+
+TRUNCATE table frete;
+select * from frete;
+
+update frete set descricao = 'Terceiros' where freteID = 4 ;
+
+CREATE TABLE `situacao_proposta` (
+  `situacaoID` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(30),
+  PRIMARY KEY (`situacaoID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+insert into situacao_proposta values(null,'Selecione');
+insert into situacao_proposta values(null,'Aberta');
+insert into situacao_proposta values(null,'Ganha');
+insert into situacao_proposta values(null,'Ganha/Parcial');
+insert into situacao_proposta values(null,'Perdida');
+insert into situacao_proposta values(null,'Perdida/Parcial');
+
+
+
+alter table produto_cotacao add column quantidadeProduo decimal(10,2) DEFAULT NULL;
+alter table produto_cotacao add column precoCompra decimal(10,2) DEFAULT NULL;
+alter table produto_cotacao add column precoVenda decimal(10,2) DEFAULT NULL;
+alter table produto_cotacao add column margem decimal(10,2) DEFAULT NULL;
+
+
+alter table cotacao add column $compradorID tinyint(3);
+alter table cotacao add column freteID tinyint(3);
+alter table cotacao add column status_proposta tinyint(3);
+alter table cotacao add column numero_solicitacao varchar(20);
+alter table cotacao add column forma_pagamentoID tinyint(3);
+alter table cotacao add column data_recebida date not null;
+alter table cotacao add column data_envio date not null;
+alter table cotacao add column data_responder date not null;
+alter table cotacao add column data_fechamento date not null;
+alter table cotacao add column dias_negociacao int(10);
+alter table cotacao add column prazo_entrega int(10);
+alter table cotacao add column numero_orcamento int(10);
+alter table cotacao add column validade int(10);
+
+
+ SELECT produtos.produtoID, produtos.nomeproduto, produtos.precovenda,produtos.precocompra,produtos.estoque, 
+ categoria_produto.nome_categoria as categoria_nome, ativo.nome_ativo as ativo_nome, produtos.unidade_medida
+ from ativo  inner join  produtos on produtos.nome_ativo = ativo.ativoID INNER Join 
+ categoria_produto on produtos.nome_categoria = categoria_produto.categoriaID ";

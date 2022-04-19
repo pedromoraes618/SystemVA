@@ -365,7 +365,7 @@ function calculavalormargem() {
     campoPrecoVenda = parseFloat(campoPrecoVenda);
     campoPrecoCompra = parseFloat(campoPrecoCompra);
 
-    calculo = (((campoPrecoVenda - campoPrecoCompra) / campoPrecoVenda) * 100).toFixed(2);;
+    calculo = (((campoPrecoVenda - campoPrecoCompra) / campoPrecoVenda) * 100).toFixed(2);
     campoMargem.value = calculo;
 }
 </script>

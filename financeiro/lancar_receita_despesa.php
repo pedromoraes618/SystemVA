@@ -142,7 +142,7 @@ include("../classes/lancamento_financeiro/variaveis_lancar_receita.php");
                 </tr>
 
                 <tr>
-                    <td align=left><b>Cliente:</b></td>
+                    <td align=left><b>Empresa:</b></td>
                     <td align=left><select id="campoCliente" name="campoCliente"><?php 
 
                             while($linha_clientes = mysqli_fetch_assoc($lista_clientes)){

@@ -3,7 +3,7 @@
 session_start();
 
 if(!isset($_SESSION["user_portal"])){
-   header("Location:../login.php");
+   header("Location:../../../SystemVA/login.php");
 }
 
 ?>

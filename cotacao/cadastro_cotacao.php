@@ -17,8 +17,8 @@ include("../conexao/sessao.php");
 
 echo ",";
 //deckara as varuaveus
-if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or  (isset($_POST['cotacaofinalizada']))){
-    
+if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or  (isset($_POST['cotacaofinalizada'])) or (isset($_POST['fecharPesquisa']))){
+    $hoje = date('Y-m-d'); 
     $codCotacao = utf8_decode($_POST["codigoCotacao"]);
     $salvar = utf8_decode($_POST["tueSalvar"]);
     $cotacaofinalizada = utf8_decode($_POST["cotacaofinalizada"]);
@@ -27,14 +27,16 @@ if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or  (isset($_POST['
     $statusProposta = utf8_decode($_POST["campoStatusProposta"]);  
     $nomeProduto = utf8_decode($_POST["campoNomeProduto"]);
     $numeroSolicitacao = utf8_decode($_POST["campoNsolitacao"]);
+    $numeroOrcamento = utf8_decode($_POST["campoNorcamento"]);
     $formaPagamento = utf8_decode($_POST["campoFormaPagamento"]); 
     $dataRecebida = utf8_decode($_POST["campoDataRecebida"]);
+    $validade = utf8_decode($_POST["campoValidade"]);
     $dataEnvio = utf8_decode($_POST["campoDataEnvio"]);
     $dataResponder = utf8_decode($_POST["campoDataResponder"]);
     $dataFechamento= utf8_decode($_POST["campoDaFechamento"]);
-    $dataNegociacao = utf8_decode($_POST["campoDiasNegociacao"]);
+    $diasNegociacao = utf8_decode($_POST["campoDiasNegociacao"]);
     $statusProposta = utf8_decode($_POST["campoStatusProposta"]);
-    $PrazoEntrega = utf8_decode($_POST["campoPrazoEntrega"]);
+    $prazoEntrega = utf8_decode($_POST["campoPrazoEntrega"]);
     $clienteID = utf8_decode($_POST["campoCliente"]);
     $comprador = utf8_decode($_POST["campoComprador"]);
     $nomeProduto= utf8_decode($_POST["campoNomeProduto"]);
@@ -72,13 +74,11 @@ die("Falaha no banco de dados");
 //inserir o produto com a condição
 if(isset($_POST['adicionar']))
 {
-    if($nomeProduto==""){
-        ?>
-<script>
-alertify.alert("É necessario informar a descrição do produto");
-</script>
-<?php 
-    }elseif($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
+    if($codCotacao!=""){
+
+if($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
+        if($nomeProduto!=""){
+     
       
 //inserir o produto
 $inserir = "INSERT INTO produto_cotacao ";
@@ -99,47 +99,115 @@ $inserir = "INSERT INTO produto_cotacao ";
      }else{
         ?>
 <script>
+alertify.alert("É necessario informar a descrição do produto");
+</script>
+<?php 
+     }
+    }else{
+        ?>
+<script>
 alertify.alert("É necessario inciar a cotação !! Favor clique em iniciar cotação");
 </script>
 <?php 
      }
+    }else{
+        ?>
+<script>
+alertify.alert("É necessario inciar a cotação !! Favor clique em iniciar cotação");
+</script>
+<?php
+}
+
 }
 
 //consultar os produto da cotação, codição de clicar no botao adicionar
-if(isset($_POST['adicionar'])){
-    if($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
+if((isset($_POST['adicionar'])) or (isset($_POST['fecharPesquisa']))) {
+if($cotacaofinalizada==0 && $cotacaofinalizada != ""){
 $selectProdutoCotacao = "SELECT * from produto_cotacao where cotacaoID = '$codCotacao'";
-$lista_Produto_otacao= mysqli_query($conecta, $selectProdutoCotacao);
-if(!$lista_Produto_otacao){
+$lista_Produto_cotacao= mysqli_query($conecta, $selectProdutoCotacao);
+if(!$lista_Produto_cotacao){
 die("Falaha no banco de dados || pesquisar produto cotacao".$select);
 }
 }
 }
 
+
+
+
+
 //condicao podera salvar a cotação com a condição variavel salvar está com o valor 1
+
 if(isset($_POST['salvar'])){
-    if($salvar == 1 && $cotacaofinalizada == 0){
-        $inserir = "INSERT INTO cotacao ";
-        $inserir .= "( clienteID )";
-        $inserir .= " VALUES ";
-        $inserir .= "('$clienteID' )";
-        $operacao_inserir = mysqli_query($conecta, $inserir);
-        ?>
+if($salvar == 1 && $cotacaofinalizada == 0){
+if($clienteID != "1"){
+if($dataRecebida==""){
+
+}else{
+$div1 = explode("/",$_POST['campoDataRecebida']);
+$dataRecebida = $div1[2]."-".$div1[1]."-".$div1[0];
+
+}
+if($dataEnvio ==""){
+
+}else{
+$div2 = explode("/",$_POST['campoDataEnvio']);
+$dataEnvio = $div2[2]."-".$div2[1]."-".$div2[0];
+}
+
+
+if($dataResponder ==""){
+
+}else{
+
+$div3 = explode("/",$_POST['campoDataResponder']);
+$dataResponder = $div3[2]."-".$div3[1]."-".$div3[0];
+}
+
+
+if($dataFechamento==""){
+
+}else{
+
+$div4 = explode("/",$_POST['campoDaFechamento']);
+$dataFechamento = $div4[2]."-".$div4[1]."-".$div4[0];
+}
+
+
+$inserir = "INSERT INTO cotacao ";
+$inserir .= "(
+clienteID,data_lancamento,compradorID,freteID,status_proposta,forma_pagamentoID,data_recebida,data_envio,data_responder,data_fechamento,dias_negociacao,prazo_entrega,numero_solicitacao,numero_orcamento,cod_cotacao,validade
+)";
+$inserir .= " VALUES ";
+$inserir .= "(
+'$clienteID','$hoje','$compradorID','$freteID','$statusProposta','$formaPagamento','$dataRecebida','$dataEnvio','$dataResponder','$dataFechamento','$diasNegociacao','$prazoEntrega','$numeroSolicitacao','$numeroOrcamento','$codCotacao','$validade'
+)";
+$operacao_inserir = mysqli_query($conecta, $inserir);
+
+if(!$operacao_inserir){
+die("Erro no banco de dados inserir cotacao");
+}
+?>
 
 <script>
 alertify.success("Cotação finalizada com sucesso");
 </script>
 
 <?php
-        if(!$operacao_inserir){
-            die("Erro no banco de dados inserir cotacao");
-        }
-      
+        }else{      ?>
+
+<script>
+alertify.alert("É necessario informar o cliente");
+</script>
+
+<?php }
+            
       }else{
           ?>
+
 <script>
 alertify.alert("É necessario inciar a cotação !! Favor clique em iniciar cotação");
 </script>
+
 <?php
       }
 }
@@ -180,6 +248,14 @@ if(!$lista_situacao_proposta){
 }
 
 
+if(isset($_POST['pesquisar'])){
+    $selectProdutos = "SELECT * from produtos";
+    $lista_Produtos= mysqli_query($conecta, $selectProdutos);
+    if(!$lista_Produtos){
+    die("Falaha no banco de dados || pesquisar produto cotacao".$selectProdutos);
+}
+}
+
 
 
 ?>
@@ -195,6 +271,7 @@ if(!$lista_situacao_proposta){
     <link href="../_css/tela_cadastro_editar.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/e8ff50f1be.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -210,11 +287,11 @@ if(!$lista_situacao_proposta){
 
         <div style="margin:0 auto; width:1500px; ">
 
+
             <table style="float: right; margin-right:100px;">
                 <div id="titulo">
                     </p>Cotação</p>
                 </div>
-
 
                 <tr>
 
@@ -228,8 +305,9 @@ if(!$lista_situacao_proposta){
                         </td>
                         <td align=left> <button type="button" name="btnfechar" onclick="fechar();"
                                 class="btn btn-secondary">Voltar</button>
-
                         </td>
+
+
 
                 </tr>
 
@@ -243,19 +321,21 @@ if(!$lista_situacao_proposta){
                 <tr>
                     <td>Código:</td>
                     <td align=left><input readonly type="text" size="10" name="codigoCotacao" value="<?php 
-         if(isset($_POST)){
-                echo $id_cotacao + 1 ;
+         if(isset($_POST['iniciar'])){
+              echo rand();
+         }elseif((isset($_POST['adicionar'])) or (isset($_POST['fecharPesquisa'])) or (isset($_POST['pesquisar'])) or (isset($_POST['salvar']))){
+             echo $codCotacao;
          }
          ?>"> </td>
 
 
-                    <td align=left><input readonly type="hidden" size="10" name="cotacaofinalizada"
+                    <td align=left><input readonly type="text" size="10" name="cotacaofinalizada"
                             placeholder="finalizado" value="<?php 
             //1 Para não poder incluir item e 0 para incluir iten
          
             if(isset($_POST['salvar'])){
                 echo 1;
-            }elseif(isset($_POST['iniciar'])){
+            }elseif(isset($_POST['iniciar'])or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
                 echo 0;
             }
             if(isset($_POST['adicionar'])){
@@ -264,8 +344,8 @@ if(!$lista_situacao_proposta){
 
          
          ?>"> </td>
-                    <td align=left><input readonly type="hidden" size="10" name="tueSalvar" value="<?php
-            if(isset($_POST['adicionar']))
+                    <td align=left><input readonly type="text" size="10" name="tueSalvar" value="<?php
+            if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa']))
             {
                 if($salvar == ""){
                     echo 1;
@@ -283,13 +363,13 @@ if(!$lista_situacao_proposta){
                 <tr>
 
                     <td align=left> <b>Nº solicitação:</b></td>
-                    <td align=left> <input type="text" name="campoNsolitacao" size="10" value="<?php if(isset($_POST['adicionar'])){
-     
+                    <td align=left> <input type="text" name="campoNsolitacao" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+     echo $numeroSolicitacao;
     }?>"> </td>
 
                     <td align=left> <b>Nº orçamento:</b></td>
-                    <td align=left> <input type="text" name="campoNorcamento" size="10" value="<?php if(isset($_POST['adicionar'])){
-     
+                    <td align=left> <input type="text" name="campoNorcamento" size="10" value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+     echo $numeroOrcamento;
     }?>"> </td>
 
                     <td align=left> <b>Forma do pagamento:</b></td>
@@ -335,11 +415,12 @@ if(!$lista_situacao_proposta){
                     </td>
                     <td><b>Data recebida:</b></td>
                     <td align="left"> <input type="text" name="campoDataRecebida" OnKeyUp="mascaraData(this);" size="10"
-                            onchange="" value="<?php if(isset($_POST['adicionar'])){
-
+                            onchange="" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                                echo $dataRecebida;
     }?>"></td>
                     <td> <b>Validade:<b>
-                    <td><input type="text" name="campoDataRecebida" size="10" value="<?php if(isset($_POST['adicionar'])){
+                    <td><input type="text" name="campoValidade" size="10" value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                        echo $validade;
    
     }?>"> </td>
                 </tr>
@@ -351,26 +432,26 @@ if(!$lista_situacao_proposta){
                 <tr>
                     <td align=left><b>Data envio:</b></td>
                     <td align=left><input type="text" name="campoDataEnvio" OnKeyUp="mascaraData(this);" size="10"
-                            value="<?php if(isset($_POST['adicionar'])){
-     
+                            value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                                echo $dataEnvio;
     }?>"></td>
 
 
                     <td> <b>Data a responder:<b>
                     <td> <input type="text" name="campoDataResponder" OnKeyUp="mascaraData(this);" size="10" onchange=""
-                            value="<?php if(isset($_POST['adicionar'])){
+                            value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                                echo $dataResponder;
             
     }?>"></td>
                     <td align=left><b>Data fechamento:</b></td>
                     <td align=left><input type="text" name="campoDaFechamento" OnKeyUp="mascaraData(this);" size="10"
-                            value="<?php if(isset($_POST['adicionar'])){
-      
+                            value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+      echo $dataFechamento;
                      }?>"></td>
 
                     <td align=left><b>Dias em negociação:</b></td>
-                    <td align=left><input type="text" name="campoDiasNegociacao" OnKeyUp="mascaraData(this);" size="10"
-                            value="<?php if(isset($_POST['adicionar'])){
-      
+                    <td align=left><input type="text" name="campoDiasNegociacao" autocomplete="of" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+      echo $diasNegociacao;
     }?>"></td>
 
                 </tr>
@@ -474,10 +555,8 @@ if($freteID==$frete_principal){
                         </td>
 
                         <td align=left> <b>Prazo entrega:</b> </td>
-                        <td align=left> <input type="text" name="campoPrazoEntrega" OnKeyUp="mascaraData(this);"
-                                size="10" value="<?php if(isset($_POST['adicionar'])){
-
-}?>">
+                        <td align=left> <input type="text" name="campoPrazoEntrega" autocomplete="of" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                                   echo $prazoEntrega;                         }?>">
 
 
                         </td>
@@ -594,15 +673,18 @@ if($freteID==$frete_principal){
             <table style="float:left; ">
                 <tr>
                     <td align=left><b>Produto:</b></td>
-                    <td align=left><input type="text" size=60 name="campoNomeProduto"
+                    <td align=left><input style="margin-right:5px;" type="text" size=60 name="campoNomeProduto"
                             value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($nomeProduto);}?>">
                     </td>
+                    <td><button style="border:0px;  background-color:white;" id="buttonPesquisa" name="pesquisar"><i
+                                class="fa-solid fa-magnifying-glass"></i></button></td>
                     <td>
 
 
                         <form action="" method="post">
                     <td align=left><input type="submit" name="adicionar" class="btn btn-success" value="Adicionar">
                     </td>
+
 
                 </tr>
             </table>
@@ -611,23 +693,41 @@ if($freteID==$frete_principal){
                 <tr>
                     <div>
                         <td align=left><b>Quantidade:</b></td>
-                        <td align=left><input type="text" size=10 name="campoQtdProduto" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($qtdProduto);}?>">
+                        <td align=left><input type="text" size=10 name="campoQtdProduto" id="campoQtdProduto"
+                                onblur="calculavalormargem()" autocomplete="off"
+                                value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($qtdProduto);}?>">
                         </td>
                         <td align=left><b>Preço cotado:</b></td>
-                        <td align=left><input type="text" size=10 name="campoPrecoCotado" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($precoCompra);}?>">
-                        </td>
-                        <td align=left><b>Preço venda:</b></td>
-                        <td align=left><input type="text" size=10 name="campoPrecoVenda" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($precoVenda);}?>">
+                        <td align=left><input type="text" size=10 name="campoPrecoCotado" id="campoPrecoCotado"
+                                onblur="calculavalormargem()" autocomplete="off"
+                                value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($precoCompra);}?>">
                         </td>
                         <td align=left><b>Margem:</b></td>
-                        <td align=left><input type="text" size=10 name="campoMargem" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($margem);}?>">
+                        <td align=left><input type="text" size=10 name="campoMargem" id="campoMargem"
+                                onblur="calculavalorPrecoVenda()" autocomplete="off"
+                                value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($margem);}?>">
+                        </td>
+                        <td align=left><b>Preço venda:</b></td>
+                        <td align=left><input type="text" size=10 name="campoPrecoVenda" id="campoPrecoVenda"
+                                onblur="calculavalormargem()" autocomplete="off"
+                                value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($precoVenda);}?>">
                         </td>
 
+
+
                     </div>
+                </tr>
+                <tr>
+
+                    <td align=left><input type="submit" name="fecharPesquisa" class="btn btn-danger" value="Fechar">
+                    </td>
+
+
                 </tr>
 
 
             </table>
+
         </div>
 
         </form>
@@ -635,9 +735,10 @@ if($freteID==$frete_principal){
 
 
 
-        <form action="consulta_produto.php" method="get">
+        <form action="consulta_produto.php" method="post">
 
             <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
+                <?php if((isset($_POST['adicionar']))  or (isset($_POST['salvar'])) or (isset($_POST['fecharPesquisa'])) ) {?>
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
                         <td>
@@ -663,7 +764,7 @@ if($freteID==$frete_principal){
                             <p>Venda total</p>
                         </td>
                         <td>
-                            <p>Lucro</p>
+                            <p>Magem</p>
                         </td>
 
 
@@ -674,11 +775,11 @@ if($freteID==$frete_principal){
                     </tr>
 
                     <?php
-if(isset($_POST['adicionar'])){
+
 
 if($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
 
-while($linha = mysqli_fetch_assoc($lista_Produto_otacao)){
+while($linha = mysqli_fetch_assoc($lista_Produto_cotacao)){
     $cotacaoID = $linha['cotacaoID'];
     $descricao = $linha['descricao'];
     $quantidade = $linha['quantidade'];
@@ -710,7 +811,7 @@ while($linha = mysqli_fetch_assoc($lista_Produto_otacao)){
                             <font size="2"><?php echo real_format($precoVenda);?> </font>
                         </td>
 
-                        
+
                         <td style="width: 130px;">
                             <font size="2"><?php echo real_format($quantidade*$precoCompra)?> </font>
                         </td>
@@ -719,7 +820,7 @@ while($linha = mysqli_fetch_assoc($lista_Produto_otacao)){
                             <font size="2"><?php echo real_format($quantidade*$precoVenda)?> </font>
                         </td>
                         <td style="width: 80px;">
-                            <font size="2"><?php echo  real_percent($margem);?> </font>
+                            <font size="2"><?php echo  real_percent($margem*100);?> </font>
                         </td>
 
 
@@ -743,11 +844,106 @@ while($linha = mysqli_fetch_assoc($lista_Produto_otacao)){
                     <?php
 }
 }
+
+}elseif(isset($_POST['pesquisar'])){
+    ?>
+                    <tr id="cabecalho_pesquisa_consulta">
+                        <td>
+                            <p style="text-align:center">Cód</p>
+                        </td>
+
+                        <td>
+                            <p>Descrição</p>
+                        </td>
+                        <td>
+                            <p>Quantidade</p>
+                        </td>
+                        <td>
+                            <p>Preço compra</p>
+                        </td>
+                        <td>
+                            <p>Preco Venda</p>
+                        </td>
+                        <td>
+                            <p>Compra total</p>
+                        </td>
+                        <td>
+                            <p>Venda total</p>
+                        </td>
+                        <td>
+                            <p>Magem</p>
+                        </td>
+
+
+                        <td>
+                            <p></p>
+                        </td>
+
+                    </tr>
+                    <?php
+
+    while($linha = mysqli_fetch_assoc($lista_Produtos)){
+        $produtoID = $linha['produtoID'];
+        $descricao = $linha['nomeproduto'];
+        $estoque = $linha['estoque'];
+        $precoCompra = $linha['precocompra'];
+        $precoVenda = $linha['precovenda'];
+    
+    ?>
+                    <tr id="linha_pesquisa">
+
+                        <td style="width: 70px; text-align:center">
+                            <font size="3"><?php echo $produtoID;?></font>
+                        </td>
+
+                        <td style="width: 550px;">
+                            <p>
+                                <font size="2"><?php echo $descricao;?> </font>
+                            </p>
+                        </td>
+
+                        <td style="width: 100px;">
+                            <font size="2"><?php echo $estoque;?> </font>
+                        </td>
+
+                        <td style="width: 130px;">
+                            <font size="2"><?php echo real_format($precoCompra);?> </font>
+                        </td>
+
+                        <td style="width: 130px;">
+                            <font size="2"><?php echo real_format($precoVenda);?> </font>
+                        </td>
+
+
+                        <td id="botaoEditar">
+
+                            <a
+                                onclick="window.open('selecionar_produto_cotacao.php?codigo=<?php echo $linha['produtoID'];?>&cotacaoCod=<?php echo $_POST['codigoCotacao'];?>&nomProduto=<?php echo $linha['nomeproduto'];?>&precoCompra=<?php echo $linha['precocompra'];?>&precoVenda=<?php echo $linha['precovenda'];?>', 'popuppageSelecionarProduto',
+                                                    'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=500');">
+
+                                <button type="button" class="btn btn-warning" name="editar">Selecione</button>
+
+                            </a>
+
+
+                        </td>
+
+
+                    </tr>
+
+
+
+                    <?php
+    }
 }
+
+
 ?>
+
                 </tbody>
             </table>
         </form>
+
 
     </main>
 </body>
@@ -759,6 +955,7 @@ function fechar() {
     window.close();
 }
 </script>
+
 <script>
 //abrir uma nova tela de cadastro
 function abrepopupCadastroProduto() {
@@ -773,6 +970,40 @@ function abrepopupEditarProduto() {
     var janela = "editar_produto.php?codigo=<?php echo $idProduto ?>";
     window.open(janela, 'popuppageEditarProduto',
         'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');
+}
+</script>
+
+<script>
+function calculavalormargem() {
+    var campoQuantidade = document.getElementById("campoQtdProduto").value;
+    var campoPrecoCotado = document.getElementById("campoPrecoCotado").value;
+    var campoPrecoVenda = document.getElementById("campoPrecoVenda").value;
+    var campoMargem = document.getElementById("campoMargem");
+    var calculoMargem;
+
+    campoPrecoVenda = parseFloat(campoPrecoVenda);
+    campoPrecoCotado = parseFloat(campoPrecoCotado);
+
+    calculoMargem = (campoPrecoCotado / campoPrecoVenda).toFixed(2);
+    campoMargem.value = calculoMargem;
+
+
+}
+</script>
+
+<script>
+function calculavalorPrecoVenda() {
+    var campoPrecoCotado = document.getElementById("campoPrecoCotado").value;
+    var campoMargem = document.getElementById("campoMargem").value;
+    var campoPrecoVenda = document.getElementById("campoPrecoVenda");
+    var calculoPrecoVenda;
+
+    campoMargem = parseFloat(campoMargem);
+    campoPrecoCotado = parseFloat(campoPrecoCotado);
+
+    calculoPrecoVenda = (campoPrecoCotado / campoMargem).toFixed(2);
+    campoPrecoVenda.value = calculoPrecoVenda;
+
 }
 </script>
 
