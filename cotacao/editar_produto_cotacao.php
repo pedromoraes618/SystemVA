@@ -17,10 +17,42 @@ include("../conexao/sessao.php");
 
 echo ",";
 //deckara as varuaveus
-if((isset($_POST['adicionar']))){
-    $hoje = date('Y-m-d'); 
+if(isset($_POST['btnremover'])){
+ 
+    //inlcuir as varias do input
     $codProduto = utf8_decode($_POST["codigoProduto"]);
-    $codCotacao = utf8_decode($_POST["codigoCotacao"]);
+    $nomeProduto= utf8_decode($_POST["campoNomeProduto"]);
+    $qtdProduto = utf8_decode($_POST["campoQtdProduto"]);
+    $precoCompra = utf8_decode($_POST["campoPrecoCotado"]);
+    $precoVenda = $_POST["campoVenda"];
+    $margem = utf8_decode($_POST["campoMargem"]);
+    $unidade = utf8_decode($_POST["campoUnidade"]);
+
+
+   //query para remover o cliente no banco de dados
+   $remover = "DELETE FROM produto_cotacao WHERE produto_cotacao = {$codProduto} ";
+
+     $operacao_remover = mysqli_query($conecta, $remover);
+     if(!$operacao_remover) {
+         die("Erro linha 44");   
+     } else {
+        ?>
+<script>
+alertify.error("Produto removido com sucesso!");
+</script>
+<?php
+         //header("location:listagem.php"); 
+          
+     }
+   
+   }
+
+
+
+if(isset($_POST['btnsalvar'])){
+
+    //inlcuir as varias do input
+    $codProduto = utf8_decode($_POST["codigoProduto"]);
     $nomeProduto= utf8_decode($_POST["campoNomeProduto"]);
     $qtdProduto = utf8_decode($_POST["campoQtdProduto"]);
     $precoCompra = utf8_decode($_POST["campoPrecoCotado"]);
@@ -28,49 +60,34 @@ if((isset($_POST['adicionar']))){
     $margem = utf8_decode($_POST["campoMargem"]);
     $unidade = utf8_decode($_POST["campoUnidade"]);
     $statusProduto = utf8_decode($_POST['campoStatusProduto']);
-    
-}
-//variaveis 
-if(isset($_POST['adicionar'])){
-    if($precoVenda==""){
+   
+   //query para alterar o produto da cotacao no banco de dados
+   $alterar = "UPDATE produto_cotacao set descricao = '{$nomeProduto}', quantidade = '{$qtdProduto}', preco_compra = '{$precoCompra}',  preco_venda = '{$precoVenda}' ,  margem = '{$margem}' ,  unidade = '{$unidade}', status = '{$statusProduto}' WHERE produto_cotacao = {$codProduto}  ";
+
+     $operacao_alterar = mysqli_query($conecta, $alterar);
+     if(!$operacao_alterar) {
+         die("Erro na alteracao - banco de dados");   
+     } else {  
         ?>
 <script>
-alertify.alert("Valor de venda do produto não foi preenchido");
+alertify.success("Dados alterados");
 </script>
 <?php
-    }else{
-
+         //header("location:listagem.php"); 
+          
+     }
    
-    $inserir = "INSERT INTO produto_cotacao ";
-    $inserir .= "(cotacaoID, descricao , quantidade, preco_compra, margem , preco_venda,unidade,status )";
-    $inserir .= " VALUES ";
-    $inserir .= "('$codCotacao','$nomeProduto','$qtdProduto','$precoCompra', '$margem' ,'$precoVenda','$unidade','$statusProduto')";
-    $operacao_inserir = mysqli_query($conecta, $inserir);
-  
-
-      
-  
-    if(!$operacao_inserir){
-        die("Falaha no banco de dados || pesquisar produto cotacao");
-          }else{
-            ?>
-<script>
-alertify.success("Produto incluido com sucesso!");
-</script>
-<?php
-          }
-        }
-
-  }
-  
+   }
 
 
-$consulta = "SELECT * FROM produtos ";
+
+//consultar o produto da cotacao
+$consulta = "SELECT * FROM produto_cotacao ";
 if (isset($_GET["codigo"])){
    $codProduto=$_GET["codigo"];
-$consulta .= " WHERE produtoID= {$codProduto} ";
+$consulta .= " WHERE produto_cotacao= {$codProduto} ";
 }else{
-   $consulta .= " WHERE produtoID = 1 ";
+   $consulta .= " WHERE produto_cotacao = 1 ";
 }
 
 //consulta ao banco de dados
@@ -79,18 +96,16 @@ if(!$detalhe){
    die("Falha na consulta ao banco de dados");
 }else{
    $dados_detalhe = mysqli_fetch_assoc($detalhe);
+   $produto =  utf8_encode($dados_detalhe['descricao']);
+   $cotacaoID = utf8_encode($dados_detalhe['cotacaoID']);
+   $quantidade =  utf8_encode($dados_detalhe['quantidade']);
+   $precoCompra =  utf8_encode($dados_detalhe['preco_compra']);
+   $precoVenda =  utf8_encode($dados_detalhe['preco_venda']);
+   $margem =  utf8_encode($dados_detalhe['margem']);
+   $unidade =  utf8_encode($dados_detalhe['unidade']);
+   $status =  utf8_encode($dados_detalhe['status']);
+   
   
-}
-
-if(isset($_GET)){
-$cotacaoID = $_GET['cotacaoCod'];
-$descrisaoGet = $_GET['nomProduto'];
-$precoCompraGet = $_GET['precoCompra'];
-$precoVendaGet = $_GET['precoVenda'];
-$unidadeGet = $_GET['unidade'];
-
-
-
 }
 
 //consultar o status do produto
@@ -138,12 +153,16 @@ if(!$lista_status_produto_cotacao){
                 <tr>
 
                     <form action="" method="post">
-                        <td align=left> <input type="submit" id="adicionar" name="adicionar" class="btn btn-success"
+                        <td align=left> <input type="submit" id="salvar" name="btnsalvar" class="btn btn-success"
                                 value="salvar">
+                        </td>
+                        <td> <input id="remover" type="submit" name="btnremover" value="Remover" class="btn btn-danger"
+                                onClick="return confirm('Confirmar Remoção do produto da cotação <?php echo $cotacaoID;?>');"></input>
                         </td>
 
                         <td align=left> <button type="button" name="btnfechar" class="btn btn-secondary"
                                 onclick="fechar();">Voltar</button>
+                        </td>
 
 
 
@@ -177,34 +196,28 @@ if(!$lista_status_produto_cotacao){
                 <tr>
                     <td><b>Produto:</b></td>
                     <td align=left><input style="margin-left:0px;" type="text" size=60 name="campoNomeProduto" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($nomeProduto);} elseif(!isset($_POST['adicionar'])){
-                                    echo $descrisaoGet;
+                                    echo $produto;
                                 }?>">
                     </td>
+                    <td><b>Status</b></td>
                     <td align=left> <b>Status:</b></td>
                     <td align=left><select style="width: 170px; margin-right:10px;" id="campoStatusProduto"
                             name="campoStatusProduto">
-                            <?php 
-            while($linha_status_produto  = mysqli_fetch_assoc($lista_status_produto_cotacao)){
-                $statusProdutoPrincipal= utf8_encode($linha_status_produto["status_produtoID"]);
-               if(!isset($statusProduto)){
-               
-               ?>
-                            <option value="<?php echo utf8_encode($linha_status_produto["status_produtoID"]);?>">
-                                <?php echo utf8_encode($linha_status_produto["descricao"]);?>
-                            </option>
-                            <?php
-               
-               }else{
 
-                if($statusProduto==$statusProdutoPrincipal){
-                ?> <option value="<?php echo utf8_encode($linha_status_produto["status_produtoID"]);?>" selected>
+                            <?php  
+                        $meu_status = $status;
+                        while($linha_status_produto  = mysqli_fetch_assoc($lista_status_produto_cotacao)){
+                            $status_principal = utf8_encode($linha_status_produto["status_produtoID"]);
+                            if($meu_status==$status_principal){
+                            ?> <option value="<?php echo utf8_encode($linha_status_produto["status_produtoID"]);?>"
+                                selected>
                                 <?php echo utf8_encode($linha_status_produto["descricao"]);?>
                             </option>
 
                             <?php
-                         }else{
-                
-               ?>
+             }else{
+    
+   ?>
                             <option value="<?php echo utf8_encode($linha_status_produto["status_produtoID"]);?>">
                                 <?php echo utf8_encode($linha_status_produto["descricao"]);?>
                             </option>
@@ -214,12 +227,13 @@ if(!$lista_status_produto_cotacao){
 
 }
 
-             
-}
+ 
 
-         ?>
+
+?>
 
                         </select>
+
                     </td>
                 </tr>
             </table>
@@ -229,31 +243,24 @@ if(!$lista_status_produto_cotacao){
                     <div>
                         <td align=left><b>Und:</b></td>
                         <td align=left><input type="text" size=10 name="campoUnidade" id="campoUnidade"
-                                autocomplete="off" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($unidade);}
-                                elseif(!isset($_POST['adicionar'])){
-                                    echo $unidadeGet;
-                                }?>">
+                                autocomplete="off" value="<?php echo $unidade; ?>">
                         </td>
                         <td align=left><b>Qtd:</b></td>
                         <td align=left><input type="text" size=10 name="campoQtdProduto" id="campoQtdProduto"
-                                onblur="calculavalormargem()" autocomplete="off"
-                                value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($qtdProduto);}?>">
+                                onblur="calculavalormargem()" autocomplete="off" value="<?php echo $quantidade?>">
                         </td>
                         <td align=left><b>P. cotado:</b></td>
                         <td align=left><input type="text" size=10 name="campoPrecoCotado" id="campoPrecoCotado"
-                                onblur="calculavalormargem()" autocomplete="off" value="<?php echo $precoCompraGet; ?>">
+                                onblur="calculavalormargem()" autocomplete="off" value="<?php echo $precoCompra; ?>">
                         </td>
                         <td align=left><b>Margem:</b></td>
                         <td align=left><input type="text" size=10 name="campoMargem" id="campoMargem"
-                                onblur="calculavalorPrecoVenda()" autocomplete="off"
-                                value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($margem);}?>">
+                                onblur="calculavalorPrecoVenda()" autocomplete="off" value="<?php echo $margem?>">
                         </td>
                         <td align=left><b>P. venda:</b></td>
                         <td align=left><input type="text" size=10 name="campoVenda" id="campoPrecoVenda"
-                                onblur="calculavalormargem()" autocomplete="off" value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($precoVenda);}
-                                elseif(!isset($_POST['adicionar'])){
-                                    echo $precoVendaGet;
-                                }?>">
+                                onblur="calculavalormargem()" autocomplete="off" value="<?php echo $precoVenda;
+                                ?>">
                         </td>
 
 

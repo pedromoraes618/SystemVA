@@ -394,10 +394,18 @@ CREATE TABLE `produto_cotacao` (
 
 CREATE TABLE `frete` (
   `freteID` int(11) NOT NULL AUTO_INCREMENT,
-  `descricao` varchar(),
+  `descricao` varchar(30),
   PRIMARY KEY (`freteID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+CREATE TABLE `status_produto_cotacao` (
+  `status_produtoID` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(30),
+  PRIMARY KEY (`status_produtoID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+insert into status_produto_cotacao values(null,'Aberto');
+insert into status_produto_cotacao values(null,'Ganho');
+insert into status_produto_cotacao values(null,'Perdido');
 
 insert into frete values(null,'Selecione');
 insert into frete values(null,'Por conta do emitente - Cif');
@@ -443,9 +451,25 @@ alter table cotacao add column dias_negociacao int(10);
 alter table cotacao add column prazo_entrega int(10);
 alter table cotacao add column numero_orcamento int(10);
 alter table cotacao add column validade int(10);
+alter table produto_cotacao add column unidade varchar(20);
+alter table produto_cotacao add column status varchar(20);
 
 
- SELECT produtos.produtoID, produtos.nomeproduto, produtos.precovenda,produtos.precocompra,produtos.estoque, 
- categoria_produto.nome_categoria as categoria_nome, ativo.nome_ativo as ativo_nome, produtos.unidade_medida
- from ativo  inner join  produtos on produtos.nome_ativo = ativo.ativoID INNER Join 
- categoria_produto on produtos.nome_categoria = categoria_produto.categoriaID ";
+ SELECT cotacao.numero_orcamento, cotacao.cliente, cotacao.status_proposta,cotacao.validade,cotacao.data_responder,cotacao.data_envio,cotacao.data_envio,
+ cotacao.data_fechamento,clientes.razaosocial,situacao_proposta.descricao from clientes
+ inner join cotacao on cotacao.clienteID = clientes.clienteID;
+ 
+ 
+SELECT cotacao.numero_orcamento, clientes.razaosocial,situacao_proposta.descricao as Situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID ; 
+ 
+set @posicao:=0;
+select 
+
+status_proposta from cotacao;
+
+SET @posicao:=0; SELECT @posicao:=@posicao+1 as posicao, produto_cotacao,descricao,quantidade,preco_compra,preco_venda from produto_cotacao;
+ SELECT @posicao:=@posicao+1 as posicao, cotacaoID,descricao,quantidade,preco_compra,preco_venda,margem from produto_cotacao ;
+
+SET @posicao:=0;
+SELECT margem, @posicao:=@posicao+1 as posicao from  produto_cotacao  ;
+

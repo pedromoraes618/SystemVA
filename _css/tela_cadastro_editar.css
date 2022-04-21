@@ -220,3 +220,16 @@ tbody  #cabecalho_pesquisa_consulta{
 }
 
 
+#linha_pesquisa {
+    display: table-row;
+    vertical-align: inherit;
+    box-shadow: 0px 0px 5px 0px #e2e2e2;
+    
+}
+
+.tabela_pesquisa P{
+   display: inline-block;
+   padding: 0px 0px;
+   color: rgb(36, 36, 36);
+
+}
