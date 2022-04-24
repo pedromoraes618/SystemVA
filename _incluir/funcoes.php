@@ -4,6 +4,11 @@
         return "R$ " . $valor;
     }
 
+    function total_format($valor) {
+      $valor  = number_format($valor,2,",",".");
+      return  $valor;
+  }
+
     function real_percent($valor) {
       $valor  = number_format($valor,2,",",".");
       return  $valor . " %";

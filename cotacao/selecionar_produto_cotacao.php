@@ -43,13 +43,10 @@ alertify.alert("Valor de venda do produto não foi preenchido");
 
    
     $inserir = "INSERT INTO produto_cotacao ";
-    $inserir .= "(cotacaoID, descricao , quantidade, preco_compra, margem , preco_venda,unidade,status,prazo )";
+    $inserir .= "(cotacaoID, descricao , quantidade, preco_compra, margem , preco_venda,unidade,status, prazo )";
     $inserir .= " VALUES ";
-    $inserir .= "('$codCotacao','$nomeProduto','$qtdProduto','$precoCompra', '$margem' ,'$precoVenda','$unidade','$statusProduto',$prazo)";
+    $inserir .= "('$codCotacao','$nomeProduto','$qtdProduto','$precoCompra', '$margem' ,'$precoVenda','$unidade','$statusProduto','$prazo') ";
     $operacao_inserir = mysqli_query($conecta, $inserir);
-  
-
-      
   
     if(!$operacao_inserir){
         die("Falaha no banco de dados || pesquisar produto cotacao");

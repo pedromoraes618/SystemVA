@@ -47,7 +47,10 @@ if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or  (isset($_POST['
     $margem = utf8_decode($_POST["campoMargem"]);
     $unidade = utf8_decode($_POST["campoUnidade"]);
     $desconto = utf8_decode($_POST["campoDesconto"]);
-    $valorTotal = utf8_decode($_POST["campoValorTotal"]);
+    $valorTotal = utf8_decode($_POST["campoValorTotalHidden"]);
+    $valorTotalComDesconto = utf8_decode($_POST["campoValorTotal"]);
+    
+    
     
     
 }
@@ -136,25 +139,22 @@ if(!$lista_Produto_cotacao){
 die("Falaha no banco de dados || pesquisar produto cotacao");
 }
 
-$selectProdutoCotacaoTotal =  " SELECT sum(preco_venda*quantidade) as soma from produto_cotacao where cotacaoID = '$codCotacao'";
-$lista_Produto_cotacao_total= mysqli_query($conecta, $selectProdutoCotacaoTotal);
-if(!$lista_Produto_cotacao_total){
-die("Falaha no banco de dados || pesquisar produto cotacao");
-}else{$linha_soma = mysqli_fetch_assoc($lista_Produto_cotacao_total);
-    $somaTotal = $linha_soma['soma'];
+    }
+    }
 
-}
-}
-}
 
+    if((isset($_POST['adicionar'])) or (isset($_POST['fecharPesquisa']))or (isset($_POST['iniciar']))or (isset($_POST['salvar'])) or (isset($_POST['pesquisar']))) {
+    $selectProdutoCotacaoTotal =  " SELECT sum(preco_venda*quantidade) as soma from produto_cotacao where cotacaoID = '$codCotacao'";
+    $lista_Produto_cotacao_total= mysqli_query($conecta, $selectProdutoCotacaoTotal);
+    if(!$lista_Produto_cotacao_total){
+    die("Falaha no banco de dados || pesquisar produto cotacao");
+    }else{$linha_soma = mysqli_fetch_assoc($lista_Produto_cotacao_total);
+        $somaTotal = $linha_soma['soma'];
+    
+    }
+}
 
 //calculo
-if((isset($_POST['adicionar'])) or (isset($_POST['fecharPesquisa']))) {
-    
-$calculo = (($somaTotal * $desconto)/100);
-$valorCDesconto = $somaTotal - $calculo; 
-}
-
 
 
 
@@ -197,11 +197,13 @@ $dataFechamento = $div4[2]."-".$div4[1]."-".$div4[0];
 
 
 $inserir = "INSERT INTO cotacao ";
-$inserir .= "( clienteID,data_lancamento,compradorID,freteID,status_proposta,forma_pagamentoID,data_recebida,data_envio,data_responder,data_fechamento,dias_negociacao,prazo_entrega,numero_solicitacao,numero_orcamento,cod_cotacao,validade )";
+$inserir .= "( clienteID,data_lancamento,compradorID,freteID,status_proposta,forma_pagamentoID,data_recebida,data_envio,data_responder,data_fechamento,dias_negociacao,prazo_entrega,numero_solicitacao,numero_orcamento,cod_cotacao,validade,valorTotal,desconto,valorTotalComDesconto )";
 $inserir .= " VALUES ";
-$inserir .= "('$clienteID','$hoje','$compradorID','$freteID','$statusProposta','$formaPagamento','$dataRecebida','$dataEnvio','$dataResponder','$dataFechamento','$diasNegociacao','$prazoEntrega','$numeroSolicitacao','$numeroOrcamento','$codCotacao','$validade' )";
+$inserir .= "('$clienteID','$hoje','$compradorID','$freteID','$statusProposta','$formaPagamento','$dataRecebida','$dataEnvio','$dataResponder','$dataFechamento','$diasNegociacao','$prazoEntrega','$numeroSolicitacao','$numeroOrcamento','$codCotacao','$validade','$valorTotal','$desconto','$valorTotalComDesconto' )";
 $operacao_inserir = mysqli_query($conecta, $inserir);
 
+$desconto = 0;
+$valorTotal = 0;
 if(!$operacao_inserir){
 die("Erro no banco de dados inserir cotacao");
 }
@@ -584,7 +586,7 @@ if($freteID==$frete_principal){
 
                         <td align=left> <b>Prazo entrega:</b> </td>
                         <td align=left> <input type="text" name="campoPrazoEntrega" autocomplete="of" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
-                                   echo $prazoEntrega;                         }?>">
+                                   echo $prazoEntrega;}?>">
 
 
                         </td>
@@ -710,13 +712,13 @@ if($freteID==$frete_principal){
 
 
                         <form action="" method="post">
-                    <td align=left><input type="submit" name="adicionar" class="btn btn-success" value="Adicionar">
+                    <td align=left><input type="submit" onblur="calculavalordesconto()" name="adicionar" class="btn btn-success" value="Adicionar">
                     </td>
 
 
                 </tr>
             </table>
-            <table style="float:left;   margin-bottom:35px;">
+            <table style="float:left;   margin-bottom:5px;">
 
                 <tr>
                     <div>
@@ -794,29 +796,46 @@ if($freteID==$frete_principal){
                 </tr>
 
 
+    
+            
+            </table>
 
+            <table style="float:left; width:1400px; margin-top:5px;" id="divisaoTabela">
+                <td>
+                    <div id="divDivisao">
+                    </div>
+                </td>
 
             </table>
-            <table style="float:left;  width:650px; margin-bottom: 20px; margin-top:-20px;">
+            
+            <table style="float:left;  width:700px; margin-bottom: 20px;">
                 <tr>
 
-                    <td align=left><input type="submit" name="fecharPesquisa" class="btn btn-danger" value="Produtos">
+                    <td align=left><input type="submit"  onblur="calculavalordesconto()" name="fecharPesquisa" class="btn btn-danger" value="Produtos">
                     </td>
 
                     <td align=right><b>Desconto:</b></td>
                     <td align=right><input type="text" size=10 name="campoDesconto" id="campoDesconto"
-                            onblur="calculavalormargem()" autocomplete="off" value="<?php 
-                            
-                            if(isset($_POST['adicionar'])){ 
-                                if($desconto==""){
-                                echo $desconto == 0;
-                            }else{ echo $desconto;}
-                        }
+                            onblur="calculavalordesconto();" autocomplete="off" value="<?php 
+                            if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (isset($_POST['iniciar']))or (isset($_POST['fecharPesquisa']))or (isset($_POST['pesquisar']))){
+                            echo $desconto;}
+
                             ?>"></td>
                     <td align=right><b>Valor Total:</b></td>
                     <td align=right><input type="text" size=10 name="campoValorTotal" id="campoValorTotal"
-                            onblur="calculavalormargem()" autocomplete="off" value="<?php if(isset($_POST['adicionar'])){  echo utf8_encode($valorCDesconto);
-                            };?>"></td>
+                            onblur="calculavalordesconto()" autocomplete="off" value="<?php 
+                            if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (isset($_POST['iniciar']))or (isset($_POST['fecharPesquisa']))or (isset($_POST['pesquisar']))){
+                            echo $valorTotal;
+                            }
+                       ?>"></td>
+
+                    </td>
+
+                    <td align=right><input type="hidden" size=10 name="campoValorTotalHidden" id="campoValorTotalHidden"
+                            autocomplete="off" value="<?php 
+                           if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (isset($_POST['iniciar']))or (isset($_POST['fecharPesquisa']))or (isset($_POST['pesquisar']))){
+                                echo total_format($somaTotal);}
+                       ?>"></td>
 
                 </tr>
             </table>
@@ -938,11 +957,11 @@ while($linha = mysqli_fetch_assoc($lista_Produto_cotacao)){
 
                         <td style="width: 80px; text-align:center">
                             <font size="2"><?php if($status==1){
-                                ?><i class="fa-solid fa-face-meh"></i><?php
+                                ?><i title="Aberto" class="fa-solid fa-face-meh"></i><?php
                             }elseif($status==2){
-                                ?><i class="fa-solid fa-handshake"></i><?php
+                                ?><i title="Fechado" class="fa-solid fa-handshake"></i><?php
                             }elseif($status==3){
-                                ?> <i class="fa-solid fa-calendar-xmark"></i> <?php
+                                ?> <i title="Perdido" class="fa-solid fa-calendar-xmark"></i> <?php
                             }
                             
                             ?> </font>
@@ -1158,6 +1177,7 @@ function calculavalormargem() {
     var campoMargem = document.getElementById("campoMargem");
     var calculoMargem;
 
+
     campoPrecoVenda = parseFloat(campoPrecoVenda);
     campoPrecoCotado = parseFloat(campoPrecoCotado);
 
@@ -1168,6 +1188,9 @@ function calculavalormargem() {
 }
 </script>
 
+
+
+
 <script>
 function calculavalorPrecoVenda() {
     var campoPrecoCotado = document.getElementById("campoPrecoCotado").value;
@@ -1177,9 +1200,28 @@ function calculavalorPrecoVenda() {
 
     campoMargem = parseFloat(campoMargem);
     campoPrecoCotado = parseFloat(campoPrecoCotado);
-
     calculoPrecoVenda = (campoPrecoCotado / campoMargem).toFixed(2);
     campoPrecoVenda.value = calculoPrecoVenda;
+
+}
+</script>
+
+<script>
+function calculavalordesconto() {
+    var campoDesconto = document.getElementById("campoDesconto").value;
+    var campoValorTotalH = document.getElementById("campoValorTotalHidden").value;
+    var campoValorTotal = document.getElementById("campoValorTotal");
+    var calculoDesconto;
+    var calculoTotalCDesconto;
+
+
+    campoValorTotalH = parseFloat(campoValorTotalH);
+    campoDesconto = parseFloat(campoDesconto);
+
+    calculoDesconto = ((campoValorTotalH * campoDesconto) / 100);
+    calculoTotalCDesconto = (campoValorTotalH - calculoDesconto).toFixed(3);
+    campoValorTotal.value = calculoTotalCDesconto;
+
 
 }
 </script>
