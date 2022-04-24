@@ -452,7 +452,8 @@ alter table cotacao add column prazo_entrega int(10);
 alter table cotacao add column numero_orcamento int(10);
 alter table cotacao add column validade int(10);
 alter table produto_cotacao add column unidade varchar(20);
-alter table produto_cotacao add column status varchar(20);
+
+alter table produto_cotacao add column status tinyint(3);
 
 
  SELECT cotacao.numero_orcamento, cotacao.cliente, cotacao.status_proposta,cotacao.validade,cotacao.data_responder,cotacao.data_envio,cotacao.data_envio,
@@ -473,3 +474,21 @@ SET @posicao:=0; SELECT @posicao:=@posicao+1 as posicao, produto_cotacao,descric
 SET @posicao:=0;
 SELECT margem, @posicao:=@posicao+1 as posicao from  produto_cotacao  ;
 
+
+CREATE TABLE `empresa` (
+  `empresaID` int(11) NOT NULL AUTO_INCREMENT,
+  `razao_social` varchar(120),
+  
+  PRIMARY KEY (`empresaID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+insert into empresa values (null,'MARVOLT MATERIAIS E SERVIÇOS ELÉTRICOS');
+
+alter table empresa add column endereco varchar(100);
+alter table empresa add column cnpj varchar(30);
+alter table empresa add column inscricao_estadual varchar(30);
+alter table empresa add column email varchar(30);
+alter table empresa add column telefone varchar(30);
+alter table produto_cotacao add column prazo int(10);
+
+insert into empresa values (null,'MARVOLT MATERIAIS E SERVIÇOS ELÉTRICOS');

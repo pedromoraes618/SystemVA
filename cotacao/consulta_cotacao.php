@@ -4,7 +4,7 @@
 include("../conexao/sessao.php");
 
 //consultar cotacao
-$select = " SELECT cotacao.numero_orcamento, clientes.razaosocial as cliente,situacao_proposta.descricao as situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID " ;
+$select = " SELECT cotacao.numero_orcamento,cotacao.cotacaoID, cotacao.cod_cotacao, clientes.clienteID, clientes.razaosocial as cliente,situacao_proposta.descricao as situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID " ;
 if(isset($_GET["produto"])){
     $nOrcamento = $_GET["cotacao"];
     $produtos .= " WHERE otacao.numero_orcamento LIKE '%{$nOrcamento}%' ";
@@ -97,6 +97,9 @@ if(!$resultado){
                         <td>
                             <p></p>
                         </td>
+                        <td>
+                            <p></p>
+                        </td>
 
                     </tr>
 
@@ -104,9 +107,11 @@ if(!$resultado){
                     <?php   if(isset($_GET["campoPesquisa"])){
            while($linha = mysqli_fetch_assoc($resultado)){
                 
-                
+            $cotacaoID = $linha["cotacaoID"];
+            $codCotacao = $linha["cod_cotacao"];
             $nOrcamento = $linha["numero_orcamento"];
             $cliente = $linha["cliente"];
+            $clienteID = $linha["clienteID"];
             $situacao = $linha["situacao"];
             $validade = $linha["validade"];
             $dataResponder = $linha["data_responder"];
@@ -174,13 +179,20 @@ if(!$resultado){
 
                                   }else{echo formatardataB($DataFechamento); } ?></font>
                         </td>
-                     
+
+
+                        <td>
+                            <a href="pdfCotacao.php?codigo=<?php echo $codCotacao; ?>&cliente=<?php echo $clienteID;?>"
+                                target="blank">
+                                <img src="../images/icons8-pdf-64.png" title="Gerar pdf">
+                            </a>
+                        </td>
 
                         <td id="botaoEditar">
 
 
                             <a
-                                onclick="window.open('editar_cotacao.php', 
+                                onclick="window.open('editar_cotacao.php?codigo=<?php echo $cotacaoID;?>&cotacaoCod=<?php echo $codCotacao;?>', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
 
                                 <button type="button" name="editar">Editar</button>
@@ -194,7 +206,8 @@ if(!$resultado){
 
 
                     <?php
-           }}
+           }
+        }
             ?>
                 </tbody>
             </table>

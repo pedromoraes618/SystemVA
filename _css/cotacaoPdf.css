@@ -1,0 +1,39 @@
+#linha{
+    width: 100%;
+    border: 1px solid;
+   margin-top: 5px;
+}
+
+div#dadosCliente{
+   
+    padding-top: 20px;
+}
+
+#tempresa img{
+float: right;
+}
+#tcotacao tr td{
+    width: 510px;
+}
+
+#tcliente tr td{
+    width: 510px;
+}
+#cabecalhoTabela{
+
+    border-top: 1px solid;
+    margin-top: 20px;
+    border-spacing: 0 2px;
+
+
+}
+
+#linhaCabecalho{
+    background-color: rgba(107, 107, 107,0.3);
+ 
+}
+
+#linhaCabecalho td{
+   padding-top: 4px;
+   padding-bottom: 4px;
+}

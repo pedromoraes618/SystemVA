@@ -172,12 +172,8 @@ class Stylesheet
         $this->setFontMetrics($dompdf->getFontMetrics());
         $this->_styles = array();
         $this->_loaded_files = array();
-        $script = __FILE__;
-        if(isset($_SERVER["SCRIPT_FILENAME"])){
-            $script = $_SERVER["SCRIPT_FILENAME"];
-        }
-        list($this->_protocol, $this->_base_host, $this->_base_path) = Helpers::explode_url($script);
-        $this->_page_styles = array("base" => new Style($this));
+        list($this->_protocol, $this->_base_host, $this->_base_path) = Helpers::explode_url($_SERVER["SCRIPT_FILENAME"]);
+        $this->_page_styles = array("base" => null);
     }
 
     /**
@@ -285,7 +281,7 @@ class Stylesheet
     }
 
     /**
-     * lookup a specific Style collection
+     * lookup a specifc Style collection
      *
      * lookup() returns the Style collection specified by $key, or null if the Style is
      * not found.
@@ -445,7 +441,7 @@ class Stylesheet
      * @param bool $first_pass
      *
      * @throws Exception
-     * @return array
+     * @return string
      */
     private function _css_selector_to_xpath($selector, $first_pass = false)
     {
@@ -570,7 +566,7 @@ class Stylesheet
                     break;
 
                 case "+":
-                    // All sibling elements that follow the current token
+                    // All sibling elements that folow the current token
                     if (mb_substr($query, -1, 1) !== "/") {
                         $query .= "/";
                     }
@@ -1265,7 +1261,7 @@ class Stylesheet
             throw new Exception("Error parsing css file: preg_match_all() failed.");
         }
 
-        // After matching, the array indices are set as follows:
+        // After matching, the array indicies are set as follows:
         //
         // [0] => complete text of match
         // [1] => contains '@import ...;' or '@media {' if applicable
@@ -1361,7 +1357,7 @@ class Stylesheet
                                 $key = $page_selector;
 
                             default:
-                                break 2;
+                                continue;
                         }
 
                         // Store the style for later...
@@ -1560,7 +1556,7 @@ class Stylesheet
 
         foreach ($properties as $prop) {
             // If the $prop contains an url, the regex may be wrong
-            // @todo: fix the regex so that it works every time
+            // @todo: fix the regex so that it works everytime
             /*if (strpos($prop, "url(") === false) {
               if (preg_match("/([a-z-]+)\s*:\s*[^:]+$/i", $prop, $m))
                 $prop = $m[0];

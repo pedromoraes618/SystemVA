@@ -107,7 +107,7 @@ class Dompdf
     /**
      * Desired paper size ('letter', 'legal', 'A4', etc.)
      *
-     * @var string|array
+     * @var string
      */
     private $paperSize;
 
@@ -273,11 +273,6 @@ class Dompdf
     {
         mb_internal_encoding('UTF-8');
 
-        if (version_compare(PHP_VERSION, '7.0.0') >= 0)
-        {
-            ini_set('pcre.jit', 0);
-        }
-
         if (isset($options) && $options instanceof Options) {
             $this->setOptions($options);
         } elseif (is_array($options)) {
@@ -373,7 +368,7 @@ class Dompdf
 
             $ext = strtolower(pathinfo($realfile, PATHINFO_EXTENSION));
             if (!in_array($ext, $this->allowedLocalFileExtensions)) {
-                throw new Exception("Permission denied on $file. This file extension is forbidden");
+                throw new Exception("Permission denied on $file.");
             }
 
             if (!$realfile) {
@@ -402,8 +397,8 @@ class Dompdf
     }
 
     /**
-     * @param string $str
-     * @param string $encoding
+     * @param $str
+     * @param null $encoding
      * @deprecated
      */
     public function load_html($str, $encoding = 'UTF-8')
@@ -612,7 +607,7 @@ class Dompdf
                             if (!$accept) {
                                 //found at least one mediatype, but none of the accepted ones
                                 //Skip this css file.
-                                break;
+                                continue;
                             }
                         }
 
@@ -633,7 +628,7 @@ class Dompdf
                         ($media = $tag->getAttribute("media")) &&
                         !in_array($media, $acceptedmedia)
                     ) {
-                        break;
+                        continue;
                     }
 
                     $css = "";
@@ -1035,7 +1030,7 @@ class Dompdf
     /**
      * Sets the paper size & orientation
      *
-     * @param string|array $size 'letter', 'legal', 'A4', etc. {@link Dompdf\Adapter\CPDF::$PAPER_SIZES}
+     * @param string $size 'letter', 'legal', 'A4', etc. {@link Dompdf\Adapter\CPDF::$PAPER_SIZES}
      * @param string $orientation 'portrait' or 'landscape'
      * @return $this
      */

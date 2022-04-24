@@ -28,6 +28,7 @@ if((isset($_POST['adicionar']))){
     $margem = utf8_decode($_POST["campoMargem"]);
     $unidade = utf8_decode($_POST["campoUnidade"]);
     $statusProduto = utf8_decode($_POST['campoStatusProduto']);
+    $prazo = utf8_decode($_POST['campoPrazo']);
     
 }
 //variaveis 
@@ -42,9 +43,9 @@ alertify.alert("Valor de venda do produto não foi preenchido");
 
    
     $inserir = "INSERT INTO produto_cotacao ";
-    $inserir .= "(cotacaoID, descricao , quantidade, preco_compra, margem , preco_venda,unidade,status )";
+    $inserir .= "(cotacaoID, descricao , quantidade, preco_compra, margem , preco_venda,unidade,status,prazo )";
     $inserir .= " VALUES ";
-    $inserir .= "('$codCotacao','$nomeProduto','$qtdProduto','$precoCompra', '$margem' ,'$precoVenda','$unidade','$statusProduto')";
+    $inserir .= "('$codCotacao','$nomeProduto','$qtdProduto','$precoCompra', '$margem' ,'$precoVenda','$unidade','$statusProduto',$prazo)";
     $operacao_inserir = mysqli_query($conecta, $inserir);
   
 
@@ -220,6 +221,11 @@ if(!$lista_status_produto_cotacao){
          ?>
 
                         </select>
+                    </td>
+                    <td align=left><b>Prazo:</b></td>
+                    <td align=left><input type="text" size=10 name="campoPrazo" id="campoPrazo"
+                            onblur="calculavalormargem()" autocomplete="off"
+                            value="<?php if(isset($_POST['adicionar'])){ echo utf8_encode($prazo);}?>">
                     </td>
                 </tr>
             </table>

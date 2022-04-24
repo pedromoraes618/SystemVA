@@ -83,7 +83,7 @@ abstract class AbstractFrameDecorator extends Frame
     private $_positionned_parent;
 
     /**
-     * Cache for the get_parent while loop results
+     * Cache for the get_parent wehile loop results
      *
      * @var Frame
      */
@@ -438,7 +438,6 @@ abstract class AbstractFrameDecorator extends Frame
     }
 
     /**
-     * @param bool $use_cache
      * @return AbstractFrameDecorator
      */
     function get_parent($use_cache = true)

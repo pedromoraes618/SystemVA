@@ -27,6 +27,7 @@ if(isset($_POST['btnremover'])){
     $precoVenda = $_POST["campoVenda"];
     $margem = utf8_decode($_POST["campoMargem"]);
     $unidade = utf8_decode($_POST["campoUnidade"]);
+    $prazo_entrega = utf8_decode($_POST['campoPrazo']);
 
 
    //query para remover o cliente no banco de dados
@@ -60,9 +61,10 @@ if(isset($_POST['btnsalvar'])){
     $margem = utf8_decode($_POST["campoMargem"]);
     $unidade = utf8_decode($_POST["campoUnidade"]);
     $statusProduto = utf8_decode($_POST['campoStatusProduto']);
+    $prazo_entrega = utf8_decode($_POST['campoPrazo']);
    
    //query para alterar o produto da cotacao no banco de dados
-   $alterar = "UPDATE produto_cotacao set descricao = '{$nomeProduto}', quantidade = '{$qtdProduto}', preco_compra = '{$precoCompra}',  preco_venda = '{$precoVenda}' ,  margem = '{$margem}' ,  unidade = '{$unidade}', status = '{$statusProduto}' WHERE produto_cotacao = {$codProduto}  ";
+   $alterar = "UPDATE produto_cotacao set descricao = '{$nomeProduto}', quantidade = '{$qtdProduto}', preco_compra = '{$precoCompra}',  preco_venda = '{$precoVenda}' ,  margem = '{$margem}' ,  unidade = '{$unidade}', status = '{$statusProduto}', prazo = '{$prazo_entrega}' WHERE produto_cotacao = {$codProduto}  ";
 
      $operacao_alterar = mysqli_query($conecta, $alterar);
      if(!$operacao_alterar) {
@@ -104,6 +106,7 @@ if(!$detalhe){
    $margem =  utf8_encode($dados_detalhe['margem']);
    $unidade =  utf8_encode($dados_detalhe['unidade']);
    $status =  utf8_encode($dados_detalhe['status']);
+   $prazo =  utf8_encode($dados_detalhe['prazo']);
    
   
 }
@@ -146,7 +149,7 @@ if(!$lista_status_produto_cotacao){
 
             <table style="float: right; margin-right:200px;">
                 <div id="titulo">
-                    </p>Cotação</p>
+                    </p>Editar Produto</p>
                 </div>
 
 
@@ -234,6 +237,10 @@ if(!$lista_status_produto_cotacao){
 
                         </select>
 
+                    </td>
+                    <td align=left><b>Prazo:</b></td>
+                    <td align=left><input type="text" size=10 name="campoPrazo" id="campoPrazo"
+                            value="<?php echo utf8_encode($prazo);?>">
                     </td>
                 </tr>
             </table>

@@ -69,8 +69,7 @@ class Text extends AbstractRenderer
         $x += (float)$style->length_in_pt(array($ml, $pl, $bl), $cb["w"]);
 
         $font = $style->font_family;
-        $size = $style->font_size;
-        $frame_font_size = $frame->get_dompdf()->getFontMetrics()->getFontHeight($font, $size);
+        $size = $frame_font_size = $style->font_size;
         $word_spacing = $frame->get_text_spacing() + (float)$style->length_in_pt($style->word_spacing);
         $char_spacing = (float)$style->length_in_pt($style->letter_spacing);
         $width = $style->width;
@@ -114,7 +113,7 @@ class Text extends AbstractRenderer
         }
 
         $descent = $size * $underline_position;
-        $base = $frame_font_size;
+        $base = $size;
 
         // Handle text decoration:
         // http://www.w3.org/TR/CSS21/text.html#propdef-text-decoration
@@ -138,7 +137,7 @@ class Text extends AbstractRenderer
 
             switch ($text_deco) {
                 default:
-                    continue 2;
+                    continue;
 
                 case "underline":
                     $deco_y += $base - $descent + $underline_offset + $line_thickness / 2;
@@ -160,7 +159,7 @@ class Text extends AbstractRenderer
         }
 
         if ($this->_dompdf->getOptions()->getDebugLayout() && $this->_dompdf->getOptions()->getDebugLayoutLines()) {
-            $text_width = $this->_dompdf->getFontMetrics()->getTextWidth($text, $font, $size);
+            $text_width = $this->_dompdf->getFontMetrics()->getTextWidth($text, $font, $frame_font_size);
             $this->_debug_layout(array($x, $y, $text_width + ($line->wc - 1) * $word_spacing, $frame_font_size), "orange", array(0.5, 0.5));
         }
     }

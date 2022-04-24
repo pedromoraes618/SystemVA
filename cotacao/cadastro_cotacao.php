@@ -46,6 +46,9 @@ if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or  (isset($_POST['
     $precoVenda= utf8_decode($_POST["campoPrecoVenda"]);
     $margem = utf8_decode($_POST["campoMargem"]);
     $unidade = utf8_decode($_POST["campoUnidade"]);
+    $desconto = utf8_decode($_POST["campoDesconto"]);
+    $valorTotal = utf8_decode($_POST["campoValorTotal"]);
+    
     
 }
 
@@ -132,9 +135,25 @@ $lista_Produto_cotacao= mysqli_query($conecta, $selectProdutoCotacao);
 if(!$lista_Produto_cotacao){
 die("Falaha no banco de dados || pesquisar produto cotacao");
 }
+
+$selectProdutoCotacaoTotal =  " SELECT sum(preco_venda*quantidade) as soma from produto_cotacao where cotacaoID = '$codCotacao'";
+$lista_Produto_cotacao_total= mysqli_query($conecta, $selectProdutoCotacaoTotal);
+if(!$lista_Produto_cotacao_total){
+die("Falaha no banco de dados || pesquisar produto cotacao");
+}else{$linha_soma = mysqli_fetch_assoc($lista_Produto_cotacao_total);
+    $somaTotal = $linha_soma['soma'];
+
+}
 }
 }
 
+
+//calculo
+if((isset($_POST['adicionar'])) or (isset($_POST['fecharPesquisa']))) {
+    
+$calculo = (($somaTotal * $desconto)/100);
+$valorCDesconto = $somaTotal - $calculo; 
+}
 
 
 
@@ -178,13 +197,9 @@ $dataFechamento = $div4[2]."-".$div4[1]."-".$div4[0];
 
 
 $inserir = "INSERT INTO cotacao ";
-$inserir .= "(
-clienteID,data_lancamento,compradorID,freteID,status_proposta,forma_pagamentoID,data_recebida,data_envio,data_responder,data_fechamento,dias_negociacao,prazo_entrega,numero_solicitacao,numero_orcamento,cod_cotacao,validade
-)";
+$inserir .= "( clienteID,data_lancamento,compradorID,freteID,status_proposta,forma_pagamentoID,data_recebida,data_envio,data_responder,data_fechamento,dias_negociacao,prazo_entrega,numero_solicitacao,numero_orcamento,cod_cotacao,validade )";
 $inserir .= " VALUES ";
-$inserir .= "(
-'$clienteID','$hoje','$compradorID','$freteID','$statusProposta','$formaPagamento','$dataRecebida','$dataEnvio','$dataResponder','$dataFechamento','$diasNegociacao','$prazoEntrega','$numeroSolicitacao','$numeroOrcamento','$codCotacao','$validade'
-)";
+$inserir .= "('$clienteID','$hoje','$compradorID','$freteID','$statusProposta','$formaPagamento','$dataRecebida','$dataEnvio','$dataResponder','$dataFechamento','$diasNegociacao','$prazoEntrega','$numeroSolicitacao','$numeroOrcamento','$codCotacao','$validade' )";
 $operacao_inserir = mysqli_query($conecta, $inserir);
 
 if(!$operacao_inserir){
@@ -251,6 +266,7 @@ if(!$lista_situacao_proposta){
     die("Falaha no banco de dados");
 }
 
+//consultar o status do produto
 $select = "SELECT * FROM status_produto_cotacao ";
 $lista_status_produto_cotacao = mysqli_query($conecta,$select);
 if(!$lista_status_produto_cotacao){
@@ -265,6 +281,7 @@ if(isset($_POST['pesquisar'])){
     die("Falaha no banco de dados || pesquisar produto cotacao".$selectProdutos);
 }
 }
+
 
 
 
@@ -485,7 +502,7 @@ if(isset($_POST['pesquisar'])){
                     <div>
 
 
-                        <td><b>Status Proposta:</b></td>
+                        <td><b>Proposta:</b></td>
                         <td><select style="width:170px; margin-right:20px; " name="campoStatusProposta"
                                 id="campoStatusProposta">
 
@@ -780,11 +797,27 @@ if($freteID==$frete_principal){
 
 
             </table>
-            <table style="float:left;  width:500px; margin-bottom: 20px; margin-top:-20px;">
+            <table style="float:left;  width:650px; margin-bottom: 20px; margin-top:-20px;">
                 <tr>
 
                     <td align=left><input type="submit" name="fecharPesquisa" class="btn btn-danger" value="Produtos">
                     </td>
+
+                    <td align=right><b>Desconto:</b></td>
+                    <td align=right><input type="text" size=10 name="campoDesconto" id="campoDesconto"
+                            onblur="calculavalormargem()" autocomplete="off" value="<?php 
+                            
+                            if(isset($_POST['adicionar'])){ 
+                                if($desconto==""){
+                                echo $desconto == 0;
+                            }else{ echo $desconto;}
+                        }
+                            ?>"></td>
+                    <td align=right><b>Valor Total:</b></td>
+                    <td align=right><input type="text" size=10 name="campoValorTotal" id="campoValorTotal"
+                            onblur="calculavalormargem()" autocomplete="off" value="<?php if(isset($_POST['adicionar'])){  echo utf8_encode($valorCDesconto);
+                            };?>"></td>
+
                 </tr>
             </table>
 
@@ -797,7 +830,7 @@ if($freteID==$frete_principal){
 
         <form action="consulta_produto.php" method="post">
 
-            <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
+            <table border="0" cellspacing="0" width="1500px;" class="tabela_pesquisa">
                 <?php if((isset($_POST['adicionar']))   or (isset($_POST['fecharPesquisa'])) ) {?>
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
@@ -821,10 +854,10 @@ if($freteID==$frete_principal){
                             <p>P.Venda</p>
                         </td>
                         <td>
-                            <p>Compra total</p>
+                            <p>P.C total</p>
                         </td>
                         <td>
-                            <p>Venda total</p>
+                            <p>P.V total</p>
                         </td>
                         <td>
                             <p>Magem</p>
@@ -840,9 +873,8 @@ if($freteID==$frete_principal){
 
                     </tr>
 
+
                     <?php
-
-
 if($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
 
     $linhas = 0;
@@ -855,7 +887,7 @@ while($linha = mysqli_fetch_assoc($lista_Produto_cotacao)){
     $margem = $linha['margem'];
     $unidade = $linha['unidade'];
     $status = $linha['status'];
-
+   
    
 ?>
                     <tr id="linha_pesquisa">
@@ -868,7 +900,7 @@ while($linha = mysqli_fetch_assoc($lista_Produto_cotacao)){
 
                         <td style="width: 550px;">
 
-                            <font size="2"><?php echo $descricao;?> </font>
+                            <font size="2"><?php echo utf8_encode($descricao);?> </font>
 
                         </td>
 
@@ -898,9 +930,12 @@ while($linha = mysqli_fetch_assoc($lista_Produto_cotacao)){
                         <td style="width: 120px;">
                             <font size="2"><?php echo real_format($quantidade*$precoVenda)?> </font>
                         </td>
+
                         <td style="width: 80px;">
                             <font size="2"><?php echo  real_percent($margem*100);?> </font>
                         </td>
+
+
                         <td style="width: 80px; text-align:center">
                             <font size="2"><?php if($status==1){
                                 ?><i class="fa-solid fa-face-meh"></i><?php
@@ -934,7 +969,52 @@ while($linha = mysqli_fetch_assoc($lista_Produto_cotacao)){
 
                     <?php
 }
+?>
+                    <tr id="cabecalho_pesquisa_consulta">
+                        <td>
+                            <font size=2>
+                                <p style="margin-left:10px;">total</p>
+                            </font>
+                        </td>
+
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <font size=2><?php echo  real_format($somaTotal);?></font>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+
+
+                        <td>
+                            <p></p>
+                        </td>
+
+                    </tr>
+
+                    <?php
 }
+
 
 }elseif(isset($_POST['pesquisar'])){
     ?>
