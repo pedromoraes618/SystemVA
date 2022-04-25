@@ -1,9 +1,14 @@
 #linha{
     width: 100%;
-    border: 1px solid;
+    border: 0.5px solid ;
    margin-top: 5px;
 }
 
+#linhaTotal{
+    width: 100%;
+    border: 0.5px solid ;
+   margin-top: 20px;
+}
 div#dadosCliente{
    
     padding-top: 20px;

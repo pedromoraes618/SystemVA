@@ -47,8 +47,8 @@ if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or  (isset($_POST['
     $margem = utf8_decode($_POST["campoMargem"]);
     $unidade = utf8_decode($_POST["campoUnidade"]);
     $desconto = utf8_decode($_POST["campoDesconto"]);
-    $valorTotal = utf8_decode($_POST["campoValorTotalHidden"]);
-    $valorTotalComDesconto = utf8_decode($_POST["campoValorTotal"]);
+    $valorTotal = utf8_decode($_POST["campoValorTotal"]);
+    $valorTotalComDesconto = utf8_decode($_POST["campoValorTotalHidden"]);
     
     
     
@@ -162,7 +162,9 @@ die("Falaha no banco de dados || pesquisar produto cotacao");
 
 if(isset($_POST['salvar'])){
 if($salvar == 1 && $cotacaofinalizada == 0){
+ 
 if($clienteID != "1"){
+ 
 if($dataRecebida==""){
 
 }else{
@@ -330,7 +332,7 @@ if(isset($_POST['pesquisar'])){
                                 class="btn btn-info btn-sm" value="Inicar Cotacão">
                         </td>
                         <td align=left> <input type="submit" id="" name="salvar" class="btn btn-success"
-                                value="Finalizar">
+                                onclick="calculavalordesconto()" value="Finalizar">
                         </td>
                         <td align=left> <button type="button" name="btnfechar" onclick="fechar();"
                                 class="btn btn-secondary">Voltar</button>
@@ -443,11 +445,14 @@ if(isset($_POST['pesquisar'])){
 
                         </select>
                     </td>
-                    <td><b>Data recebida:</b></td>
-                    <td align="left"> <input type="text" name="campoDataRecebida" OnKeyUp="mascaraData(this);" size="10"
-                            onchange="" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
-                                echo $dataRecebida;
+
+                    <td align=left><b>Data envio:</b></td>
+                    <td align=left><input type="text" name="campoDataEnvio" OnKeyUp="mascaraData(this);" size="10"
+                            autocomplete="of" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                                echo $dataEnvio;
     }?>"></td>
+
+
                     <td> <b>Validade:<b>
                     <td><input type="text" name="campoValidade" size="10" value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
                         echo $validade;
@@ -460,22 +465,22 @@ if(isset($_POST['pesquisar'])){
 
             <table style="float:left; margin-top:5px; ">
                 <tr>
-                    <td align=left><b>Data envio:</b></td>
-                    <td align=left><input type="text" name="campoDataEnvio" OnKeyUp="mascaraData(this);" size="10"
-                            value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
-                                echo $dataEnvio;
+
+                    <td><b>Data recebida:</b></td>
+                    <td align="left"> <input type="text" name="campoDataRecebida" OnKeyUp="mascaraData(this);" size="10"
+                            autocomplete="of" onchange="" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                                echo $dataRecebida;
     }?>"></td>
 
-
                     <td> <b>Data a responder:<b>
-                    <td> <input type="text" name="campoDataResponder" OnKeyUp="mascaraData(this);" size="10" onchange=""
-                            value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                    <td> <input type="text" name="campoDataResponder" OnKeyUp="mascaraData(this);" size="10"
+                            autocomplete="of" value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
                                 echo $dataResponder;
             
     }?>"></td>
                     <td align=left><b>Data fechamento:</b></td>
                     <td align=left><input type="text" name="campoDaFechamento" OnKeyUp="mascaraData(this);" size="10"
-                            value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                            autocomplete="of" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
       echo $dataFechamento;
                      }?>"></td>
 
@@ -584,8 +589,8 @@ if($freteID==$frete_principal){
                             </select>
                         </td>
 
-                        <td align=left> <b>Prazo entrega:</b> </td>
-                        <td align=left> <input type="text" name="campoPrazoEntrega" autocomplete="of" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+
+                        <td align=left> <input type="hidden" name="campoPrazoEntrega" autocomplete="of" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
                                    echo $prazoEntrega;}?>">
 
 
@@ -601,10 +606,10 @@ if($freteID==$frete_principal){
 
 
             </table>
-            <table style="float:left; width:1000px; margin-top:5px;">
+            <table style="float:left;  margin-top:10px; ">
                 <tr>
-                    <td align=left><b>Cliente:</b></td>
-                    <td align=left> <select style="margin-right: 50px;" name="campoCliente" id="campoCliente">
+                    <td align=left style="border:1px soldi;"><b>Cliente:</b></td>
+                    <td align=left> <select style="margin-right: 50px; " name="campoCliente" id="campoCliente">
 
                             <?php  while($linha_cliente = mysqli_fetch_assoc($lista_clientes)){
         $cliente_Principal = utf8_encode($linha_cliente["clienteID"]);
@@ -712,7 +717,8 @@ if($freteID==$frete_principal){
 
 
                         <form action="" method="post">
-                    <td align=left><input type="submit" onblur="calculavalordesconto()" name="adicionar" class="btn btn-success" value="Adicionar">
+                    <td align=left><input type="submit" onclick="calculavalordesconto()" name="adicionar"
+                            class="btn btn-success" value="Adicionar">
                     </td>
 
 
@@ -796,8 +802,8 @@ if($freteID==$frete_principal){
                 </tr>
 
 
-    
-            
+
+
             </table>
 
             <table style="float:left; width:1400px; margin-top:5px;" id="divisaoTabela">
@@ -807,11 +813,12 @@ if($freteID==$frete_principal){
                 </td>
 
             </table>
-            
+
             <table style="float:left;  width:700px; margin-bottom: 20px;">
                 <tr>
 
-                    <td align=left><input type="submit"  onblur="calculavalordesconto()" name="fecharPesquisa" class="btn btn-danger" value="Produtos">
+                    <td align=left><input type="submit" onclick="calculavalordesconto()" name="fecharPesquisa"
+                            class="btn btn-danger" value="Atualizar">
                     </td>
 
                     <td align=right><b>Desconto:</b></td>
@@ -820,6 +827,10 @@ if($freteID==$frete_principal){
                             if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (isset($_POST['iniciar']))or (isset($_POST['fecharPesquisa']))or (isset($_POST['pesquisar']))){
                             echo $desconto;}
 
+                            if((isset($_POST['adicionar'])) && $desconto==""){
+                                echo 0;
+                            }
+
                             ?>"></td>
                     <td align=right><b>Valor Total:</b></td>
                     <td align=right><input type="text" size=10 name="campoValorTotal" id="campoValorTotal"
@@ -827,6 +838,8 @@ if($freteID==$frete_principal){
                             if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (isset($_POST['iniciar']))or (isset($_POST['fecharPesquisa']))or (isset($_POST['pesquisar']))){
                             echo $valorTotal;
                             }
+
+                          
                        ?>"></td>
 
                     </td>
@@ -834,7 +847,7 @@ if($freteID==$frete_principal){
                     <td align=right><input type="hidden" size=10 name="campoValorTotalHidden" id="campoValorTotalHidden"
                             autocomplete="off" value="<?php 
                            if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (isset($_POST['iniciar']))or (isset($_POST['fecharPesquisa']))or (isset($_POST['pesquisar']))){
-                                echo total_format($somaTotal);}
+                                echo ($somaTotal);}
                        ?>"></td>
 
                 </tr>
@@ -867,10 +880,10 @@ if($freteID==$frete_principal){
                             <p>Qtd</p>
                         </td>
                         <td>
-                            <p>P.compra</p>
+                            <p>P cotato</p>
                         </td>
                         <td>
-                            <p>P.Venda</p>
+                            <p>P Venda</p>
                         </td>
                         <td>
                             <p>P.C total</p>
@@ -929,7 +942,7 @@ while($linha = mysqli_fetch_assoc($lista_Produto_cotacao)){
 
                         </td>
 
-                        <td style="width: 80px;">
+                        <td style="width: 70px;">
                             <font size="2"><?php echo $quantidade;?> </font>
                         </td>
 
@@ -1219,7 +1232,7 @@ function calculavalordesconto() {
     campoDesconto = parseFloat(campoDesconto);
 
     calculoDesconto = ((campoValorTotalH * campoDesconto) / 100);
-    calculoTotalCDesconto = (campoValorTotalH - calculoDesconto).toFixed(3);
+    calculoTotalCDesconto = (campoValorTotalH - calculoDesconto).toFixed(2);
     campoValorTotal.value = calculoTotalCDesconto;
 
 

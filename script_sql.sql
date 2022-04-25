@@ -461,7 +461,10 @@ alter table produto_cotacao add column status tinyint(3);
  inner join cotacao on cotacao.clienteID = clientes.clienteID;
  
  
-SELECT cotacao.numero_orcamento, clientes.razaosocial,situacao_proposta.descricao as Situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID ; 
+SELECT cotacao.numero_orcamento, clientes.razaosocial,situacao_proposta.descricao as Situacao, 
+cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento 
+from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID 
+INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID ; 
  
 set @posicao:=0;
 select 
@@ -490,5 +493,28 @@ alter table empresa add column inscricao_estadual varchar(30);
 alter table empresa add column email varchar(30);
 alter table empresa add column telefone varchar(30);
 alter table produto_cotacao add column prazo int(10);
+alter table cotacao add column valorTotal decimal(10,2);
+alter table cotacao add column desconto decimal(10,2);
+alter table cotacao add column valorTotalComDesconto decimal(10,2);
 
 insert into empresa values (null,'MARVOLT MATERIAIS E SERVIÇOS ELÉTRICOS');
+
+
+select descricao,preco_venda,quantidade, sum(preco_venda*quantidade) from produto_cotacao where cotacaoID = '19053';
+
+
+
+SELECT  cotacao.data_lancamento, cotacao.numero_orcamento, cotacao.cod_cotacao, cotacao.numero_solicitacao, cotacao.validade, 
+cotacao.prazo_entrega,cotacao.valorTotal,cotacao.desconto, cotacao.valorTotalComDesconto, forma_pagamento.nome, frete.descricao,estados.nome from forma_pagamento
+ inner join 
+ cotacao on cotacao.forma_pagamentoID = forma_pagamento.formapagamentoID
+ INNER Join
+ status_lembrete on lembrete.statusID = status_lembrete.statusID
+ INNER Join
+usuarios on lembrete.usuarioID = usuarios.usuarioID;
+
+SELECT cotacao.data_lancamento, cotacao.numero_orcamento, cotacao.cod_cotacao, cotacao.numero_solicitacao, cotacao.validade, cotacao.prazo_entrega,cotacao.valorTotal,cotacao.desconto, cotacao.valorTotalComDesconto, forma_pagamento.nome,forma_pagamento.nome,frete.descricao from forma_pagamentoinner join  cotacao on cotacao.forma_pagamentoID = forma_pagamento.formapagamentoID inner join  frete on cotacao.freteID = frete.freteID;
+
+
+select clientes.razaosocial,clientes.endereco,clientes.telefone,clientes.cpfcnpj,clientes.cidade,clientes.email,estados.nome from estados inner join clientes on cliente.estadoID = estados.estadoID
+

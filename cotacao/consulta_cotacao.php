@@ -4,7 +4,7 @@
 include("../conexao/sessao.php");
 
 //consultar cotacao
-$select = " SELECT cotacao.numero_orcamento,cotacao.cotacaoID, cotacao.cod_cotacao, clientes.clienteID, clientes.razaosocial as cliente,situacao_proposta.descricao as situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID " ;
+$select = " SELECT cotacao.numero_orcamento,cotacao.cotacaoID, cotacao.status_proposta, cotacao.desconto,cotacao.valorTotalComDesconto, cotacao.cod_cotacao, clientes.clienteID, clientes.razaosocial as cliente,situacao_proposta.descricao as situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID " ;
 if(isset($_GET["produto"])){
     $nOrcamento = $_GET["cotacao"];
     $produtos .= " WHERE otacao.numero_orcamento LIKE '%{$nOrcamento}%' ";
@@ -63,7 +63,7 @@ if(!$resultado){
 
         <form action="consulta_produto.php" method="get">
 
-            <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
+            <table border="0" cellspacing="0"  class="tabela_pesquisa">
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
                         <td>
@@ -74,15 +74,12 @@ if(!$resultado){
                             <p>Cliente</p>
                         </td>
                         <td>
-                            <p>Status proposta</p>
+                            <p>Proposta</p>
                         </td>
-                        <td>
-                            <p>Preço cotato</p>
-                        </td>
+
                         <td>
                             <p>Validade</p>
                         </td>
-
 
                         <td>
                             <p>Data a responder</p>
@@ -93,7 +90,15 @@ if(!$resultado){
                         <td>
                             <p>Fechamento</p>
                         </td>
-
+                        <td>
+                            <p>Desconto</p>
+                        </td>
+                        <td>
+                            <p>Valor</p>
+                        </td>
+                        <td>
+                            <p></p>
+                        </td>
                         <td>
                             <p></p>
                         </td>
@@ -113,10 +118,13 @@ if(!$resultado){
             $cliente = $linha["cliente"];
             $clienteID = $linha["clienteID"];
             $situacao = $linha["situacao"];
+            $status = $linha["status_proposta"];
             $validade = $linha["validade"];
             $dataResponder = $linha["data_responder"];
             $DataEnvio = $linha["data_envio"];
             $DataFechamento = $linha["data_fechamento"];
+            $desconto = $linha['desconto'];
+            $valor = $linha['valorTotalComDesconto'];
             
             
           
@@ -136,15 +144,13 @@ if(!$resultado){
                                 <font size="2"><?php echo utf8_encode($cliente);?> </font>
                             </p>
                         </td>
-                        <td style="width: 150px;">
-                            <font size="2"><?php echo utf8_encode($situacao);?></font>
-                        </td>
-                        <td style="width: 150px;">
-                            <font size="2"></font>
+                        <td style="width: 110px;">
+                            <font size="3"><?php echo utf8_encode($situacao);?></font>
                         </td>
 
-                        <td style="width: 100px;">
-                            <font size="2"><?php echo utf8_encode($validade);?> </font>
+
+                        <td style="width: 70px;">
+                            <font size="3"><?php echo utf8_encode($validade);?> </font>
                         </td>
 
                         <td style="width: 130px;">
@@ -169,7 +175,7 @@ if(!$resultado){
                                   }else{echo formatardataB($DataEnvio); } ?> </font>
                         </td>
 
-                        <td style="width: 130px;">
+                        <td style="width: 100px;">
                             <font size="2"> <?php if($DataFechamento=="0000-00-00") {
                                echo ("");
 
@@ -179,9 +185,21 @@ if(!$resultado){
 
                                   }else{echo formatardataB($DataFechamento); } ?></font>
                         </td>
+                        <td style="width: 70px;">
+                            <font size="2"><?php echo $desconto ?></font>
+                        </td>
+                        <td style="width: 100px;">
+                            <font size="2"><?php echo real_format($valor) ?></font>
+                        </td>
+                        <td style="width: 50px;">
+                            <font size="3"><?php if(($status==4) or ($status==3)){?>
+                                <i class="fa-solid fa-handshake" title="Ganho"></i>
+                                <?php
+                            } ?>
+                            </font>
+                        </td>
 
-
-                        <td>
+                        <td style="width: 50px;">
                             <a href="pdfCotacao.php?codigo=<?php echo $codCotacao; ?>&cliente=<?php echo $clienteID;?>"
                                 target="blank">
                                 <img src="../images/icons8-pdf-64.png" title="Gerar pdf">

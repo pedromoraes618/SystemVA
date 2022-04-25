@@ -233,3 +233,14 @@ tbody  #cabecalho_pesquisa_consulta{
    color: rgb(36, 36, 36);
 
 }
+
+
+
+
+tr td input{
+  border: 1px solid;
+  margin-left: 0px;
+  padding: 0px;
+
+  float: left;
+}

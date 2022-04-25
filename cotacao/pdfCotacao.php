@@ -18,7 +18,7 @@ while($row_empresa = mysqli_fetch_assoc($dados_empresa)){
 
 
 //consultar cliente pelo id
-$consultaCliente = "SELECT * from clientes ";
+$consultaCliente = " SELECT clientes.razaosocial,clientes.endereco,clientes.telefone,clientes.cpfcnpj,clientes.cidade, clientes.email,estados.sigla AS uf from estados inner join clientes on clientes.estadoID = estados.estadoID ";
 $clienteID =  $_GET["cliente"];
 $consultaCliente .= " WHERE clienteID = {$clienteID}";  
 
@@ -28,14 +28,14 @@ while($row_cliente = mysqli_fetch_assoc($dados_cliente)){
     $enderecoCliente = utf8_encode($row_cliente['endereco']);
     $telefoneCliente = $row_cliente['telefone'];
     $cnpjCliente = $row_cliente['cpfcnpj'];
-    $ufCliente = $row_cliente['estadoID'];
+    $ufCliente = utf8_encode($row_cliente['uf']);
     $cidadeCliente = utf8_encode($row_cliente['cidade']);
     $emailCliente = utf8_encode($row_cliente['email']);
 }
 
 
 //consultar cotacao pelo codigo cotação
-$consulta = "SELECT * from cotacao ";
+$consulta = "SELECT cotacao.data_lancamento, cotacao.numero_orcamento, cotacao.cod_cotacao, cotacao.numero_solicitacao, cotacao.validade, cotacao.prazo_entrega,cotacao.valorTotal,cotacao.desconto, cotacao.valorTotalComDesconto, forma_pagamento.nome as formapagamento,forma_pagamento.nome,frete.descricao as frete from forma_pagamento inner join cotacao on cotacao.forma_pagamentoID = forma_pagamento.formapagamentoID inner join  frete on cotacao.freteID = frete.freteID ";
 $codCotacaoB =  $_GET["codigo"];
 $consulta .= " WHERE cod_cotacao = {$codCotacaoB}";  
 
@@ -46,11 +46,16 @@ while($row_cotacao = mysqli_fetch_assoc($dados_cotacao)){
     $codCotacaoB = $row_cotacao['cod_cotacao'];
     $numeroSolicitacaoB = $row_cotacao['numero_solicitacao'];
     $validadeB = $row_cotacao['validade'];
-    $freteB = $row_cotacao['freteID'];
-    $formaPagamentoIDB = $row_cotacao['forma_pagamentoID'];
+    $freteB = $row_cotacao['frete'];
+    $formaPagamentoIDB = $row_cotacao['formapagamento'];
     $prazoEntregaB = $row_cotacao['prazo_entrega'];
     $cliente = $row_cotacao['clienteID'];
+    $valor = $row_cotacao['valorTotal'];
+    $desconto = $row_cotacao['desconto'];
+    $totalComDesconto = $row_cotacao['valorTotalComDesconto'];
 }
+
+$textoCotacao = "No valor estão inclusas todas as despesas que resultem no custo das aquisições, tais como impostos, taxas, transportes, materiais utilizados, seguros, encargos fiscais e todos os ônus diretos e qualquer outra despesa que incidir na execução do produto.Empresa optante pelo Simples Nacional. Todos os produtos são de origem Nacional.";
 
 $linha = 0;
 $consultaCotacao = "SELECT * from produto_cotacao ";
@@ -66,7 +71,7 @@ $html .="<tr><td align=left><font size=3><b>" . $razaoSocial . "</b></font></td>
 
 $html .="<tr><td align=left><font size=3>" . $endereco . "</font></td></tr>";
 $html .="<tr><td align=left><font size=3>CNPJ:" . $cnpj . "INSCRIÇÃO ESTADUAL:".$inscricaoEstadual."</font></td></tr>";
-$html .="<tr><td align=left><font size=3>EMIAL:" . $email . " CONTATO:".$telefone."</font></td></tr>";
+$html .="<tr><td align=left><font size=3>E-MAIL:" . $email . " CONTATO:".$telefone."</font></td></tr>";
 $html .= "</table>";
 $html .= "<p>";
 $html .= "<p align=center><b>ORÇAMENTO DE MATERIAS Nº ".$numeroOrcamentoB ."</b><p>";
@@ -95,7 +100,7 @@ $html .= "<table id='cabecalhoTabela' width=100%>";
 $html .="<tr id='linhaCabecalho'><td align=center style=width:50px;><font size=2><b>Item</b></font></td>";
 $html .="<td align=left style=width:550px;><font size=2><b>Descrição</b> </font></td>";
 $html .="<td align=left ><font size=2><b> Und. </b></font></td>";
-$html .="<td align=left><font size=2></b> Quant.</b> </font></td>";
+$html .="<td align=left><font size=2><b> Quant.</b> </font></td>";
 $html .="<td align=left><font size=2><b> P.unitario</b> </font></td>";
 $html .="<td align=left><font size=2><b> V.total </b></font></td>";
 $html .="<td align=left><font size=2><b> Prazo </b></font></td>";
@@ -131,11 +136,45 @@ $html .="<td align=left><font size=2>".real_format($precoTotal)." </font></td>";
 $html .="<td align=left><font size=2>".($prazo)." dias úteis </font></td>";
 $html .="</tr>";
 
-
 }
 
+
+
+$html .= "</table>";
+$html .= "<div id='linhaTotal'></div>";
+$html .= "<table width=100%>";
+$html .="<tr>";
+$html .="<td align=left style=width:200px;><font size=2><b>TOTAL DE ITENS ".$linha."</b></font></td>";
+$html .="<td align=right style=width:200px;><font size=2><b>VALOR TOTAL DO PEDIDO: ".real_format($valor)."</b></font></td>";
+$html .="</tr>";
+
+$html .= "<table>";
+$html .="<tr>";
+$html .="<td></td>";
+$html .="</tr>";
 $html .= "</table>";
 
+$html .= "</table>";
+$html .= "<table>";
+$html .="<tr>";
+$html .="<td align=left><font size=2>".$textoCotacao."</font></td>";
+$html .="</tr>";
+$html .= "</table>";
+
+$html .= "<table>";
+$html .="<tr>";
+$html .="<td></td>";
+$html .="</tr>";
+$html .= "</table>";
+
+if($desconto!=0){
+$html .= "<table width=100% ";
+$html .="<tr>";
+$html .="<td align=left style=width:200px;><font size=2><b> </b></font></td>";
+$html .="<td align=right style=width:500px;><font size=2><b>VALOR TOTAL DO PEDIDO COM DESCONTO DE ".real_percent($desconto). "  " .  real_format($totalComDesconto). "</b></font></td>";
+$html .="</tr>";
+$html .= "</table>";
+}
 $date = date('d/m/Y');
 
 
@@ -158,6 +197,11 @@ $dompdf->render();
 
 
 //exibibir a página
-$dompdf ->stream("relatorio_teste.php",array("Attachment"=>false));//para realizar o download somente alterar para true
+$dompdf ->stream("Cotacao ".$numeroOrcamentoB."",array("Attachment"=>false));//para realizar o download somente alterar para true
+
+file_put_contents("cotacao.pdf", $output);
+// redirecionamos o usuário para o download do arquivo
+die("<script>location.href='minuta.pdf';</script>");
+?>
 
 ?>

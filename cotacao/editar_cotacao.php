@@ -43,6 +43,13 @@ if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (isset($_POST['f
     $precoVenda= utf8_decode($_POST["campoPrecoVenda"]);
     $margem = utf8_decode($_POST["campoMargem"]);
     $unidade = utf8_decode($_POST["campoUnidade"]);
+    $desconto = utf8_decode($_POST["campoDesconto"]);
+    $valorTotal = utf8_decode($_POST["campoValorTotalHidden"]);
+    $valorTotalComDesconto = utf8_decode($_POST["campoValorTotal"]);
+
+    
+   
+
     
 }
 
@@ -153,7 +160,7 @@ $dataFechamento = $div4[2]."-".$div4[1]."-".$div4[0];
 }
 
 
-$alterar = "UPDATE cotacao set clienteID = '{$clienteID}', compradorID = '{$comprador}',freteID = '{$freteID}', status_proposta = '{$statusProposta}', forma_pagamentoID = '{$formaPagamento}',data_recebida = '{$dataRecebida}',data_envio='{$dataEnvio}',data_responder='{$dataResponder}',data_fechamento = '{$dataFechamento}',dias_negociacao='{$diasNegociacao}',prazo_entrega ='{$prazoEntrega}',numero_solicitacao='{$numeroSolicitacao}',numero_orcamento='{$numeroOrcamento}',validade='{$validade}' where cod_cotacao = '{$codCotacao}' ";
+$alterar = "UPDATE cotacao set clienteID = '{$clienteID}', compradorID = '{$comprador}',freteID = '{$freteID}', status_proposta = '{$statusProposta}', forma_pagamentoID = '{$formaPagamento}',data_recebida = '{$dataRecebida}',data_envio='{$dataEnvio}',data_responder='{$dataResponder}',data_fechamento = '{$dataFechamento}',dias_negociacao='{$diasNegociacao}',prazo_entrega ='{$prazoEntrega}',numero_solicitacao='{$numeroSolicitacao}',numero_orcamento='{$numeroOrcamento}',validade='{$validade}',valorTotalComDesconto='{$valorTotalComDesconto }',valorTotal='{$valorTotal}',desconto='{$desconto}' where cod_cotacao = '{$codCotacao}' ";
 $operacao_inserir = mysqli_query($conecta, $alterar);
 
 if(!$operacao_inserir){
@@ -162,7 +169,7 @@ die("Erro no banco de dados inserir cotacao");
 ?>
 
 <script>
-alertify.success("Cotação finalizada com sucesso");
+alertify.success("Dados alterados com sucesso");
 </script>
 
 <?php
@@ -204,6 +211,9 @@ die("Falaha no banco de dados");
     $validadeB = $linha['validade'];
     $freteB = $linha['freteID'];
     $compradorB = $linha['compradorID'];
+    $descontoB = $linha['desconto'];
+    $valorCotacaoB = $linha['valorTotal'];
+    $valorComDescontoB = $linha['valorTotalComDesconto'];
     
 
 }
@@ -269,6 +279,17 @@ if(isset($_POST['pesquisar'])) {
 }
 }
 
+//soma dos produos
+if((isset($_POST['adicionar'])) or (isset($_POST['fecharPesquisa']))or (isset($_POST['salvar'])) or (isset($_POST['pesquisar'])) or (!isset($_POST['inicar']))) {
+    $selectProdutoCotacaoTotal =  " SELECT sum(preco_venda*quantidade) as soma from produto_cotacao where cotacaoID = '$codCotacao'";
+    $lista_Produto_cotacao_total= mysqli_query($conecta, $selectProdutoCotacaoTotal);
+    if(!$lista_Produto_cotacao_total){
+    die("Falaha no banco de dados || pesquisar produto cotacao");
+    }else{$linha_soma = mysqli_fetch_assoc($lista_Produto_cotacao_total);
+        $somaTotal = $linha_soma['soma'];
+    
+    }
+}
 
 
 ?>
@@ -310,7 +331,8 @@ if(isset($_POST['pesquisar'])) {
 
                     <form action="" method="post">
 
-                        <td align=left> <input type="submit" id="" name="salvar" class="btn btn-success" value="Salvar">
+                        <td align=left> <input type="submit" id="salvar" onclick="calculavalordesconto()" name="salvar"
+                                class="btn btn-success" value="Salvar">
                         </td>
                         <td align=left> <button type="button" name="btnfechar" onclick="fechar();"
                                 class="btn btn-secondary">Voltar</button>
@@ -345,7 +367,7 @@ if(isset($_POST['pesquisar'])) {
     ?>"> </td>
 
                     <td align=left> <b>Nº orçamento:</b></td>
-                    <td align=left> <input type="text" name="campoNorcamento" size="10"
+                    <td align=left> <input type="text" name="campoNorcamento" size="10" autocomplete="of"
                             value="<?php echo $numeroOrcamentoB?>"> </td>
 
                     <td align=left> <b>Forma do pagamento:</b></td>
@@ -383,9 +405,34 @@ if(isset($_POST['pesquisar'])) {
 
                         </select>
                     </td>
+                    <td align=left><b>Data envio:</b></td>
+                    <td align=left><input type="text" name="campoDataEnvio" OnKeyUp="mascaraData(this);" size="10"
+                            value="<?php   if($dataEnvioB=="1970-01-01"){
+                                print_r("");
+                            }elseif($dataEnvioB=="0000-00-00"){
+                                print_r ("");
+                            }
+                            elseif($dataEnvioB==""){
+                                print_r ("");
+                            }else{
+                                echo formatardataB($dataEnvioB);}?>" autocomplete="off"></td>
+
+                    <td> <b>Validade:<b>
+                    <td><input type="text" name="campoValidade" size="10" value="<?php 
+                        echo $validadeB;
+   
+?>"> </td>
+                </tr>
+
+            </table>
+
+
+            <table style="float:left; margin-top:5px; ">
+                <tr>
+
                     <td><b>Data recebida:</b></td>
                     <td align="left"> <input type="text" name="campoDataRecebida" OnKeyUp="mascaraData(this);" size="10"
-                            onchange="" value="<?php  
+                            autocomplete="of" onchange="" value="<?php  
                             
                             if($dataRecebidaB=="1970-01-01"){
                                 print_r("");
@@ -399,29 +446,6 @@ if(isset($_POST['pesquisar'])) {
 
 
                     </td>
-                    <td> <b>Validade:<b>
-                    <td><input type="text" name="campoValidade" size="10" value="<?php 
-                        echo $validadeB;
-   
-?>"> </td>
-                </tr>
-
-            </table>
-
-
-            <table style="float:left; margin-top:5px; ">
-                <tr>
-                    <td align=left><b>Data envio:</b></td>
-                    <td align=left><input type="text" name="campoDataEnvio" OnKeyUp="mascaraData(this);" size="10"
-                            value="<?php   if($dataEnvioB=="1970-01-01"){
-                                print_r("");
-                            }elseif($dataEnvioB=="0000-00-00"){
-                                print_r ("");
-                            }
-                            elseif($dataEnvioB==""){
-                                print_r ("");
-                            }else{
-                                echo formatardataB($dataEnvioB);}?>" autocomplete="off"></td>
 
 
                     <td> <b>Data a responder:<b>
@@ -459,14 +483,14 @@ if(isset($_POST['pesquisar'])) {
 
 
             </table>
-            <table style="float:left; width:1400px;" id="divisaoTabela">
+            <table style="float:left; width:1400px; margin-bottom: 5px;" id="divisaoTabela">
                 <td>
                     <div id="divDivisao">
                     </div>
                 </td>
 
             </table>
-            <table style="float:left; ">
+            <table style="float:left;  ">
 
                 <tr>
                     <div>
@@ -537,8 +561,8 @@ if(isset($_POST['pesquisar'])) {
 
 
 
-                        <td align=left> <b>Prazo entrega:</b> </td>
-                        <td align=left> <input type="text" name="campoPrazoEntrega" autocomplete="of" size="10"
+
+                        <td align=left> <input type="hidden" name="campoPrazoEntrega" autocomplete="of" size="10"
                                 value="<?php echo $prazoEntregaB;?>"></td>
                         <td>
 
@@ -555,7 +579,7 @@ if(isset($_POST['pesquisar'])) {
 
 
 
-            <table style="float:left; width:1000px; margin-top:5px;">
+            <table style="float:left; margin-top:5px; ">
                 <tr>
                     <td align=left><b>Cliente:</b></td>
                     <td align=left> <select style="margin-right: 50px;" name="campoCliente" id="campoCliente">
@@ -649,13 +673,14 @@ if(isset($_POST['pesquisar'])) {
 
 
                         <form action="" method="post">
-                    <td align=left><input type="submit" name="adicionar" class="btn btn-success" value="Adicionar">
+                    <td align=left><input type="submit" onclick="calculavalordesconto()" name="adicionar"
+                            class="btn btn-success" value="Adicionar">
                     </td>
 
 
                 </tr>
             </table>
-            <table style="float:left;   margin-bottom:35px;">
+            <table style="float:left;   ">
 
                 <tr>
                     <div>
@@ -733,16 +758,52 @@ if(isset($_POST['pesquisar'])) {
                 </tr>
 
 
-
-
-            </table>
-            <table style="float:left;  width:500px; margin-bottom: 20px; margin-top:-20px;">
-                <tr>
-
-                    <td align=left><input type="submit" name="fecharPesquisa" class="btn btn-danger" value="Produtos">
+                <table style="float:left; width:1400px; margin-top:5px;" id="divisaoTabela">
+                    <td>
+                        <div id="divDivisao">
+                        </div>
                     </td>
-                </tr>
-            </table>
+
+                </table>
+
+                <table style="float:left;  width:700px; margin-bottom: 20px;">
+                    <tr>
+
+                        <td align=left><input type="submit" onclick="calculavalordesconto()" name="fecharPesquisa"
+                                class="btn btn-danger" value="Atualizar">
+                        </td>
+
+                        <td align=right><b>Desconto:</b></td>
+                        <td align=right><input type="text" size=10 name="campoDesconto" id="campoDesconto"
+                                onblur="calculavalordesconto()" autocomplete="off" value="<?php
+                            if ((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (isset($_POST['fecharPesquisa']))or (isset($_POST['pesquisar']))){
+                                echo $desconto;}else{
+                                    echo $descontoB;
+                                }
+                           
+
+                            ?>"></td>
+                        <td align=right><b>Valor Total:</b></td>
+                        <td align=right><input readonly type="text" size=10 name="campoValorTotal" id="campoValorTotal"
+                                autocomplete="off" value="<?php 
+            
+                            if ((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (isset($_POST['fecharPesquisa']))or (isset($_POST['pesquisar']))){
+                                echo $valorTotalComDesconto;
+                                }else{
+                                    echo $valorComDescontoB;
+                                }
+                         
+                       ?>"></td>
+
+                        </td>
+
+                        <td align=right><input type="hidden" size=10 name="campoValorTotalHidden"
+                                id="campoValorTotalHidden" autocomplete="off" value="<?php 
+                           if((isset($_POST['adicionar'])) or (isset($_POST['salvar'])) or (!isset($_POST['iniciar']))or (isset($_POST['fecharPesquisa']))or (isset($_POST['pesquisar']))){
+                                echo ($somaTotal);}
+                       ?>"></td>
+                    </tr>
+                </table>
 
         </div>
 
@@ -771,10 +832,10 @@ if(isset($_POST['pesquisar'])) {
                             <p>Qtd</p>
                         </td>
                         <td>
-                            <p>P.cotado</p>
+                            <p>P cotado</p>
                         </td>
                         <td>
-                            <p>P.Venda</p>
+                            <p>P Venda</p>
                         </td>
                         <td>
                             <p>P.C total</p>
@@ -783,7 +844,7 @@ if(isset($_POST['pesquisar'])) {
                             <p>P.V total</p>
                         </td>
                         <td>
-                            <p>Magem</p>
+                            <p>Margem%</p>
                         </td>
                         <td>
                             <p>Situação</p>
@@ -834,7 +895,7 @@ while($linha = mysqli_fetch_assoc($lista_Produto_cotacao)){
 
                         </td>
 
-                        <td style="width: 80px;">
+                        <td style="width: 70px;">
                             <font size="2"><?php echo $quantidade;?> </font>
                         </td>
 
@@ -889,7 +950,50 @@ while($linha = mysqli_fetch_assoc($lista_Produto_cotacao)){
 
 
                     <?php
-}
+}?>
+                    <tr id="cabecalho_pesquisa_consulta">
+                        <td>
+                            <font size=2>
+                                <p style="margin-left:10px;">total</p>
+                            </font>
+                        </td>
+
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <font size=2><?php echo  real_format($somaTotal);?></font>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+
+
+                        <td>
+                            <p></p>
+                        </td>
+
+                    </tr>
+
+                    <?php
 
 
 }elseif(isset($_POST['pesquisar'])){
@@ -1043,7 +1147,26 @@ function calculavalormargem() {
 
 }
 </script>
+<script>
+function calculavalordesconto() {
+    var campoDesconto = document.getElementById("campoDesconto").value;
+    var campoValorTotalH = document.getElementById("campoValorTotalHidden").value;
+    var campoValorTotal = document.getElementById("campoValorTotal");
+    var calculoDesconto;
+    var calculoTotalCDesconto;
 
+
+    campoValorTotalH = parseFloat(campoValorTotalH);
+    campoDesconto = parseFloat(campoDesconto);
+
+
+    calculoDesconto = ((campoValorTotalH * campoDesconto) / 100)
+    calculoTotalCDesconto = (campoValorTotalH - calculoDesconto).toFixed(2);
+    campoValorTotal.value = calculoTotalCDesconto;
+
+
+}
+</script>
 <script>
 function calculavalorPrecoVenda() {
     var campoPrecoCotado = document.getElementById("campoPrecoCotado").value;
