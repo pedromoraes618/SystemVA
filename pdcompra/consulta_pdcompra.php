@@ -164,14 +164,14 @@ if (isset($_GET["CampoPesquisaData"])){
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
                         <td>
-                            <p>D.lancamento</p>
+                            <p>D.lançamento</p>
                         </td>
                         <td>
                             <p>N° Pedido</p>
                         </td>
 
                         <td>
-                            <p>Cliente</p>
+                            <p>Empresa</p>
                         </td>
                         <td>
                             <p>Produto</p>

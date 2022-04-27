@@ -73,6 +73,19 @@
   if(!$lista_statuscompra){
       die("Falaha no banco de dados || select statuscompra");
   }
+
+  $select = "SELECT MAX(lancamentoFinanceiroID) as ultimoID FROM lancamento_financeiro;";
+  $lista_Max_ID = mysqli_query($conecta,$select);
+  if(!$lista_Max_ID){
+      die("Falaha no banco de dados || select statuscompra");
+  }else{
+      $idMax = mysqli_fetch_assoc($lista_Max_ID);
+      $ultimoID = $idMax['ultimoID'];
+
+  }
+
+  
+
   echo ",";
   //iniciar a tela com o campo preenchido
   
@@ -133,10 +146,10 @@
   <?php
   
     }else{
-       
+       //vai retornar o ultimo id
     ?>
         <script>
-        alertify.success("Lançamento Realizado com sucesso");
+        alertify.success("Lançamento <?php echo ($ultimoID + 1)?> Realizado com sucesso");
         </script>
     <?php
     

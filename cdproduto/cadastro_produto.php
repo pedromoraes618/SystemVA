@@ -26,177 +26,193 @@ include("../classes/produtos/cadastro_produto.php");
 
 <body>
     <main>
-        <form action="" method="post">
-            <div id="titulo">
-                </p>Dadods do produto</p>
-            </div>
+
+        <div style="margin:0 auto; width:1500px; ">
 
 
 
-            <table width=100%>
-
-                <tr>
-                    <td>Código:</td>
-                    <td align=left><input readonly type="text" size="10" id="cammpoProdutoID" name="cammpoProdutoID"
-                            value=""> </td>
-                </tr>
-
-                <tr>
-                    <td align=left><b>Descrição:</b></td>
-                    <td align=left><input type="text" size=60 name="campoNomeProduto"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($nome_produto);}?>">
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <td style="width: 120px;"> <b>Preço Compra:</b></td>
-                    <td><input type="text" size=10 id="campoPrecoCompra" name="campoPrecoCompra"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($preco_compra);}?>">
-
-                        <b>Preço Venda:</b>
-                        <input type="text" size=10 name="campoPrecoVenda" id="campoPrecoVenda" value="<?php if(isset($_POST['enviar']))
-                    { echo utf8_encode($preco_venda);}?>">
+            <table style="float: right; margin-right:100px;">
+                <form action="" method="post">
+                    <div id="titulo">
+                        </p>Dadods do produto</p>
+                    </div>
 
 
-                        <b>Ativo:</b>
-
-                        <select id="campoAtivo" name="campoAtivo">
-                            <?php 
-                        
-      
-                        while($linha_ativo  = mysqli_fetch_assoc($lista_ativo)){
-                            $ativoPrincipal = utf8_encode($linha_ativo["ativoID"]);
-                           if(!isset($ativo)){
-                           
-                           ?>
-                            <option value="<?php echo utf8_encode($linha_ativo["ativoID"]);?>">
-                                <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
-                            </option>
-                            <?php
-                           
-                           }else{
-
-                            if($ativo==$ativoPrincipal){
-                            ?> <option value="<?php echo utf8_encode($linha_ativo["ativoID"]);?>" selected>
-                                <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
-                            </option>
-
-                            <?php
-                                     }else{
-                            
-                           ?>
-                            <option value="<?php echo utf8_encode($linha_ativo["ativoID"]);?>">
-                                <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
-                            </option>
-                            <?php
-
-       }
-       
-   }
-
-                         
-}
- 
- ?>
-
-                        </select>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td align=left><b>Estoque:</b></td>
-                    <td align=left><input type="text" size=10 name="campoEstoque" id="campoEstoque" value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($estoque);}?>
-">
-                        <b>Und Medida:</b>
-                        <input style="margin-left: 5px;" type="text" size="10" id="campoUnidadedeMedida"
-                            name="campoUnidadedeMedida"
-                            value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($unidade_medida);}?>">
+            </table>
 
 
+            <div style="width: 900px;">
+
+                <table style="float:left; ">
+
+                    <tr>
+                        <td style="width: 120px;" align="left">Código:</td>
+                        <td align=left><input readonly type="text" size="10" id="cammpoProdutoID" name="cammpoProdutoID"
+                                value=""> </td>
+
+                    </tr>
+                </table>
+                <!--finalizar hidden -->
+                <table style="float:left;">
+
+                    <tr>
+                        <td style="width: 120px;" align=left><b>Descrição:</b></td>
+                        <td align=left><input type="text" size=80 name="campoNomeProduto"
+                                value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($nome_produto);}?>">
+                        </td>
+
+                    </tr>
+                </table>
+                <table style="float: left;">
+
+                    <tr>
+                        <td style="width: 120px;"> <b>Preço Compra:</b></td>
+                        <td style="width:100px;"><input type="text" size=10 id="campoPrecoCompra"
+                                name="campoPrecoCompra"
+                                value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($preco_compra);}?>"></td>
+                        <td><b>Preço Venda:</b></td>
+                        <td style="width: 50px;"><input type="text" size=10 name="campoPrecoVenda" id="campoPrecoVenda"
+                                value="<?php if(isset($_POST['enviar']))
+                    { echo utf8_encode($preco_venda);}?>"></td>
 
 
-                    </td>
+                        <td> <b>Ativo:</b></td>
+                        <td> <select id="campoAtivo" name="campoAtivo">
+                                <?php 
 
 
-
-
-
-
-                </tr>
-
-                <tr>
-                    <td align=left><b>Categoria:</b></td>
-                    <td>
-                        <select style="width: 200px;" id="campoCategoria" name="campoCategoria">
-                            <?php 
-
-while($linha_categoria  = mysqli_fetch_assoc($lista_categoria)){
-    $categoriaPrincipal = utf8_encode($linha_categoria["categoriaID"]);
-   if(!isset($categoria)){
+                                while($linha_ativo  = mysqli_fetch_assoc($lista_ativo)){
+                                    $ativoPrincipal = utf8_encode($linha_ativo["ativoID"]);
+                                if(!isset($ativo)){
+                                
+                                ?>
+                                <option value="<?php echo utf8_encode($linha_ativo["ativoID"]);?>">
+                                    <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
+                                </option>
+                                <?php
    
-   ?>
-                            <option value="<?php echo utf8_encode($linha_categoria["categoriaID"]);?>">
-                                <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
-                            </option>
-                            <?php
+                                        }else{
+
+                                            if($ativo==$ativoPrincipal){
+                                            ?> <option value="<?php echo utf8_encode($linha_ativo["ativoID"]);?>"
+                                    selected>
+                                    <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
+                                </option>
+
+                                <?php
+                                            }else{
+                                    
+                                ?>
+                                <option value="<?php echo utf8_encode($linha_ativo["ativoID"]);?>">
+                                    <?php echo utf8_encode($linha_ativo["nome_ativo"]);?>
+                                </option>
+                                <?php
+
+                                        }
+
+                                        }
+
+                                        
+                                        }
+
+?>
+                            </select>
+                        </td>
+                    </tr>
+
+
+
+
+                </table>
+
+
+                <table style="float: left;">
+                    <tr>
+                        <td style="width: 120px;" align=left><b>Estoque:</b></td>
+                        <td align=left><input type="text" size=10 name="campoEstoque" id="campoEstoque"
+                                value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($estoque);}?>"></td>
+
+                        <td align=left> <b>Und Medida:</b></td>
+                        <td align=left> <input style="margin-left: 5px;" type="text" size="10" id="campoUnidadedeMedida"
+                                name="campoUnidadedeMedida"
+                                value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($unidade_medida);}?>"></td>
+
+
+                        <td align=left><b>Categoria:</b></td>
+                        <td>
+                            <select style="width: 200px;" id="campoCategoria" name="campoCategoria">
+                                <?php 
+
+                                    while($linha_categoria  = mysqli_fetch_assoc($lista_categoria)){
+                                        $categoriaPrincipal = utf8_encode($linha_categoria["categoriaID"]);
+                                    if(!isset($categoria)){
+                                    
+                                    ?>
+                                <option value="<?php echo utf8_encode($linha_categoria["categoriaID"]);?>">
+                                    <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
+                                </option>
+                                <?php
    
-   }else{
+                                    }else{
 
-    if($categoria==$categoriaPrincipal){
-    ?> <option value="<?php echo utf8_encode($linha_categoria["categoriaID"]);?>" selected>
-                                <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
-                            </option>
+                                        if($categoria==$categoriaPrincipal){
+                                        ?> <option value="<?php echo utf8_encode($linha_categoria["categoriaID"]);?>"
+                                    selected>
+                                    <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
+                                </option>
 
-                            <?php
-             }else{
-    
-   ?>
-                            <option value="<?php echo utf8_encode($linha_categoria["categoriaID"]);?>">
-                                <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
-                            </option>
-                            <?php
+                                <?php
+                                            }else{
+                                    
+                                ?>
+                                <option value="<?php echo utf8_encode($linha_categoria["categoriaID"]);?>">
+                                    <?php echo utf8_encode($linha_categoria["nome_categoria"]);?>
+                                </option>
+                                <?php
 
-}
+                                    }
 
-}
+                                    }
 
- 
-}
+                                    
+                                    }
                    
      ?>
 
-                        </select>
+                            </select>
 
-                    </td>
-
-                </tr>
-
-                <tr>
-                    <td><b>Observação:<b></td>
-                    <td><textarea rows=4 cols=60 name="campoObservacao" id="observacao" value="
-"><?php if(isset($_POST['enviar'])){ echo utf8_encode($observacao);}?></textarea>
-                    </td>
-                </tr>
+                        </td>
 
 
-                </talbe>
-                <table width=100%>
-                    <tr>
-                        <div id="botoes">
-                            <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"
-                                onClick="return confirm('Confirma o cadastro do produto?');"></input>
-
-
-                            <button type="button" name="btnfechar" onclick="fechar();"
-                                class="btn btn-secondary">Voltar</button>
-
-
-
-                        </div>
                     </tr>
+                    <table style="float: left;">
+                        <tr>
+                            <td style="width: 120px;" align="left"><b>Observação:<b></td>
+                            <td align="left"><textarea rows=4 cols=60 name="campoObservacao" id="observacao"
+                                    value=""><?php if(isset($_POST['enviar'])){ echo utf8_encode($observacao);}?></textarea>
+                            </td>
+                        </tr>
+                    </table>
 
+                    <table style="float: left;" width=100%>
+                        <tr>
+                            <div id="botoes">
+                                <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"
+                                    onClick="return confirm('Confirma o cadastro do produto?');"></input>
+
+
+                                <button type="button" name="btnfechar" onclick="fechar();"
+                                    class="btn btn-secondary">Voltar</button>
+
+
+
+                            </div>
+                    </table>
+
+
+
+            </div>
+        </div>
         </form>
 
 

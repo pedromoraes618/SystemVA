@@ -67,59 +67,67 @@ if(!$detalhe){
 <body>
 
     <main>
-        <form action="" method="post">
-            <div id="titulo">
-                </p>Edição de Receita / Despesa</p>
-            </div>
+        <div style="margin:0 auto; width:1450px;">
+            <form action="" method="post">
+                <div id="titulo">
+                    </p>Edição de Receita / Despesa</p>
+                </div>
 
+                <div style="width: 1450px;">
 
+                    <table style="float:left; ">
 
-            <table width=100%>
+                        <tr>
+                            <td style="width: 140px;" align="left"><b>Código:</b></td>
+                            <td align=left><input readonly type="text" size="10" id="cammpoLancamentoID"
+                                    name="cammpoLancamentoID" value="<?php echo $BpedidoID?>"> </td>
+                        </tr>
+                    </table>
 
-                <tr>
-                    <td><b>Código:</b></td>
-                    <td align=left><input readonly type="text" size="10" id="cammpoLancamentoID"
-                            name="cammpoLancamentoID" value="<?php echo $BpedidoID?>"> </td>
-                </tr>
-
-                <tr>
-                    <td align=left><b>Data lançamento:</b></td>
-                    <td align=left><input type="text" size=20 name="campoDataLancamento" id="campoDataLancamento"
-                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off" value="<?php
+                    <table style="float:left;">
+                        <tr>
+                            <td style="width: 140px;" align=left><b>Data lançamento:</b></td>
+                            <td align=left><input type="text" size=20 name="campoDataLancamento"
+                                    id="campoDataLancamento" OnKeyUp="mascaraData(this);" maxlength="10"
+                                    autocomplete="off" value="<?php
                     if($BdataMovimento=="1970-01-01"){
                         print_r("");
                     }elseif($BdataMovimento=="0000-00-00"){
                         print_r ("");
                     }else{
-                        echo formatardataB($BdataMovimento);}?>">
+                        echo formatardataB($BdataMovimento);}?>"></td>
 
 
-                        <b>Data Vencimento:</b>
-                        <input type="text" size=20 id="campoDataPagar" name="campoDataPagar"
-                            OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off" value="<?php 
+
+                            <td align=left> <b>Data Vencimento:</b></td>
+
+                            <td align=left> <input type="text" size=20 id="campoDataPagar" name="campoDataPagar"
+                                    OnKeyUp="mascaraData(this);" maxlength="10" autocomplete="off" value="<?php 
                          if($BdataaPagar=="1970-01-01"){
                             print_r("");
                         }elseif($BdataaPagar=="0000-00-00"){
                             print_r ("");
                         }else{
-                            echo formatardataB($BdataaPagar);}?>">
+                            echo formatardataB($BdataaPagar);}?>"></td>
 
 
-                    <td><b>Data Pagamento:</b></td>
-                    <td><input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento" maxlength="10"
-                            value="<?php
+                            <td><b>Data Pagamento:</b></td>
+                            <td><input type="text" size=20 id="campoDataPagamento" name="campoDataPagamento"
+                                    maxlength="10" value="<?php
                                  if($BdataPagamento=="1970-01-01"){
                                     print_r("");
                                 }elseif($BdataPagamento=="0000-00-00"){
                                     print_r ("");
                                 }else{
                                     echo formatardataB($BdataPagamento);}
-                                ?>" OnKeyUp="mascaraData(this);">
+                                ?>" OnKeyUp="mascaraData(this);"></td>
 
-                        <b>Lançamento:</b>
 
-                        <select style="width: 170px;" id="campoLancamento" name="campoLancamento">
-                            <?php 
+                            <td align=left> <b>Lançamento:</b></td>
+
+
+                            <td align=left> <select style="width: 170px;" id="campoLancamento" name="campoLancamento">
+                                    <?php 
 
                                $meuReceitaDespesa = $BreceitaDespesa;
                            while($linha_receita_despesa = mysqli_fetch_assoc($lista_receita_despesa)){
@@ -128,37 +136,37 @@ if(!$detalhe){
 
                                
                         ?>
-                            <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>" selected>
-                                <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
-                            </option>
+                                    <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>" selected>
+                                        <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
+                                    </option>
 
-                            <?php
+                                    <?php
                                }else{
                                    ?>
 
-                            <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
-                                <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
-                            </option>
-                            <?php
+                                    <option value="<?php echo utf8_encode($linha_receita_despesa["nome"]);?>">
+                                        <?php echo utf8_encode($linha_receita_despesa["nome"]);?>
+                                    </option>
+                                    <?php
                                }
 
                          }
                          
                          ?>
 
-                        </select>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="float:left;">
+
+                        <tr>
+                            <td style="width: 140px;"> <b>Empresa:</b></td>
+                            <td align=left><select style="margin-right: 60px;" id="campoCliente" name="campoCliente">
 
 
-
-
-                </tr>
-
-                <tr>
-                    <td align=left><b>Cliente:</b></td>
-                    <td align=left><select id="campoCliente" name="campoCliente">
-
-
-                            <?php
+                                    <?php
 
                          $meuCliente =  $BclienteID;
                          while($linha_clientes = mysqli_fetch_assoc($lista_clientes)){
@@ -166,16 +174,16 @@ if(!$detalhe){
 
                              if($meuCliente==$formaClientePrincipal){
                                  ?> <option value="<?php echo utf8_encode($linha_clientes["clienteID"]);?>" selected>
-                                <?php echo utf8_encode($linha_clientes["razaosocial"]);?>
-                            </option>
+                                        <?php echo utf8_encode($linha_clientes["razaosocial"]);?>
+                                    </option>
 
-                            <?php
+                                    <?php
                                  }else{
                                      ?>
-                            <option value="<?php echo utf8_encode($linha_clientes["clienteID"]);?>">
-                                <?php echo utf8_encode($linha_clientes["razaosocial"]);?>
-                            </option>
-                            <?php
+                                    <option value="<?php echo utf8_encode($linha_clientes["clienteID"]);?>">
+                                        <?php echo utf8_encode($linha_clientes["razaosocial"]);?>
+                                    </option>
+                                    <?php
 
                                  }
                                  
@@ -184,157 +192,169 @@ if(!$detalhe){
 
                             ?>
 
-                        </select>
-                    </td>
+                                </select>
+                            </td>
 
 
 
-                    <td><b>Forma do pagamento:</b></td>
-                    <td><select style="width: 210px;" id="campoFormaPagamento" name="campoFormaPagamento">
-                            <?php 
+                            <td align=left><b>Forma do pagamento:</b></td>
+                            <td align=left><select style="width: 210px;" id="campoFormaPagamento"
+                                    name="campoFormaPagamento">
+                                    <?php 
                             $meuFormaPagamento = $BformaPagamentoID;
                            while($linha_formapagamento = mysqli_fetch_assoc($lista_formapagamemto)){
                                $formaPagamentoPrincipal = utf8_encode($linha_formapagamento['formapagamentoID']);
                                if($meuFormaPagamento==$formaPagamentoPrincipal){
                         ?>
-                            <option value="<?php 
+                                    <option value="<?php 
                             echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>" selected>
-                                <?php echo utf8_encode($linha_formapagamento["nome"]); ?>
-                            </option>
+                                        <?php echo utf8_encode($linha_formapagamento["nome"]); ?>
+                                    </option>
 
-                            <?php 
+                                    <?php 
                                }else{
                                ?>
-                            <option value="<?php 
+                                    <option value="<?php 
                             echo utf8_encode($linha_formapagamento["formapagamentoID"]);?>">
-                                <?php echo utf8_encode($linha_formapagamento["nome"]);
+                                        <?php echo utf8_encode($linha_formapagamento["nome"]);
                                 
                                 ?>
-                            </option>
+                                    </option>
 
-                            <?php   
+                                    <?php   
                             }
                          }
                          
                          ?>
+                                </select></td>
 
-                        </select>
-                        <b style="margin-left:18px;">Status:</b>
-                        <select style="margin-left:48px; width:170px" id="campoStatusLancamento"
-                            name="campoStatusLancamento">
-                            <?php 
+                            <td align=left><b style="margin-left:17px;">Status:</b></td>
+                            <td align=left> <select style="margin-left:47px; width:170px" id="campoStatusLancamento"
+                                    name="campoStatusLancamento">
+                                    <?php 
                             $meuStatus = $Bstatus;
                            while($linha_statusLamento = mysqli_fetch_assoc($lista_statusLancamento )){
                             $meuStatusPrincipal = utf8_encode($linha_statusLamento["nome"]);
                             if($meuStatus==$meuStatusPrincipal){
                         ?>
 
-                            <option value="<?php echo utf8_encode($linha_statusLamento["nome"]);?>" selected>
-                                <?php echo utf8_encode($linha_statusLamento["nome"]);?>
-                            </option>
+                                    <option value="<?php echo utf8_encode($linha_statusLamento["nome"]);?>" selected>
+                                        <?php echo utf8_encode($linha_statusLamento["nome"]);?>
+                                    </option>
 
-                            <?php
+                                    <?php
                             }else{
                                 ?>
-                            <option value="<?php echo utf8_encode($linha_statusLamento["nome"]);?>">
-                                <?php echo utf8_encode($linha_statusLamento["nome"]);?>
-                            </option>
+                                    <option value="<?php echo utf8_encode($linha_statusLamento["nome"]);?>">
+                                        <?php echo utf8_encode($linha_statusLamento["nome"]);?>
+                                    </option>
 
-                            <?php
+                                    <?php
                             }
                          }
                          
                          ?>
 
-                        </select>
-                    </td>
-                </tr>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="float:left;">
+                        <tr>
+                            <td style="width: 140px;"><b>Descrição:</b></td>
+                            <td align=left><input type="text" style="margin-right: 50px;" size=57 name="campoDescricao"
+                                    id="campoDescricao" value="<?php echo $Bdescrisao?>">
 
-                <tr>
-                    <td align=left><b>Descrição:</b></td>
-                    <td align=left><input type="text" size=57 name="campoDescricao" id="campoDescricao"
-                            value="<?php echo $Bdescrisao?>">
+                            <td align=left><b>N° Documento:</b></td>
+                            <td align=left><input type="text" style=" margin-left:55px" size=20 name="campoDocumento"
+                                    id="campoDocumento" value="<?php echo $Bdocumento?>">
+                            </td>
+                            </td>
 
-                    <td align=left><b>N° Documento:</b></td>
-                    <td align=left><input type="text" size=20 name="campoDocumento" id="campoDocumento"
-                            value="<?php echo $Bdocumento?>">
-                    </td>
-                    </td>
+                        </tr>
+                    </table>
+                    <table style="float:left; " width=100%>
 
-                </tr>
+                        <tr>
+                            <td align=left style="width: 140px;"><b>Grupo:</b></td>
+                            <td align=left> <b style="margin-left:0px;">
+                                    <select style="margin-left:0px; width:300px" id="CampoGrupoLancamento"
+                                        name="CampoGrupoLancamento">
 
-                <tr>
-                    <td align=left><b>Grupo:</b></td>
-                    <td align=left> <b style="margin-left:0px;">
-                            <select style="margin-left:0px; width:300px" id="CampoGrupoLancamento"
-                                name="CampoGrupoLancamento">
-
-                                <?php
+                                        <?php
                                 $meuGrupo =  $BgrupoID;
                                 while($linha_grupoLancamento = mysqli_fetch_assoc($lista_grupoLancamento)){
                                     $meuGrupoPrincipal = utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);
 
                                     if($meuGrupo==$meuGrupoPrincipal){
                                         ?> <option
-                                    value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>"
-                                    selected>
-                                    <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
-                                </option>
+                                            value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>"
+                                            selected>
+                                            <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
+                                        </option>
 
-                                <?php
+                                        <?php
                                         }else{
                                             ?>
-                                <option value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>">
-                                    <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
-                                </option>
-                                <?php
+                                        <option
+                                            value="<?php echo utf8_encode($linha_grupoLancamento["grupo_lancamentoID"]);?>">
+                                            <?php echo utf8_encode($linha_grupoLancamento["nome"]);?>
+                                        </option>
+                                        <?php
 
                                         }
                                 }
                                 ?>
 
-                            </select>
+                                    </select>
 
-                    </td>
+                            </td>
 
-                </tr>
-                </tr>
+                        </tr>
+                    </table>
+                    <table style="float:left; " width=100%>
+                        <tr>
 
-                <td align=left><b>Valor:</b></td>
-                <td align=left><input type="text" size=20 name="campoValor" id="campoValor"
-                        value="<?php echo $Bvalor?>">
-                    </tr>
+                            <td align=left style="width: 140px;"><b>Valor:</b></td>
+                            <td align=left><input type="text" size=20 name="campoValor" id="campoValor"
+                                    value="<?php echo $Bvalor?>">
+                        </tr>
 
-                    <tr>
-                        <td align=left><b>Observação:<b></td>
-                        <td><textarea rows=4 cols=60 name="observacao"
-                                id="observacao"><?php echo $Bobservacao ?></textarea>
+                    </table>
 
-                        </td>
+                    <table style="float:left;" width=100%>
+                        <tr>
+                            <td style="width: 140px;"><b>Observação:<b></td>
+                            <td><textarea rows=4 cols=60 name="observacao"
+                                    id="observacao"><?php echo $Bobservacao ?></textarea>
 
-
-
-
-                        </talbe>
-                        <table width=100%>
-                            <tr>
-                                <div style="margin-left:150px;" id="botoes">
-                                    <input type="submit" name=btnsalvar value="Salvar"
-                                        class="btn btn-info btn-sm"></input>
+                            </td>
 
 
 
-               
-                                        <button type="button" class="btn btn-secondary"
-                                            onclick="fechar()">Voltar</button>
-              
 
-                                    <input id="remover" type="submit" name="btnremover" value="Remover"
-                                        class="btn btn-danger"
-                                        onClick="return confirm('Confirma Remoção do Pedido de Compra? Verifique se o cliente tem movimentação');"></input>
+                    </table>
+                    <table style="float:left;">
 
-                                </div>
-                            </tr>
+                        <tr>
+                            <div style="margin-left:140px;" id="botoes">
+                                <input type="submit" name=btnsalvar value="Salvar" class="btn btn-info btn-sm"></input>
+
+
+
+
+                                <button type="button" class="btn btn-secondary" onclick="fechar()">Voltar</button>
+
+
+                                <input id="remover" type="submit" name="btnremover" value="Remover"
+                                    class="btn btn-danger"
+                                    onClick="return confirm('Deseja remover esse lançamento?');"></input>
+
+                            </div>
+                        </tr>
+                    </table>
+                </div>
+        </div>
 
         </form>
 

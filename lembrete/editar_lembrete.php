@@ -291,7 +291,7 @@ alertify.error("Lembrete removido com sucesso");
 
                                 <input id="remover" type="submit" name="btnremover" value="Remover"
                                     class="btn btn-danger"
-                                    onClick="return confirm('Confirma Remoção do CLienter? Verifique se o cliente tem movimentação');"></input>
+                                    onClick="return confirm('Deseja remover esse lembrete?');"></input>
                           
                         </div>
                     </tr>

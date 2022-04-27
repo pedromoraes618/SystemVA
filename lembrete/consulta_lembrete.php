@@ -125,7 +125,7 @@ if(!$resultado){
 
 
                         <td>
-                            <p>Nº Lembrete</p>
+                            <p>Nº L</p>
                         </td>
                         <td>
                             <p>Data lancamento</p>
@@ -172,7 +172,7 @@ if(!$resultado){
 
                     <tr id="linha_pesquisa">
 
-                        <td style="width:20px;">
+                        <td style="width:80px;">
                             <p>
                                 <font size="3"><?php echo $lembreteID;?>
                                 </font>
@@ -180,7 +180,7 @@ if(!$resultado){
                         </td>
 
 
-                        <td style="width:80px;">
+                        <td style="width:150px;">
                             <font size="2"> <?php if($dataLancamento=="0000-00-00") {
                                echo ("");
 
@@ -191,20 +191,20 @@ if(!$resultado){
                                   }else{echo formatardataB($dataLancamento); } ?></font>
                         </td>
 
-                        <td style="width:50px;">
-                            <font size="3"><?php echo utf8_encode($usuario)?></font>
+                        <td style="width:100px;">
+                            <font size="2"><?php echo utf8_encode($usuario)?></font>
                         </td>
                         <td style="width:350px;">
-                            <font size="3"> <?php echo utf8_encode($descricao)?>
+                            <font size="2"> <?php echo utf8_encode($descricao)?>
                             </font>
                         </td>
 
-                        <td style="width:190px;">
-                            <font size="3"> <?php echo utf8_encode($cliente)?></font>
+                        <td style="width:400px;">
+                            <font size="2"> <?php echo utf8_encode($cliente)?></font>
                         </td>
 
-                        <td style="width:10px;">
-                            <font size="3"> <?php echo utf8_encode($status)?></font>
+                        <td style="width:80px;">
+                            <font size="2"> <?php echo utf8_encode($status)?></font>
                         </td>
 
 

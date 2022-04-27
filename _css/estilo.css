@@ -44,12 +44,18 @@ transition: all .6s;
 border-bottom-right-radius: 20px;
 box-shadow: 0px 0px 5px 0px rgba(14, 84, 82, 1);
 padding-left: 110px;
-width:1000px;
+
 }
+
+
+
 
 div#menulateral input[type="checkbox"]:checked ~ nav{
 transform: translatey(-250px);
 }
+
+
+
 
 div#menulateral nav ul{
 margin: 0; padding: 0;
@@ -155,7 +161,7 @@ div#header_central img {
 div#header_saudacao {
     position: absolute;
     top:10px;
-    right:0px;
+    right:50px;
     text-align: right;
     border-bottom:1px dotted #ddd;
     padding: 10px;
@@ -178,6 +184,14 @@ div#header_saudacao h5 a{
   color: white;
   
 }
+
+div#header_saudacao h5 a:hover{
+    transition: all 0.2s ease-in-out;
+    color: rgb(181, 180, 180);
+    letter-spacing: 1px;
+ 
+    
+  }
 
 
 main {

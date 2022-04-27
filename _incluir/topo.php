@@ -17,7 +17,7 @@
 
         ?>
 
-        <div id="header_saudacao"><h5>Bem vindo <?php echo $nome ?> - <a href="../../SystemVA/sair.php">Sair</a></h5>
+        <div id="header_saudacao"><h5>Bem vindo <?php echo $nome ?> - <a href="../../../SystemVA/sair.php">Sair</a></h5>
 
         <?php    
         }

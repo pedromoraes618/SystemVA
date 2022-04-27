@@ -46,9 +46,9 @@
                     </ul>
 
                 </li>
-                <li><a href="../../../SystemVA/venda/view/vendas.php">Venda</a>
+                <li><a href="">Nota fiscal</a>
                     <ul>
-                        <li><a href="">Venda</a></li>
+                        <li><a href="">Importar XML</a></li>
 
                     </ul>
                 </li>
@@ -62,6 +62,13 @@
                 <li><a href="">Faturamento</a>
                     <ul>
                         <li><a href="">Faturamento</a></li>
+
+                    </ul>
+                </li>
+
+                <li><a href="">Configuração</a>
+                    <ul>
+                        <li><a href="../../../SystemVA/configuracao/usuario/consulta_usuario.php">Usuario</a></li>
 
                     </ul>
                 </li>

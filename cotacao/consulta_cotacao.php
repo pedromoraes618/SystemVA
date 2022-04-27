@@ -2,19 +2,50 @@
 <?php
 
 include("../conexao/sessao.php");
+include ("../_incluir/funcoes.php");
 
 //consultar cotacao
-$select = " SELECT cotacao.numero_orcamento,cotacao.cotacaoID, cotacao.status_proposta, cotacao.desconto,cotacao.valorTotalComDesconto, cotacao.cod_cotacao, clientes.clienteID, clientes.razaosocial as cliente,situacao_proposta.descricao as situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID " ;
-if(isset($_GET["produto"])){
-    $nOrcamento = $_GET["cotacao"];
-    $produtos .= " WHERE otacao.numero_orcamento LIKE '%{$nOrcamento}%' ";
+
+if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaDataf"])  {
+
+    $pesquisaData = $_GET["CampoPesquisaData"];
+    $pesquisaDataf = $_GET["CampoPesquisaDataf"];
+ 
+
+    if($pesquisaData==""){
+          
+    }else{
+        $div1 = explode("/",$_GET['CampoPesquisaData']);
+        $pesquisaData = $div1[2]."-".$div1[1]."-".$div1[0];  
+       
+    }
+    if($pesquisaDataf==""){
+       
+    }else{
+    $div2 = explode("/",$_GET['CampoPesquisaDataf']);
+    $pesquisaDataf = $div2[2]."-".$div2[1]."-".$div2[0];
+    }
+
+    
+    $select = " SELECT cotacao.numero_orcamento,cotacao.cotacaoID,cotacao.data_lancamento, cotacao.status_proposta, cotacao.desconto,cotacao.valorTotalComDesconto, cotacao.cod_cotacao, clientes.clienteID, clientes.razaosocial as cliente,situacao_proposta.descricao as situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID " ;
+    $pesquisa = $_GET["CampoPesquisa"];
+    $select .= " WHERE data_lancamento BETWEEN '$pesquisaData' and '$pesquisaDataf' and cotacao.numero_orcamento LIKE '%{$pesquisa}%' ";
+$resultado = mysqli_query($conecta, $select);
+    if(!$resultado){
+        die("Falha na consulta ao banco de dados");
+        
+    }else{
+        
+    }
 }
 
-$resultado = mysqli_query($conecta, $select);
-if(!$resultado){
-    die("Falha na consulta ao banco de dados");
+    if (isset($_GET["CampoPesquisaData"])){
+    $pesquisaData=$_GET["CampoPesquisaData"];
+    }
+    if (isset($_GET["CampoPesquisaDataf"])){
+    $pesquisaDataf=$_GET["CampoPesquisaDataf"];
+     }
     
-}
 
 ?>
 <!doctype html>
@@ -50,9 +81,21 @@ if(!$resultado){
             </a>
 
 
-            <form action="consulta_cotacao.php" method="get">
+            <form action="" style="width:1500px;" method="get">
 
-                <input type="text" name="campoPesquisa" placeholder="Pesquisa / N°orçamento / Cliente">
+                <input style="width: 100px; " type="text" id="CampoPesquisaData" name="CampoPesquisaData"
+                    placeholder="Data incial" onkeyup="mascaraData(this);" value="<?php if( !isset($_GET["CampoPesquisa"])){ echo formatardataB(date('Y-m-01')); }
+                              if (isset($_GET["CampoPesquisaData"])){
+                                 echo $pesquisaData;
+                     }?>">
+
+                <input style=" width: 100px;" type="text" name="CampoPesquisaDataf" placeholder="Data final"
+                    onkeyup="mascaraData(this);" value="<?php if(!isset($_GET["CampoPesquisa"])){ echo date('d/m/Y');
+                    } if (isset($_GET["CampoPesquisaDataf"])){ echo $pesquisaDataf;} ?>">
+
+
+                <input style="margin-left:300px;" type="text" name="CampoPesquisa" value="<?php if(isset($_GET['CampoPesquisa'])){echo $pesquisa;
+                } ?>" placeholder="pesquisa / Cliente / Entrega prevista / N° Pedido">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
 
@@ -61,13 +104,17 @@ if(!$resultado){
 
         </div>
 
-        <form action="consulta_produto.php" method="get">
+        <form action="" method="get">
 
-            <table border="0" cellspacing="0"  class="tabela_pesquisa">
+            <table border="0" cellspacing="0" class="tabela_pesquisa">
                 <tbody>
                     <tr id="cabecalho_pesquisa_consulta">
+
                         <td>
                             <p>N°Orç</p>
+                        </td>
+                        <td>
+                            <p>Data</p>
                         </td>
 
                         <td>
@@ -109,7 +156,8 @@ if(!$resultado){
                     </tr>
 
 
-                    <?php   if(isset($_GET["campoPesquisa"])){
+                    <?php  
+        if(isset($_GET["CampoPesquisaData"])){
            while($linha = mysqli_fetch_assoc($resultado)){
                 
             $cotacaoID = $linha["cotacaoID"];
@@ -120,6 +168,7 @@ if(!$resultado){
             $situacao = $linha["situacao"];
             $status = $linha["status_proposta"];
             $validade = $linha["validade"];
+            $data = $linha["data_lancamento"];
             $dataResponder = $linha["data_responder"];
             $DataEnvio = $linha["data_envio"];
             $DataFechamento = $linha["data_fechamento"];
@@ -136,8 +185,19 @@ if(!$resultado){
                     <tr id="linha_pesquisa">
 
                         <td style="width: 70px;">
-                            <font size="3"><?php echo $nOrcamento;?></font>
+                            <font size="2"><?php echo $nOrcamento;?></font>
                         </td>
+                        <td style="width: 70px;">
+                            <font size="2"> <?php if($data=="0000-00-00") {
+                               echo ("");
+
+                                  }elseif($data=="1970-01-01"){
+
+                                    echo ("");
+
+                                  }else{echo formatardataB($data); } ?></font>
+                        </td>
+
 
                         <td style="width: 500px;">
                             <p>
@@ -145,12 +205,12 @@ if(!$resultado){
                             </p>
                         </td>
                         <td style="width: 110px;">
-                            <font size="3"><?php echo utf8_encode($situacao);?></font>
+                            <font size="2"><?php echo utf8_encode($situacao);?></font>
                         </td>
 
 
                         <td style="width: 70px;">
-                            <font size="3"><?php echo utf8_encode($validade);?> </font>
+                            <font size="2"><?php echo utf8_encode($validade);?> </font>
                         </td>
 
                         <td style="width: 130px;">
@@ -234,7 +294,7 @@ if(!$resultado){
 
     </main>
 </body>
-
+<?php include '../_incluir/funcaojavascript.jar'; ?>
 <script>
 //abrir uma nova tela de cadastro
 function abrepopupCadastroProduto() {

@@ -84,12 +84,12 @@ if(isset($_POST['adicionar']))
 {
     if($codCotacao!=""){
 
-if($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
-        if($nomeProduto!=""){
+    if($cotacaofinalizada==0 && $cotacaofinalizada  != ""){
+
+    if($nomeProduto!=""){
      
-      
 //inserir o produto
-$inserir = "INSERT INTO produto_cotacao ";
+  $inserir = "INSERT INTO produto_cotacao ";
   $inserir .= "(cotacaoID, descricao,quantidade,preco_compra,preco_venda,margem,unidade,status )";
   $inserir .= " VALUES ";
   $inserir .= "('$codCotacao','$nomeProduto','$qtdProduto','$precoCompra', '$precoVenda', '$margem','$unidade','$statusProduto' )";
@@ -212,7 +212,7 @@ die("Erro no banco de dados inserir cotacao");
 ?>
 
 <script>
-alertify.success("Cotação finalizada com sucesso");
+alertify.success("Cotação <?php echo $codCotacao; ?> finalizada com sucesso");
 </script>
 
 <?php
@@ -326,7 +326,7 @@ if(isset($_POST['pesquisar'])){
 
                 <tr>
 
-                    <form action="" method="post">
+                    <form action="" autocomplete="off" method="post">
 
                         <td align=left> <input style="width:120px" type="submit" name="iniciar"
                                 class="btn btn-info btn-sm" value="Inicar Cotacão">
@@ -345,7 +345,7 @@ if(isset($_POST['pesquisar'])){
             </table>
 
 
-            <table style="float:left;">
+            <table style="float:left; ">
 
 
 
@@ -448,13 +448,13 @@ if(isset($_POST['pesquisar'])){
 
                     <td align=left><b>Data envio:</b></td>
                     <td align=left><input type="text" name="campoDataEnvio" OnKeyUp="mascaraData(this);" size="10"
-                            autocomplete="of" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                            autocomplete="off" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
                                 echo $dataEnvio;
     }?>"></td>
 
 
                     <td> <b>Validade:<b>
-                    <td><input type="text" name="campoValidade" size="10" value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                    <td><input type="text" autocomplete="off" name="campoValidade" size="10" value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
                         echo $validade;
    
     }?>"> </td>
@@ -468,24 +468,24 @@ if(isset($_POST['pesquisar'])){
 
                     <td><b>Data recebida:</b></td>
                     <td align="left"> <input type="text" name="campoDataRecebida" OnKeyUp="mascaraData(this);" size="10"
-                            autocomplete="of" onchange="" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                            autocomplete="off" onchange="" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
                                 echo $dataRecebida;
     }?>"></td>
 
                     <td> <b>Data a responder:<b>
                     <td> <input type="text" name="campoDataResponder" OnKeyUp="mascaraData(this);" size="10"
-                            autocomplete="of" value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                            autocomplete="off" value="<?php if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
                                 echo $dataResponder;
             
     }?>"></td>
                     <td align=left><b>Data fechamento:</b></td>
                     <td align=left><input type="text" name="campoDaFechamento" OnKeyUp="mascaraData(this);" size="10"
-                            autocomplete="of" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                            autocomplete="off" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
       echo $dataFechamento;
                      }?>"></td>
 
                     <td align=left><b>Dias em negociação:</b></td>
-                    <td align=left><input type="text" name="campoDiasNegociacao" autocomplete="of" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                    <td align=left><input type="text" name="campoDiasNegociacao" autocomplete="off" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
       echo $diasNegociacao;
     }?>"></td>
 
@@ -506,38 +506,37 @@ if(isset($_POST['pesquisar'])){
             <table style="float:left; ">
 
                 <tr>
-                    <div>
 
 
-                        <td><b>Proposta:</b></td>
-                        <td><select style="width:170px; margin-right:20px; " name="campoStatusProposta"
-                                id="campoStatusProposta">
+                    <td><b>Proposta:</b></td>
+                    <td><select style="width:170px; margin-right:20px; " name="campoStatusProposta"
+                            id="campoStatusProposta">
 
-                                <?php  while($linha_status_proposta= mysqli_fetch_assoc($lista_situacao_proposta)){
+                            <?php  while($linha_status_proposta= mysqli_fetch_assoc($lista_situacao_proposta)){
 $statusProposta_principal= utf8_encode($linha_status_proposta["statusID"]);
 if(!isset($statusProposta)){
 
 ?>
-                                <option value="<?php echo utf8_encode($linha_status_proposta["statusID"]);?>">
-                                    <?php echo utf8_encode($linha_status_proposta["descricao"]);?>
-                                </option>
-                                <?php
+                            <option value="<?php echo utf8_encode($linha_status_proposta["statusID"]);?>">
+                                <?php echo utf8_encode($linha_status_proposta["descricao"]);?>
+                            </option>
+                            <?php
 
 }else{
 
 if($statusProposta==$statusProposta_principal){
 ?> <option value="<?php echo utf8_encode($linha_status_proposta["statusID"]);?>" selected>
-                                    <?php echo utf8_encode($linha_status_proposta["descricao"]);?>
-                                </option>
+                                <?php echo utf8_encode($linha_status_proposta["descricao"]);?>
+                            </option>
 
-                                <?php
+                            <?php
 }else{
 
 ?>
-                                <option value="<?php echo utf8_encode($linha_status_proposta["statusID"]);?>">
-                                    <?php echo utf8_encode($linha_status_proposta["descricao"]);?>
-                                </option>
-                                <?php
+                            <option value="<?php echo utf8_encode($linha_status_proposta["statusID"]);?>">
+                                <?php echo utf8_encode($linha_status_proposta["descricao"]);?>
+                            </option>
+                            <?php
 
 }
 
@@ -547,36 +546,36 @@ if($statusProposta==$statusProposta_principal){
 }
 
 ?>
-                            </select>
-                        </td>
-                        <td align=left><b>Frete:</b></td>
-                        <td><select style="width: 250px; margin-right:30px; " name="campoFrete" id="campoFrete">
+                        </select>
+                    </td>
+                    <td align=left><b>Frete:</b></td>
+                    <td><select style="width: 250px; margin-right:30px; " name="campoFrete" id="campoFrete">
 
-                                <?php  while($linha_frete = mysqli_fetch_assoc($lista_frete)){
+                            <?php  while($linha_frete = mysqli_fetch_assoc($lista_frete)){
 $frete_principal= utf8_encode($linha_frete["freteID"]);
 if(!isset($freteID)){
 
 ?>
-                                <option value="<?php echo utf8_encode($linha_frete["freteID"]);?>">
-                                    <?php echo utf8_encode($linha_frete["descricao"]);?>
-                                </option>
-                                <?php
+                            <option value="<?php echo utf8_encode($linha_frete["freteID"]);?>">
+                                <?php echo utf8_encode($linha_frete["descricao"]);?>
+                            </option>
+                            <?php
 
 }else{
 
 if($freteID==$frete_principal){
 ?> <option value="<?php echo utf8_encode($linha_frete["freteID"]);?>" selected>
-                                    <?php echo utf8_encode($linha_frete["descricao"]);?>
-                                </option>
+                                <?php echo utf8_encode($linha_frete["descricao"]);?>
+                            </option>
 
-                                <?php
+                            <?php
 }else{
 
 ?>
-                                <option value="<?php echo utf8_encode($linha_frete["freteID"]);?>">
-                                    <?php echo utf8_encode($linha_frete["descricao"]);?>
-                                </option>
-                                <?php
+                            <option value="<?php echo utf8_encode($linha_frete["freteID"]);?>">
+                                <?php echo utf8_encode($linha_frete["descricao"]);?>
+                            </option>
+                            <?php
 
 }
 
@@ -586,22 +585,22 @@ if($freteID==$frete_principal){
 }
 
 ?>
-                            </select>
-                        </td>
+                        </select>
+                    </td>
 
 
-                        <td align=left> <input type="hidden" name="campoPrazoEntrega" autocomplete="of" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
+                    <td align=left> <input type="hidden" name="campoPrazoEntrega" autocomplete="of" size="10" value="<?php  if(isset($_POST['adicionar']) or isset($_POST['pesquisar'])or isset($_POST['fecharPesquisa'])){
                                    echo $prazoEntrega;}?>">
 
 
-                        </td>
-                        <td>
+                    </td>
+                    <td>
 
-                        </td>
+                    </td>
 
 
 
-                    </div>
+
                 </tr>
 
 

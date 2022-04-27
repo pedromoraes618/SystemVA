@@ -112,7 +112,7 @@ alertify.success("Lembrete lançado com sucesso!");
 
 <body>
     <main>
-        <form action="cadastro_lembrete.php" method="post">
+        <form action="cadastro_lembrete.php" autocomplete="off" method="post">
             <div id="titulo">
                 </p>Lembrete</p>
             </div>
