@@ -80,9 +80,13 @@ if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaData
 $selectValorSoma  = "SELECT  clientes.razaosocial, grupo_lancamento.nome AS nomeGrupo, forma_pagamento.nome, lancamento_financeiro.lancamentoFinanceiroID, lancamento_financeiro.data_movimento, sum(valor) as soma, lancamento_financeiro.documento,lancamento_financeiro.lancamentoFinanceiroID, lancamento_financeiro.data_a_pagar, lancamento_financeiro.status,lancamento_financeiro.valor,lancamento_financeiro.documento, lancamento_financeiro.receita_despesa from  clientes inner join lancamento_financeiro on lancamento_financeiro.clienteID = clientes.clienteID inner join grupo_lancamento on lancamento_financeiro.grupoID = grupo_lancamento.grupo_lancamentoID inner join forma_pagamento on lancamento_financeiro.forma_pagamentoID = forma_pagamento.formapagamentoID " ;
 $pesquisa = $_GET["CampoPesquisa"];
 $pesquisaDoc = $_GET["CampoPesquisaDoc"];
-
+if(($lancamento=="Receita") or ($lancamento=="Despesa")){
 $selectValorSoma  .= " where data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' and lancamento_financeiro.documento LIKE '%{$pesquisaDoc}%' and  lancamento_financeiro.receita_despesa = '$lancamento'  "   ;
+ }elseif($lancamento=="Selecione"){
+    $selectValorSoma  .= " where data_movimento BETWEEN '$pesquisaData' and '$pesquisaDataf' and clientes.razaosocial LIKE '%{$pesquisa}%' and lancamento_financeiro.documento LIKE '%{$pesquisaDoc}%' "   ;
 
+};
+       
 $lista_Soma_Valor= mysqli_query($conecta,$selectValorSoma);
 if(!$lista_Soma_Valor){
     die("Falaha no banco de dados || select valor");
@@ -160,7 +164,7 @@ if (isset($_GET["CampoPesquisaData"])){
 
                     <td>
                         <input style="margin-left:110px;" type="text" name="CampoPesquisa"
-                            placeholder="pesquisa / Cliente" value="<?php if(isset($_GET['CampoPesquisa'])){
+                            placeholder="pesquisa / Empresa" value="<?php if(isset($_GET['CampoPesquisa'])){
                                 echo $pesquisa;
                         }?>">
                         <input type="image" name="pesquisa"
@@ -226,7 +230,7 @@ if (isset($_GET["CampoPesquisaData"])){
                     <tr id="cabecalho_pesquisa_consulta">
 
                         <td>
-                            <p>Data Lancamento</p>
+                            <p>Data Lançamento</p>
                         </td>
 
                         <td>

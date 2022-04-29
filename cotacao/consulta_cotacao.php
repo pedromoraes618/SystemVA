@@ -29,7 +29,7 @@ if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaData
     
     $select = " SELECT cotacao.numero_orcamento,cotacao.cotacaoID,cotacao.data_lancamento, cotacao.status_proposta, cotacao.desconto,cotacao.valorTotalComDesconto, cotacao.cod_cotacao, clientes.clienteID, clientes.razaosocial as cliente,situacao_proposta.descricao as situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID " ;
     $pesquisa = $_GET["CampoPesquisa"];
-    $select .= " WHERE data_lancamento BETWEEN '$pesquisaData' and '$pesquisaDataf' and cotacao.numero_orcamento LIKE '%{$pesquisa}%' ";
+    $select .= " WHERE data_lancamento BETWEEN '$pesquisaData' and '$pesquisaDataf' and cotacao.numero_orcamento LIKE '%{$pesquisa}%'  ";
 $resultado = mysqli_query($conecta, $select);
     if(!$resultado){
         die("Falha na consulta ao banco de dados");
@@ -95,7 +95,7 @@ $resultado = mysqli_query($conecta, $select);
 
 
                 <input style="margin-left:300px;" type="text" name="CampoPesquisa" value="<?php if(isset($_GET['CampoPesquisa'])){echo $pesquisa;
-                } ?>" placeholder="pesquisa / Cliente / Entrega prevista / N° Pedido">
+                } ?>" placeholder="pesquisa / Nº Orçamento">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
 

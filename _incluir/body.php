@@ -48,7 +48,7 @@
                 </li>
                 <li><a href="">Nota fiscal</a>
                     <ul>
-                        <li><a href="">Importar XML</a></li>
+                        <li><a href="../../../SystemVA/nota_fiscal/consulta_nota_fiscal.php">Entrada de NF-E</a></li>
 
                     </ul>
                 </li>

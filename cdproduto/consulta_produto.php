@@ -23,7 +23,7 @@ $produtos = " SELECT produtos.produtoID, produtos.nomeproduto, produtos.precoven
 
 if(isset($_GET["produto"])){
     $nome_produto = $_GET["produto"];
-    $produtos .= " WHERE produtos.nomeproduto LIKE '%{$nome_produto}%' or categoria_produto.nome_categoria LIKE '%{$nome_produto}%'  ";
+    $produtos .= " WHERE produtos.nomeproduto LIKE '%{$nome_produto}%' or categoria_produto.nome_categoria LIKE '%{$nome_produto}%'  or produtos.produtoID LIKE '%{$nome_produto}%' ";
 }
 
 $resultado = mysqli_query($conecta, $produtos);
@@ -62,13 +62,13 @@ if(!$resultado){
             <a
                 onclick="window.open('cadastro_produto.php', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
-                <input type="submit" name="cadastrar_produto" value="Adicionar">
+                <input type="submit" style="width:140px" name="cadastrar_produto" value="Adicionar Produto">
             </a>
 
 
             <form action="consulta_produto.php" method="get">
 
-                <input type="text" name="produto" placeholder="Pesquisa / Produto / Código" value="<?php if(isset($_GET['produto'])){
+                <input type="text" name="produto" placeholder="Pesquisa / Produto / Código / Categoria" value="<?php if(isset($_GET['produto'])){
                     echo $nome_produto;
                 }?>">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
@@ -128,7 +128,7 @@ if(isset($_GET["produto"])){
 
                     <tr id="linha_pesquisa">
 
-                  
+
 
                         <td style="width: 70px;">
                             <font size="3"><?php echo utf8_encode($linha["produtoID"])?> </font>

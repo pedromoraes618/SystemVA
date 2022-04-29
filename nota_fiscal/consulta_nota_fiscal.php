@@ -3,25 +3,24 @@
 
 include("../conexao/sessao.php");
 
-//consultar cliente/forncedor/transportador
-$selectcft = "SELECT clienteftID, nome from forclietrans";
-$lista_cft = mysqli_query($conecta, $selectcft);
-if(!$lista_cft){
-die("Falaha no banco de dados  Linha 31 inserir_transportadora");
-}
 
-//consultar clientes
-$clientes = "SELECT * FROM clientes";
-if(isset($_GET["cliente"])){
-    $nome_cliente = $_GET["cliente"];
-    $clientes .= " WHERE  razaosocial LIKE '%{$nome_cliente}%' or cpfcnpj LIKE '%{$nome_cliente}%' ";
-}
 
-$resultado = mysqli_query($conecta, $clientes);
-if(!$resultado){
+  
+    //consultar
+//consultar 
+$select = "SELECT * from tb_nfe_entrada";
+if(isset($_GET["campoPesquisa"])){
+$pesquisa = $_GET["campoPesquisa"];
+$select .= " WHERE numero_nf  LIKE '%{$pesquisa}%'  ";
+
+$consulta = mysqli_query($conecta, $select);
+if(!$consulta){
     die("Falha na consulta ao banco de dados");
     
 }
+}
+
+
 
 ?>
 <!doctype html>
@@ -50,25 +49,30 @@ if(!$resultado){
         <div id="janela_pesquisa">
 
             <a
-                onclick="window.open('cadastro_cliente.php', 
+                onclick="window.open('importaXML/index.php', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
-                <input type="submit" name="cadastar_cliente" value="Adicionar">
+                <input type="submit" style="width:120px;" name="importar_xml" value="Importar_xml">
             </a>
 
 
-            <form action="consulta_cliente.php" method="get">
-                <input type="text" name="cliente" placeholder="Pesquisa / Razão social / Cnpj" value="<?php if(isset($_GET['cliente'])){
-                    echo $nome_cliente;
+            <form style="width:1500px;" action="" method="get">
 
-                }?>">
+
+                <input style="margin-left:500px;" type="text" name="campoPesquisa" value="<?php if(isset($_GET['campoPesquisa'])){
+                    echo $pesquisa;
+                } ?>" placeholder="Pesquisa / Nº NFE">
 
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
+
+
+
+
             </form>
 
 
         </div>
 
-        <form action="consulta_pdcompra.php" method="get">
+        <form action="" method="get">
 
             <table border="0" cellspacing="0" width="100%" class="tabela_pesquisa">
                 <tbody>
@@ -76,102 +80,129 @@ if(!$resultado){
 
 
                         <td>
-                            Código
+                            <p>Código</p>
                         </td>
                         <td>
-                            Razão social
+                            <p>Nº NFE</p>
+                        </td>
+
+                        <td>
+                            <p>Data Entrada</p>
                         </td>
                         <td>
-                            <p>Cpf/Cnpj</p>
+                            <p>Empresa</p>
                         </td>
                         <td>
-                            <p>Cidade</p>
-                        </td>
-                        <td>
-                            <p>Bairro</p>
+                            <p>Nº protocolo</p>
                         </td>
 
 
                         <td>
-                            <p>Fornecedor\Cliente</p>
+                            <p>Data emissão</p>
+                        </td>
+                        <td>
+                            <p>VL produtos</p>
+                        </td>
+                        <td>
+                            <p>Desconto</p>
                         </td>
 
                         <td>
-                            <p>Telefone</p>
+                            <p>VL Nota</p>
                         </td>
+
 
                         <td>
                             <p></p>
                         </td>
 
-                    </tr>
 
-                    <?php
-                  if(isset($_GET["cliente"])){
-           while($linha = mysqli_fetch_assoc($resultado)){
-            $Idcliente = $linha["clienteID"];
+
+
+                    </tr>
+                    <?php   if(isset($_GET["campoPesquisa"])){
+           while($linha = mysqli_fetch_assoc($consulta)){
+                
+            $nfeID = $linha["nfe_entradaID"];
+            $numeroNF = $linha["numero_nf"];
+            $razaoSocial = $linha["razao_social"];
+            $cnpj = $linha["cnpj_cpf"];
+            $protocolo = $linha["prot_autorizacao"];
+            $dataEntrada = $linha["data_entrada"];
+            $dataEmissao = $linha["data_emissao"];
+            $valorNota = $linha["valor_total_nota"];
+            $valorProduto = $linha["valor_total_produtos"];
+            $valorDesconto= $linha["valor_desconto"];
+         
+
          
            ?>
 
 
-
                     <tr id="linha_pesquisa">
 
-
-
-                        <td style="width:80px">
+                        <td style="width:80px;">
                             <p>
-                                <font size="2" style="margin-left: 20px;"><?php echo utf8_encode($linha["clienteID"])?>
+                                <font size="3" style="margin-left:20px"><?php echo $nfeID;?>
                                 </font>
                             </p>
                         </td>
 
-                        <td style="width:500px;">
+                        <td style="width:100px;">
                             <p>
-                                <font size="2"><?php echo utf8_encode($linha["razaosocial"])?>
+                                <font size="3"><?php echo  $numeroNF;?>
                                 </font>
                             </p>
                         </td>
 
+
                         <td style="width:120px;">
-                            <font size="2"><?php echo formatCnpjCpf($linha["cpfcnpj"])?></font>
+                            <font size="2"> <?php if($dataEntrada=="0000-00-00") {
+                               echo ("");
+
+                                  }elseif($dataEntrada=="1970-01-01"){
+
+                                    echo ("");
+
+                                  }else{echo formatardataB($dataEntrada); } ?></font>
                         </td>
-                        <td style="width:120px;">
-                            <font size="2"> <?php echo utf8_encode($linha["cidade"])?>
+
+                        <td style="width:350px;">
+                            <font size="2"><?php echo utf8_encode($razaoSocial)?></font>
+                        </td>
+                        <td style="width:150px;">
+                            <font size="2"> <?php echo utf8_encode($protocolo)?>
                             </font>
                         </td>
 
-                        <td style="width:120px;">
-                            <font size="3"> <?php echo utf8_encode($linha["bairro"])?></font>
+                        <td style="width:100px;">
+                            <font size="2"> <?php echo formatardataB($dataEmissao)?></font>
                         </td>
 
-                        <td style="width:190px;">
-                            <font size="2"><?php if ($linha["clienteftID"] == 1){
-                            echo  "CLIENTE";
-                            }
-                            if ($linha["clienteftID"] == 2){
-                                echo  "FORNECEDOR";
-                                }
-
-                                if ($linha["clienteftID"] == 3){
-                                    echo "TRANSPORTADOR";
-                                    }?> </font>
+                        <td style="width:100px;">
+                            <font size="2"> <?php echo real_format($valorProduto)?></font>
+                        </td>
+                        <td style="width:100px;">
+                            <font size="2"> <?php echo real_format($valorDesconto)?></font>
                         </td>
 
-                        <td style="width:120px;">
-                            <font size="2"> <?php echo utf8_encode($linha["telefone"])?></font>
+
+                        <td style="width:100px;">
+                            <font size="2"> <?php echo real_format($valorNota)?></font>
                         </td>
 
 
 
 
                         <td id="botaoEditar">
+
+
+
                             <a
-                                onclick="window.open('editar_cliente.php?codigo=<?php echo $Idcliente;?>', 
+                                onclick="window.open('editar_lembrete.php?codigo=', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
 
                                 <button type="button" name="Editar">Editar</button>
-
 
                             </a>
 
@@ -206,13 +237,13 @@ function abrepopupcliente() {
 function abrepopupEditarCliente() {
 
     var janela = "editar_cliente.php?codigo=<?php  
- 
+       if(isset($_GET["cliente"])){
         while($linha = mysqli_fetch_assoc($resultado)){
          $Idcliente = $linha["clienteID"];
-      
         
         }
- 
+    }
+
     ?>";
     window.open(janela, 'popuppageEditar',
         'width=1500,toolbar=0,resizable=1,scrollbars=yes,height=800,top=100,left=100');

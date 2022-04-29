@@ -35,6 +35,9 @@ padding: 5px;
 transition: all .2s;
 }
 
+
+
+
 div#menulateral nav{
 background: rgb(19, 124, 120);
 height:58px;
@@ -49,11 +52,9 @@ padding-left: 110px;
 
 
 
-
 div#menulateral input[type="checkbox"]:checked ~ nav{
 transform: translatey(-250px);
 }
-
 
 
 
