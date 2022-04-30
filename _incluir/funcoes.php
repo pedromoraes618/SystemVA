@@ -34,6 +34,13 @@
       return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cnpj_cpf);
     }
 
+    function formatInscricaoEstadual($value)
+
+    {
+      $inscricaoEstadual = preg_replace("/\D/", '', $value);
+      return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{1})/", "\$1.\$2.\$3-\$4", $inscricaoEstadual);
+    }
+
 
     function formatardata($value){
       $value = date("Y-m-d",strtotime($value));
@@ -49,14 +56,3 @@
    
 
 ?>
-
-
-
-
-
-
-
-
-
-
-

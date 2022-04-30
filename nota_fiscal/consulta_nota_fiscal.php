@@ -199,7 +199,7 @@ if(!$consulta){
 
 
                             <a
-                                onclick="window.open('editar_lembrete.php?codigo=', 
+                                onclick="window.open('editar_nota_fiscal.php?codigo=<?php echo $numeroNF;?>', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
 
                                 <button type="button" name="Editar">Editar</button>

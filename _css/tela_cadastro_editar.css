@@ -244,3 +244,18 @@ tr td input{
 
   float: left;
 }
+/*nota fiscal entrada */
+#divisaoTabela #DivisaoNota{
+  background-color: cadetblue;
+  width: 100%;
+  margin-top: 8px;
+ 
+  }
+  #divisaoTabela #DivisaoNota p{
+    text-align: center;
+    padding: 7px;
+    font-size: 15px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 600;
+    color: rgb(241, 240, 240);
+    }
