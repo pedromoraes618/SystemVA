@@ -194,19 +194,18 @@ include("../classes/produtos/cadastro_produto.php");
                         </tr>
                     </table>
 
-                    <table style="float: left;" width=100%>
+                    <table style="float: left;" >
                         <tr>
-                            <div id="botoes">
+                            <div id="botoes" style=" border:1px solid">
                                 <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"
-                                    onClick="return confirm('Confirma o cadastro do produto?');"></input>
+                                    onClick="return confirm('Confirma o cadastro do produto?');"></input></td>
 
 
                                 <button type="button" name="btnfechar" onclick="fechar();"
                                     class="btn btn-secondary">Voltar</button>
 
-
-
                             </div>
+                        </tr>
                     </table>
 
 

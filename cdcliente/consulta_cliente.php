@@ -142,7 +142,7 @@ if(!$resultado){
                         </td>
 
                         <td style="width:120px;">
-                            <font size="3"> <?php echo utf8_encode($linha["bairro"])?></font>
+                            <font size="2"> <?php echo utf8_encode($linha["bairro"])?></font>
                         </td>
 
                         <td style="width:190px;">
