@@ -18,14 +18,28 @@ echo ".";
 if(isset($_POST['btnsalvar'])){
 
     //inlcuir as varias do input
-   include("../_incluir/variaveis_input.php");
+    $clienteID = utf8_decode($_POST["txtcodcliente"]);
+    $razao_social = utf8_decode($_POST["txtrazaosocial"]);
+    $nome_fantasia = utf8_decode($_POST["txtnomefantasia"]);
+    $cpfcnpj = utf8_decode($_POST["cpfcnpj"]);
+    $inscricao_estadual = utf8_decode($_POST["inscricao_estadual"]);
+    $cidade = utf8_decode($_POST["cidade"]);
+    $estados = utf8_decode($_POST["estados"]);
+    $bairro = utf8_decode($_POST["bairro"]);
+    $clientefortrans = utf8_decode($_POST["fornecedor_cliente"]);
+    $email = utf8_decode($_POST["email"]);
+    $endereco = utf8_decode($_POST["endereco"]);
+    $telefone = $_POST["telefone"];
+    $informacao_bancaria = utf8_decode($_POST["informacao_bancaria"]);
+    $pix = $_POST["pix"];
+    $observacao = utf8_decode($_POST["observacao"]);
+    $conta_agencia = utf8_decode($_POST["conta_agencia"]);
+    $cep = $_POST["cep"];
    
    //query para alterar o cliente no banco de dados
    $alterar = "UPDATE clientes set razaosocial = '{$razao_social}', endereco = '{$endereco}', cidade = '{$cidade}',  estadoID = '{$estados}', ";
    $alterar .= " telefone = '{$telefone}', email = '{$email}' ,informacao_bancaria = '{$informacao_bancaria}', conta_agencia = '{$conta_agencia}', pix = '{$pix}', ";
-   $alterar .= " clienteftID = '{$clientefortrans}', observacao = '{$observacao}', cpfcnpj = '{$cpfcnpj}',inscricao_estadual = '{$inscricao_estadual}', nome_fantasia = '{$nome_fantasia}', bairro = '{$bairro}'  WHERE clienteID = {$clienteID} ";
-
-
+   $alterar .= " clienteftID = '{$clientefortrans}', observacao = '{$observacao}', cpfcnpj = '{$cpfcnpj}' ,inscricao_estadual = '{$inscricao_estadual}', nome_fantasia = '{$nome_fantasia}', bairro = '{$bairro}',cep='{$cep}'  WHERE clienteID = {$clienteID} ";
 
      $operacao_alterar = mysqli_query($conecta, $alterar);
      if(!$operacao_alterar) {
@@ -48,7 +62,23 @@ alertify.success("Dados alterados");
  if(isset($_POST['btnremover'])){
  
     //inlcuir as varias do input
-   include("../_incluir/variaveis_input.php");
+    $clienteID = utf8_decode($_POST["txtcodcliente"]);
+    $razao_social = utf8_decode($_POST["txtrazaosocial"]);
+    $nome_fantasia = utf8_decode($_POST["txtnomefantasia"]);
+    $cpfcnpj = utf8_decode($_POST["cpfcnpj"]);
+    $inscricao_estadual = utf8_decode($_POST["inscricao_estadual"]);
+    $cidade = utf8_decode($_POST["cidade"]);
+    $estados = utf8_decode($_POST["estados"]);
+    $bairro = utf8_decode($_POST["bairro"]);
+    $clientefortrans = utf8_decode($_POST["fornecedor_cliente"]);
+    $email = utf8_decode($_POST["email"]);
+    $endereco = utf8_decode($_POST["endereco"]);
+    $telefone = $_POST["telefone"];
+    $informacao_bancaria = utf8_decode($_POST["informacao_bancaria"]);
+    $pix = $_POST["pix"];
+    $observacao = utf8_decode($_POST["observacao"]);
+    $conta_agencia = utf8_decode($_POST["conta_agencia"]);
+    $cep = $_POST["cep"];
 
    //query para remover o cliente no banco de dados
    $remover = "DELETE FROM clientes WHERE clienteID = {$clienteID}";
@@ -115,6 +145,7 @@ if(!$detalhe){
    $pix = $dados_detalhe["pix"];
    $observacao = utf8_encode($dados_detalhe["observacao"]);
    $conta_agencia = utf8_encode($dados_detalhe["conta_agencia"]);
+   $cep = $dados_detalhe["cep"];
 }
 
 //consulta estados

@@ -130,7 +130,17 @@ if (isset($_GET["CampoPesquisaData"])){
 
 
     <main>
+
+
+
         <div id="janela_pesquisa">
+            <ul>
+                <li>
+                    <b> Data lançamento</b>
+                </li>
+
+            </ul>
+
             <div id="BotaoLancar">
 
                 <a

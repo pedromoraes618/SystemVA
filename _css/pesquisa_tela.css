@@ -262,6 +262,7 @@ tr input[type="submit"] {
     width: "";
     font-weight: 600;
     
+    
   }
 
   .tabela_pesquisa td {
@@ -324,4 +325,27 @@ select{
   
   }
 
+  
+  main #tituloData{
+    height: 20px; 
+    margin-bottom:0px;
+     width:1500px;
+     position: fixed;
+  
+  }
+  
+  #janela_pesquisa ul{
+    display:inline;  
+    text-decoration: none;
+  }
+  
+  #janela_pesquisa ul li{
+    display: inline;
+    margin-left:30px;
+  }
+
+  #janela_pesquisa ul li b{
+     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
   

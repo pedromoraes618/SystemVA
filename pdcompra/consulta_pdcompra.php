@@ -123,11 +123,21 @@ if (isset($_GET["CampoPesquisaData"])){
 
 
     <main>
+
         <div id="janela_pesquisa">
+            <ul>
+                <li>
+                    <b> Data lançamento</b>
+                </li>
+
+            </ul>
+
+
             <div id="BotaoLancar">
 
 
-                <a onclick="window.open('cadastro_pdcompra.php', 
+                <a
+                    onclick="window.open('cadastro_pdcompra.php', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1600, HEIGHT=900');">
                     <input id="lancar" type="submit" name="cadastrar_pdcompra" value="Adicionar P.Compra">
                 </a>
@@ -138,7 +148,6 @@ if (isset($_GET["CampoPesquisaData"])){
                               if (isset($_GET["CampoPesquisaData"])){
                                  echo $pesquisaData;
                                     }?>">
-
                 <input style="width: 100px;" type="text" name="CampoPesquisaDataf" placeholder="Data final"
                     onkeyup="mascaraData(this);" value="<?php if(!isset($_GET["CampoPesquisa"])){ echo date('d/m/Y');
                         } if (isset($_GET["CampoPesquisaDataf"])){ echo $pesquisaDataf;} ?>">
@@ -312,8 +321,9 @@ if(isset($_GET["CampoPesquisaData"])){
 
 
 
-                          
-                            <a onclick="window.open('editar_pdcompra.php?codigo=<?php echo $pedidoIDL?>', 
+
+                            <a
+                                onclick="window.open('editar_pdcompra.php?codigo=<?php echo $pedidoIDL?>', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
 
                                 <button type="button" name="Editar">Editar</button>

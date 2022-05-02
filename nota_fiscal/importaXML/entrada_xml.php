@@ -34,6 +34,7 @@ $hoje = date('Y-m-d');
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+
     <meta http-equiv="Content-Type" content="text/html;">
     <meta charset="UTF-8">
     <LINK rel="stylesheet" HREF="estilo.css" TYPE="text/css">
@@ -43,9 +44,15 @@ $hoje = date('Y-m-d');
 <body>
     <center>
         <h3>Dados Importados do XML</h3>
+        <submit type="submit" onclick="fechar();" value="Voltar">
+            <input type="submit" name=enviar value="Cadastrar" class="btn btn-info btn-sm"
+                onClick="return confirm('Confirma o cadastro desse cliente?');"></input>
     </center>
 
+
+
     <form method="post" action="entrada_xml.php ">
+
         <?php  
 
 	if ($chave)
@@ -129,8 +136,9 @@ $hoje = date('Y-m-d');
 
                 <td align="left" width="0%"><input type="text" name="chave" size="55" class="cor1"
                         value="<?php echo $chave ?>" /></td>
-                <td align="center" width="0%"><input type="text" style="width:120px;" name="protocolo" size="10" class="cor1"
-                        title="Protocolo de autorização da NFe" value="<?php echo $nProt ?>" readonly="readonly" /></td>
+                <td align="center" width="0%"><input type="text" style="width:120px;" name="protocolo" size="10"
+                        class="cor1" title="Protocolo de autorização da NFe" value="<?php echo $nProt ?>"
+                        readonly="readonly" /></td>
                 <td align="center" width="0%"><input type="text" name="nNF" size="10" class="cor1"
                         value="<?php echo $nNF ?>" readonly="readonly" /></td>
                 <td align="center" width="0%"><input type="text" name="serie" size="3" class="cor1"
@@ -181,8 +189,8 @@ $hoje = date('Y-m-d');
             <tr class="cor1">
                 <td align="left"><input type="text" name="razao_social" size="60" value="<?php echo $emit_xNome ?>"
                         readonly="readonly" class="cor1" /></td>
-                <td align="left"><input class="cor1" type="text" name="cnpj" size="15" value="<?php echo $emit_CNPJ ?>"
-                        readonly="readonly" /></td>
+                <td align="left"><input class="cor1" type="text" id="cnpj" name="cnpj" size="15"
+                        value="<?php echo $emit_CNPJ ?>" readonly="readonly" /></td>
                 <td align="left"><input type="text" class="cor1" name="IE" size="15" value="<?php echo $emit_IE ?>"
                         readonly="readonly" /></td>
             </tr>
@@ -539,19 +547,46 @@ $hoje = date('Y-m-d');
         <?php 
 
 		}else{
+			if($emit_CNPJ!=""){
+				$select = " SELECT * from clientes where cpfcnpj = '$emit_CNPJ' ";
+				$consulta_cliente = mysqli_query($conecta,$select);
+				if(!$consulta_cliente){
+				die("Falha na consulta ao banco de dados Usuraio");
+				}else{
+					$row_banco_cliente = mysqli_fetch_assoc($consulta_cliente);
+					$cnpj = $row_banco_cliente['cpfcnpj'];}
+
+					if($cnpj != $emit_CNPJ){
+						?>
+        <script>
+        alertify.alert(
+            "Opereção cancelado !! Cliente não cadastrado no sistema || Favor cadastrar o cliente com o cnpj correto"
+        );
+        </script>
+        <?php 
+
+					}else{
+		
+				
+					
 				//inserindo as informações no banco de dados
 	$inserir = "INSERT INTO tb_nfe_entrada ";
 	$inserir .= "(data_entrada,chave_acesso,numero_nf,prot_autorizacao,serie,data_emissao,data_saida,razao_social,cnpj_cpf,inscricao_estadual,bc_icms,valor_icms,bc_icms_st,valor_icms_st,valor_frete,valor_seguro,valor_desconto,valor_total_ipi,valor_total_produtos,valor_total_nota )";
 	$inserir .= " VALUES ";
 	$inserir .= "( '$hoje','$chave','$nNF','$nProt','$serie','$dEmi','$dSaiEnt','$emit_xNome','$emit_CNPJ','$emit_IE','$vBC','$vICMS','$vBCST','$vST','$vFrete','$vSeg','$vDesc','$vIPI','$vProd','$vNF' )";
+		
+				
 	?>
         <script>
         alertify.success("Nota fiscal importada com sucesso!");
         </script>
         <?php 
-	$operacao_inserir = mysqli_query($conecta, $inserir);
-	if(!$operacao_inserir){
-		die("Erro no banco de dados Linha");
+			
+				$operacao_inserir = mysqli_query($conecta, $inserir);
+				if(!$operacao_inserir){
+					die("Erro no banco de dados Linha");
+				}
+			}
 		}
 	}
 }
@@ -562,7 +597,11 @@ $hoje = date('Y-m-d');
 
 
     </form>
-
+    <script>
+    function fechar() {
+        window.close();
+    }
+    </script>
 </body>
 
 </html>

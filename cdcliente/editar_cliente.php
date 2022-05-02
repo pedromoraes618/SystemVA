@@ -207,6 +207,13 @@ include("../classes/cliente/editar_cliente.php");
 
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <label for="cep" style="width:120px;"><b>Cep:</b></label>
+                                <input type="text" size=20 id="cep" name="cep"
+                                    value="<?php echo $cep;?>">
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <div id="p2" class="tabcontent">

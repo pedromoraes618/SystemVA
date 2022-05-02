@@ -32,10 +32,10 @@ die("Falaha no banco de dados  Linha 26clienteftid");
 }
 
 //variaveis 
-if(isset($_POST["txtrazaosocial"])){
+if(isset($_POST["enviar"])){
   $razao_social = utf8_decode($_POST["txtrazaosocial"]);
   $nome_fantasia = utf8_decode($_POST["txtnomefantasia"]);
-  $cpfcnpj = utf8_decode($_POST["cpfcnpj"]);
+  $cpfcnpj = $_POST["cpfcnpj"];
   $inscricao_estadual = utf8_decode($_POST["inscricao_estadual"]);
   $cidade = utf8_decode($_POST["cidade"]);
   $estados = utf8_decode($_POST["estados"]);
@@ -48,11 +48,35 @@ if(isset($_POST["txtrazaosocial"])){
   $pix = $_POST["pix"];
   $observacao = utf8_decode($_POST["observacao"]);
   $conta_agencia = utf8_decode($_POST["conta_agencia"]);
+  $cep = $_POST["cep"];
   
 
 
   if(isset($_POST['enviar']))
   {
+    if($cpfcnpj==""){
+      ?>
+<script>
+alertify.alert("Favor preencher o campo cnpj");
+</script>
+<?php
+    }elseif($cep==""){
+      ?>
+<script>
+alertify.alert("Favor preencher o campo cep");
+</script>
+<?php
+    }elseif($razao_social==""){
+      ?>
+<script>
+alertify.alert("Favor preencher o campo Razão social");
+</script>
+<?php
+
+    }else{
+
+   
+
   
             ?>
 <script>
@@ -62,9 +86,9 @@ alertify.success("Cliente cadastrado com sucesso");
 
 //inserindo as informações no banco de dados
   $inserir = "INSERT INTO clientes ";
-  $inserir .= "(razaosocial,endereco,cidade,estadoID,telefone,email,informacao_bancaria,conta_agencia,pix,observacao,cpfcnpj,inscricao_estadual,clienteftID,nome_fantasia,bairro)";
+  $inserir .= "(razaosocial,endereco,cidade,estadoID,telefone,email,informacao_bancaria,conta_agencia,pix,observacao,cpfcnpj,inscricao_estadual,clienteftID,nome_fantasia,bairro,cep)";
   $inserir .= " VALUES ";
-  $inserir .= "('$razao_social','$endereco','$cidade',' $estados',' $telefone','$email','$informacao_bancaria','$conta_agencia','$pix','$observacao','$cpfcnpj','$inscricao_estadual','$clienteft','$nome_fantasia','$bairro')";
+  $inserir .= "('$razao_social','$endereco','$cidade',' $estados',' $telefone','$email','$informacao_bancaria','$conta_agencia','$pix','$observacao','$cpfcnpj','$inscricao_estadual','$clienteft','$nome_fantasia','$bairro','$cep')";
 
 
   $razao_social = "";
@@ -78,6 +102,7 @@ alertify.success("Cliente cadastrado com sucesso");
   $telefone = "";
   $informacao_bancaria = "";
   $pix ="";
+  $cep ="";
   $observacao = "";
   $conta_agencia ="";
 
@@ -85,8 +110,9 @@ alertify.success("Cliente cadastrado com sucesso");
   if(!$operacao_inserir){
       die("Erro no banco de dados Linha 63 inserir_no_banco_de_dados");
   }
-
 }
+    }
+
 }
 
 

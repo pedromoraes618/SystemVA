@@ -6,7 +6,7 @@ include("../conexao/sessao.php");
 
 //inportar a classe com as variaveis do banco de dados
 include("../classes/cliente/cadastro_cliente.php");
-
+//data-mask="00.000.000/0000-00"
 
 ?>
 <!doctype html>
@@ -53,21 +53,23 @@ include("../classes/cliente/cadastro_cliente.php");
                             <tr>
                                 <td>
                                     <label for="txtrazaosocial" style="width:120px;"> <b>Razão Social:</b></label>
-                                    <input type="text" required size=55 name="txtrazaosocial" id="txtrazaosocial"
+                                    <input type="text" size=55 name="txtrazaosocial" id="txtrazaosocial"
                                         value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($razao_social);}?>">
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="cpfcnpj" style="width:120px;"> <b>Cnpj/Cpf</b></label>
+                                    <label for="cpfcnpj" style="width:120px;"> <b>Cnpj</b></label>
                                     <input type="text" size=30 name="cpfcnpj" id="cpfcnpj"
                                         value="<?php if(isset($_POST['enviar'])){ echo $cpfcnpj ;}?>">
+                                    <submit type="submit" onclick="checkCnpj(cpfcnpj.value)" class="btn btn-secondary">
+                                        Buscar cnpj</submit>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <label for="cidade" style="width:120px;"> <b>Cidade:*</b></label>
-                                    <input required type="text" size=30 name="cidade" id="cidade"
+                                    <input type="text" size=30 name="cidade" id="cidade"
                                         value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($cidade);}?>">
 
 
@@ -228,6 +230,13 @@ include("../classes/cliente/cadastro_cliente.php");
                                     value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($endereco);}?>">
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <label for="cep" style="width:120px;"><b>Cep:</b></label>
+                                <input type="text" size=20 id="cep" name="cep"
+                                    value="<?php if(isset($_POST['enviar'])){ echo utf8_encode($cep);}?>">
+                            </td>
+                        </tr>
 
                     </table>
 
@@ -281,6 +290,33 @@ include("../classes/cliente/cadastro_cliente.php");
         evt.currentTarget.className += " active";
     }
     document.getElementById("defaultOpen").click();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+    <script>
+    function checkCnpj(cnpj) {
+        $.ajax({
+            'url': 'https://www.receitaws.com.br/v1/cnpj/' + cnpj.replace(/[^0-9]/g, ''),
+            'type': "GET",
+            'dataType': 'jsonp',
+            'success': function(data) {
+                if (data.nome == undefined) {
+                    alert(data.status + '' + data.message)
+                } else {
+                    document.getElementById('txtrazaosocial').value = data.nome;
+                    document.getElementById('txtnomefantasia').value = data.fantasia;
+                    document.getElementById('cep').value = data.cep;
+                    document.getElementById('cidade').value = data.municipio;
+                    document.getElementById('endereco').value = data.logradouro;
+                    document.getElementById('bairro').value = data.bairro;
+                    document.getElementById('telefone').value = data.telefone;
+                    document.getElementById('email').value = data.email;
+
+
+                }
+            }
+        })
+    }
     </script>
 </body>
 

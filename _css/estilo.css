@@ -70,6 +70,13 @@ position: relative;
 
 
 }
+div#menulateral ul li i{
+  margin-left: 5px;
+  
+    
+    
+    }
+    
 
 
 div#menulateral ul li a {
@@ -77,7 +84,7 @@ div#menulateral ul li a {
     padding: 20px 5px;
     color: white;
     text-decoration: none;
-    padding-left: 15px;
+    padding-left: 10px;
     padding-right: 18px;
     font-size: 17px;
 

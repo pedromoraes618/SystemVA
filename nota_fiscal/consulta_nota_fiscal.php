@@ -7,22 +7,51 @@ include("../conexao/sessao.php");
 
   
     //consultar
-//consultar 
-$select = "SELECT * from tb_nfe_entrada";
-if(isset($_GET["campoPesquisa"])){
-$pesquisa = $_GET["campoPesquisa"];
-$select .= " WHERE numero_nf  LIKE '%{$pesquisa}%'  ";
+    if(isset($_GET["campoPesquisa"]) && ["campoPesquisaData"] && ["campoPesquisaDataf"])  {
 
-$consulta = mysqli_query($conecta, $select);
-if(!$consulta){
-    die("Falha na consulta ao banco de dados");
+        $pesquisaData = $_GET["campoPesquisaData"];
+        $pesquisaDataf = $_GET["campoPesquisaDataf"];
+     
     
-}
+        if($pesquisaData==""){
+              
+        }else{
+            $div1 = explode("/",$_GET['campoPesquisaData']);
+            $pesquisaData = $div1[2]."-".$div1[1]."-".$div1[0];  
+           
+        }
+        if($pesquisaDataf==""){
+           
+        }else{
+        $div2 = explode("/",$_GET['campoPesquisaDataf']);
+        $pesquisaDataf = $div2[2]."-".$div2[1]."-".$div2[0];
+        }
+    
+      
+
+    $select = " SELECT nfe_entradaID,numero_nf,razao_social,cnpj_cpf,prot_autorizacao,data_entrada,data_emissao,valor_total_nota,valor_total_produtos,valor_desconto from tb_nfe_entrada" ;
+    $pesquisa = $_GET["campoPesquisa"];
+    $select .= " WHERE data_emissao BETWEEN '$pesquisaData' and '$pesquisaDataf' and  numero_nf  LIKE '%{$pesquisa}%'  ";
+    $resultado = mysqli_query($conecta, $select);
+    if(!$resultado){
+        die("Falha na consulta ao banco de dados");
+        
+    }else{
+            
+    }
 }
 
+//recuperar valores via get
+if (isset($_GET["campoPesquisaData"])){
+    $pesquisaData=$_GET["campoPesquisaData"];
+  }
+  if (isset($_GET["campoPesquisaDataf"])){
+    $pesquisaDataf=$_GET["campoPesquisaDataf"];
+  }
 
 
 ?>
+
 <!doctype html>
 
 <html>
@@ -47,7 +76,12 @@ if(!$consulta){
     <main>
 
         <div id="janela_pesquisa">
+            <ul>
+                <li>
+                    <b> Data emissão</b>
+                </li>
 
+            </ul>
             <a
                 onclick="window.open('importaXML/index.php', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1500, HEIGHT=900');">
@@ -55,13 +89,27 @@ if(!$consulta){
             </a>
 
 
+
             <form style="width:1500px;" action="" method="get">
 
 
-                <input style="margin-left:500px;" type="text" name="campoPesquisa" value="<?php if(isset($_GET['campoPesquisa'])){
-                    echo $pesquisa;
-                } ?>" placeholder="Pesquisa / Nº NFE">
 
+                <input style="width: 100px; " type="text" id="campoPesquisaData" name="campoPesquisaData"
+                    placeholder="Data incial" onkeyup="mascaraData(this);" value="<?php if( !isset($_GET["campoPesquisa"])){ echo formatardataB(date('Y-m-01')); }
+                              if (isset($_GET["campoPesquisaData"])){
+                                 echo $pesquisaData;
+                     }?>">
+
+
+
+                <input style=" width: 100px;" type="text" name="campoPesquisaDataf" placeholder="Data final"
+                    onkeyup="mascaraData(this);" value="<?php if(!isset($_GET["campoPesquisa"])){ echo date('d/m/Y');
+                    } if (isset($_GET["campoPesquisaDataf"])){ echo $pesquisaDataf;} ?>">
+
+
+
+                <input style="margin-left:300px;" type="text" name="campoPesquisa" value="<?php if(isset($_GET['campoPesquisa'])){echo $pesquisa;
+                } ?>" placeholder="pesquisa / Nº Orçamento">
                 <input type="image" name="pesquisa" src="https://img.icons8.com/ios/50/000000/search-more.png" />
 
 
@@ -120,8 +168,10 @@ if(!$consulta){
 
 
                     </tr>
-                    <?php   if(isset($_GET["campoPesquisa"])){
-           while($linha = mysqli_fetch_assoc($consulta)){
+                    <?php   
+                    if(isset($_GET["campoPesquisaData"])){
+                
+           while($linha = mysqli_fetch_assoc($resultado)){
                 
             $nfeID = $linha["nfe_entradaID"];
             $numeroNF = $linha["numero_nf"];

@@ -30,7 +30,7 @@ if(isset($_GET["CampoPesquisa"]) && ["CampoPesquisaData"] && ["CampoPesquisaData
     $select = " SELECT cotacao.numero_orcamento,cotacao.cotacaoID,cotacao.data_lancamento, cotacao.status_proposta, cotacao.desconto,cotacao.valorTotalComDesconto, cotacao.cod_cotacao, clientes.clienteID, clientes.razaosocial as cliente,situacao_proposta.descricao as situacao, cotacao.validade,cotacao.data_responder,cotacao.data_envio, cotacao.data_fechamento from clientes inner join cotacao on cotacao.clienteID = clientes.clienteID INNER Join situacao_proposta on cotacao.status_proposta = situacao_proposta.statusID " ;
     $pesquisa = $_GET["CampoPesquisa"];
     $select .= " WHERE data_lancamento BETWEEN '$pesquisaData' and '$pesquisaDataf' and cotacao.numero_orcamento LIKE '%{$pesquisa}%'  ";
-$resultado = mysqli_query($conecta, $select);
+    $resultado = mysqli_query($conecta, $select);
     if(!$resultado){
         die("Falha na consulta ao banco de dados");
         
@@ -71,15 +71,21 @@ $resultado = mysqli_query($conecta, $select);
 
 
     <main>
-        <div id="janela_pesquisa">
 
+
+        <div id="janela_pesquisa">
+            <ul>
+                <li>
+                    <b> Data lançamento</b>
+                </li>
+
+            </ul>
 
             <a
                 onclick="window.open('cadastro_cotacao.php', 
 'Titulo da Janela', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=1600px, HEIGHT=900');">
                 <input type="submit" name="cadastrar_cotacao" value="Adicionar">
             </a>
-
 
             <form action="" style="width:1500px;" method="get">
 
